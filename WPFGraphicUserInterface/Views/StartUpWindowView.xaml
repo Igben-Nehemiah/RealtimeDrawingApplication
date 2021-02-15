@@ -1,0 +1,173 @@
+﻿<Window x:Class="WPFGraphicUserInterface.Views.StartUpWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFGraphicUserInterface.WPF.Views"
+        mc:Ignorable="d"
+        Title="StartUpWindow" Height="450" Width="800">
+    
+    <Window.Resources>
+        <Style x:Key="IconGlow" TargetType="Path">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Stroke" Value="white"/>
+                    <Setter Property="StrokeThickness" Value="2"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="IconMouseOverHandCursor" TargetType="Path">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--<Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"/>
+        </Style>-->
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <DockPanel Background="White"  Grid.ColumnSpan="5">
+
+            <DockPanel DockPanel.Dock="Top" 
+                   Background="#6e8bc4" 
+                       MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
+
+                <Path Fill="AntiqueWhite" Data="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z"
+                  DockPanel.Dock="Right"
+                  HorizontalAlignment="Right"
+                  Width="24" Height="24"
+                  Margin="10,5,20,5"
+                      Style="{StaticResource IconGlow}"/>
+
+                <Path Fill="AntiqueWhite" Data="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" 
+                  DockPanel.Dock="Right"
+                  Width="24" Height="24"
+                  HorizontalAlignment="Right"
+                  Margin="10,5"
+                      Style="{StaticResource IconGlow}"/>
+            </DockPanel>
+
+            <StackPanel DockPanel.Dock="Left" Background="#a7b5d1" >
+                <Label>
+                    <Path Style="{StaticResource IconMouseOverHandCursor}" Fill="Black" Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
+                  Width="24" Height="24"
+                  Margin="10,5,10,5" MouseLeftButtonDown="Path_MouseLeftButtonDown" />
+                </Label>
+
+                <Label>
+                    <Path Fill="Black" Data="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"
+                  Width="24" Height="24"
+                  Margin="10,5,10,5">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="0"/>
+                        </Path.RenderTransform>
+                    </Path>
+                </Label>
+
+                <Label>
+                    <Path Fill="Black" Data="M4,6V19H20V6H4M18,17H6V8H18V17Z"
+                  Width="24" Height="24"
+                  Margin="10,5,10,5"/>
+                </Label>
+
+                <Label>
+                    <Path Fill="Black" Data="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                  Width="24" Height="24"
+                  Margin="10,5,10,5"/>
+                </Label>
+
+                <Label>
+                    <Path Fill="Black" Data="M12,2L1,21H23M12,6L19.53,19H4.47" 
+                  Width="24" Height="24"
+                  Margin="10,5,10,5"/>
+                </Label>
+
+                <Label BorderBrush="Black">
+                    <Path Fill="Black" Data="M5.79 21.61L4.21 20.39L18.21 2.39L19.79 3.61Z" 
+                  Width="24" Height="24"
+                  Margin="10,5,10,5"/>
+                </Label>
+
+                <Label>
+                    <Path Fill="Black" Data="M3,3H16V6H11V18H8V6H3V3M12,7H14V9H12V7M15,7H17V9H15V7M18,7H20V9H18V7M12,10H14V12H12V10M12,13H14V15H12V13M12,16H14V18H12V16M12,19H14V21H12V19Z"
+                  Width="24" Height="24"
+                  Margin="10,5,10,5" />
+                </Label>
+
+            </StackPanel>
+
+            
+
+            <DockPanel DockPanel.Dock="Right" 
+                   Background="#a7b5d1"
+                   Width="160"
+                   HorizontalAlignment="Stretch" 
+                   Margin="0,0.5,0,0"
+                   MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
+
+            </DockPanel>
+
+            <Canvas Background="White" 
+                    MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
+
+                <CheckBox x:Name="chkb1" 
+                          Canvas.Left="0"
+                          >
+                    
+                </CheckBox>
+                <TextBlock Text="Doctor Who!" Canvas.Left ="45"/>
+
+                <Popup IsOpen="{Binding ElementName=chkb1, Path=IsChecked}" 
+                       Placement="MousePoint"
+                       StaysOpen="False" 
+                       PopupAnimation="Fade"
+                       AllowsTransparency="True">
+                    <StackPanel Background="AliceBlue">
+                        <TextBlock Text="First Name"/>
+                        <TextBlock Text="Second Name"/>
+                        <TextBlock Text="Third Name"/>
+                    </StackPanel>
+                </Popup>
+            </Canvas>
+
+        </DockPanel>
+        
+        <local:MenuPaneView
+            x:Name="menuPaneView"
+            Visibility="Collapsed"
+            HorizontalAlignment="Stretch"
+            Grid.Column="0"/>
+        <local:PropertyPaneView
+            x:Name="propertyPaneView"
+            Visibility="Collapsed"
+            HorizontalAlignment="Stretch"
+            
+            Grid.Column="4"/>
+        <local:SharedUsersPaneView
+            x:Name="sharedPropertyPaneView"
+            Visibility="Collapsed"
+            HorizontalAlignment="Right"
+            Grid.Column="4"/>
+        
+        <!--<local:ProjectPaneView
+            x:Name="projectPaneView"
+            Visibility="Collapsed"
+            HorizontalAlignment="Right"
+            Grid.Column="4"/>-->
+    </Grid>
+    
+</Window>

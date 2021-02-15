@@ -1,0 +1,32 @@
+﻿<Window x:Class="WPFGraphicUserInterface.WPF.Views.Testing" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFGraphicUserInterface.WPF.Views"
+        mc:Ignorable="d"
+        xmlns:CorLib="clr-namespace:System;assembly=mscorlib"
+        Title="Testing" Height="450" Width="800" MouseMove="Window_MouseMove">
+    
+    <StackPanel>
+        <!-- The Static markup extension lets us obtain a value
+from a static member of a class -->
+        <Label Content ="{x:Static CorLib:Environment.OSVersion}"/>
+        <Label Content ="{x:Static CorLib:Environment.ProcessorCount}"/>
+        <!-- The Type markup extension is a XAML version of
+the C# typeof operator -->
+        <Label Content ="{x:Type Button}" />
+        <Label Content ="{x:Type CorLib:Boolean}" />
+        <!-- Fill a ListBox with an array of strings! -->
+        <ListBox Width="200" Height="50">
+            <ListBox.ItemsSource>
+                <x:Array Type="CorLib:String">
+                    <CorLib:String>Sun Kil Moon</CorLib:String>
+                    <CorLib:String>Red House Painters</CorLib:String>
+                    <CorLib:String>Besnard Lakes</CorLib:String>
+                </x:Array>
+            </ListBox.ItemsSource>
+        </ListBox>
+    </StackPanel>
+
+</Window>

@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="WPFGraphicUserInterface.Views.ProjectPaneView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPFGraphicUserInterface.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="160">
+
+    <StackPanel Background="#a7b5d1"
+                Margin="0,35,0,0">
+        <DockPanel HorizontalAlignment="Center" Margin="0, 5, 0, 15">
+            <Label Content="Shared Users Window" 
+                   DockPanel.Dock="Left"
+                   FontSize="14"/>
+            <Label FontSize ="14">
+                <Path Fill="Black" 
+                      Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+            </Label>
+        </DockPanel>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <CheckBox IsChecked="True"
+                      FontSize="12"
+                        Height="20" Width="20"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="5,5"
+                        Grid.Column="0"
+                        Grid.Row="0"/>
+            <TextBlock Text="Igben Obomaese Nehemiah"
+                        FontSize="12"
+                        FontWeight="DemiBold"
+                        TextAlignment="Left"
+                        HorizontalAlignment="Left"
+                        Margin="5,5"
+                        VerticalAlignment="Center"
+                        Grid.Column="1"
+                        Grid.Row="0"/>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <CheckBox IsChecked="True"
+                      FontSize="12"
+                        Height="20" Width="20"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="5,5"
+                        Grid.Column="0"
+                        Grid.Row="0"/>
+            <TextBlock Text="Benjamin Sunday"
+                        FontSize="12"
+                        FontWeight="DemiBold"
+                        TextAlignment="Left"
+                        HorizontalAlignment="Left"
+                        Margin="5,5"
+                        VerticalAlignment="Center"
+                        Grid.Column="1"
+                        Grid.Row="0"/>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <CheckBox IsChecked="True"
+                      FontSize="12"
+                        Height="20" Width="20"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="5,5"
+                        Grid.Column="0"
+                        Grid.Row="0"/>
+            <TextBlock Text="Egbe Endurance"
+                        FontSize="12"
+                        FontWeight="DemiBold"
+                        TextAlignment="Left"
+                        HorizontalAlignment="Left"
+                        Margin="5,5"
+                        VerticalAlignment="Center"
+                        Grid.Column="1"
+                        Grid.Row="0"/>
+        </Grid>
+
+        <Button Margin="15,0">
+            Add new User
+        </Button>
+
+    </StackPanel>
+</UserControl>

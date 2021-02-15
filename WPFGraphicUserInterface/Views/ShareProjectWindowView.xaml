@@ -1,0 +1,65 @@
+﻿<Window x:Class="WPFGraphicUserInterface.Views.ShareProjectWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFGraphicUserInterface.WPF.Views"
+        mc:Ignorable="d"
+        Title="SharedUsersWindowView" Height="200" Width="400">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Shared Users Emails"
+                   TextAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="11" FontWeight="DemiBold"
+                   Margin="20,5,0,0"
+                   Grid.Row="1"
+                   Grid.Column="0"/>
+        <TextBox
+            TextAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="11" FontWeight="DemiBold"
+            BorderBrush="Gray"
+            Margin="20,5,30,0"
+            BorderThickness="1"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"/>
+
+        <Label Content="Seperate shared users with a semi-colon"
+               FontSize="10"
+               HorizontalAlignment="Center"
+               Grid.Row="2"
+               Grid.Column="0" Grid.ColumnSpan="4"/>
+        <Button 
+            Grid.Column="0" 
+            Grid.Row="3"
+            Grid.ColumnSpan="4"
+            Margin="20,5,30,0"
+            Background="Gray"
+            Height="30"
+            Padding="0,0,0,0"
+            >
+            <Button.Content>
+                <Label Content="Create"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       FontSize="11"/>
+            </Button.Content>
+        </Button>
+    </Grid>
+</Window>
