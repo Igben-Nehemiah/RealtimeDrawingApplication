@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFGraphicUserInterface", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{3291C02C-80B7-4778-9D89-B062974BCD8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{FB9BE40C-F3E1-4D3E-B248-3EE0E5F6832C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3291C02C-80B7-4778-9D89-B062974BCD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3291C02C-80B7-4778-9D89-B062974BCD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3291C02C-80B7-4778-9D89-B062974BCD8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB9BE40C-F3E1-4D3E-B248-3EE0E5F6832C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9BE40C-F3E1-4D3E-B248-3EE0E5F6832C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB9BE40C-F3E1-4D3E-B248-3EE0E5F6832C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9BE40C-F3E1-4D3E-B248-3EE0E5F6832C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
