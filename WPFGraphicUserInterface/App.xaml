@@ -6,7 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source = "/CustomBrushesLibrary;Component/CustomBrush.xaml"/>
+                <ResourceDictionary Source="/Common;component/CustomBrushOne.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

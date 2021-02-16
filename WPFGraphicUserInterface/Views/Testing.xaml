@@ -11,6 +11,7 @@
     <StackPanel>
         <!-- The Static markup extension lets us obtain a value
 from a static member of a class -->
+        <Button Background="{StaticResource CustomBrushOne}"  Content ="{x:Static CorLib:Environment.OSVersion}"/>
         <Label Content ="{x:Static CorLib:Environment.OSVersion}"/>
         <Label Content ="{x:Static CorLib:Environment.ProcessorCount}"/>
         <!-- The Type markup extension is a XAML version of
