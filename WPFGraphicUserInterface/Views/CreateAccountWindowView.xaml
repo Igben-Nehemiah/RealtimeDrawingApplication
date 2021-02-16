@@ -86,37 +86,16 @@
             Grid.Column="1"
             Grid.ColumnSpan="3"/>
 
-        <Border CornerRadius="15" 
-                HorizontalAlignment="Stretch"
+        <Button Style="{StaticResource RoundCorner}" HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                BorderThickness="1"
                 BorderBrush="Gray"
                 Grid.Column="0" 
                 Grid.Row="4"
                 Grid.ColumnSpan="4"
-                Margin="50,0,50,0">
-            <Button 
-                Grid.Column="0" 
-                Grid.Row="4"
-                Grid.ColumnSpan="4"
-                Margin="20,5,30,0"
-                Background="Transparent"
-                Height="30"
-                Padding="0,0,0,0"
-                BorderBrush="Transparent"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center">
+                Margin="50,0,50,0"
+                Content="Create Account">
                 
-                <Button.Content>
-                        <Label Content="Create"
-                       Foreground="Gray"
-                           FontWeight="Bold"
-                       FontSize="11"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"/>
-                </Button.Content>
-            </Button>
-        </Border>
+        </Button>
 
     </Grid>
 </Window>

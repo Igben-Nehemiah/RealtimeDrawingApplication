@@ -2,11 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WPFGraphicUserInterface"
-             StartupUri="Views\StartUpWindowView.xaml">
+             StartupUri="Views\Testing.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Common;component/CustomBrushOne.xaml"/>
+                <ResourceDictionary Source="/Common;component/RoundCornerButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

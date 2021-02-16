@@ -7,11 +7,12 @@
         mc:Ignorable="d"
         xmlns:CorLib="clr-namespace:System;assembly=mscorlib"
         Title="Testing" Height="450" Width="800" MouseMove="Window_MouseMove">
-    
+
+ 
     <StackPanel>
         <!-- The Static markup extension lets us obtain a value
 from a static member of a class -->
-        <Button Background="{StaticResource CustomBrushOne}"  Content ="{x:Static CorLib:Environment.OSVersion}"/>
+        <Button Style="{StaticResource RoundCorner}" Width="400" Height="50" Background="{StaticResource CustomBrushOne}"  Content ="Testing"/>
         <Label Content ="{x:Static CorLib:Environment.OSVersion}"/>
         <Label Content ="{x:Static CorLib:Environment.ProcessorCount}"/>
         <!-- The Type markup extension is a XAML version of
