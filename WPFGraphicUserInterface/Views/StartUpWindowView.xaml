@@ -163,11 +163,11 @@
             HorizontalAlignment="Right"
             Grid.Column="4"/>
         
-        <!--<local:ProjectPaneView
+        <local:ProjectPaneView
             x:Name="projectPaneView"
             Visibility="Collapsed"
             HorizontalAlignment="Right"
-            Grid.Column="4"/>-->
+            Grid.Column="4"/>
     </Grid>
     
 </Window>

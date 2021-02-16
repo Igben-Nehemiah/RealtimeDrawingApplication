@@ -11,4 +11,8 @@
     <Folder Include="ViewModels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CustomBrushesLibrary\CustomBrushesLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
