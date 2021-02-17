@@ -50,16 +50,10 @@
             Grid.Row="3"
             Grid.ColumnSpan="4"
             Margin="20,5,30,0"
-            Background="Gray"
-            Height="30"
             Padding="0,0,0,0"
-            >
-            <Button.Content>
-                <Label Content="Create"
-                       Foreground="White"
-                       VerticalAlignment="Center"
-                       FontSize="11"/>
-            </Button.Content>
+            Style="{StaticResource ResourceKey=RoundCorner}"
+            Content="Create">
+            
         </Button>
     </Grid>
 </Window>

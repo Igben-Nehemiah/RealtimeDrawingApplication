@@ -5,125 +5,143 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <!--<Style x:Key="IconGlow" TargetType="Path">
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+
+        <Style TargetType="Border" x:Key="borderstyle1">
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Stroke" Value="white"/>
-                    <Setter Property="StrokeThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="1.5"/>
                 </Trigger>
             </Style.Triggers>
-        </Style>-->
-
-        <Style TargetType="Label">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
         </Style>
     </UserControl.Resources>
 
-    <Border BorderBrush="White" BorderThickness=".25" Padding="0,0"
-        Margin="0,35,0,0">
+    <Border BorderBrush="White" BorderThickness=".0" Padding="0,0"
+        Margin="0,34,0,0">
         <DockPanel Margin="0,0" Background="#a7b5d1">
 
-            <TextBlock Text="Create Account"
-                Margin="20,20,20,5"
-                   DockPanel.Dock="Top"/>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <TextBlock Text="Create Account" Margin="17,0,0,0"/>
+            </Border>
 
-            <TextBlock Text="Create Project"
-                Margin="20,20,20,5"
-                   DockPanel.Dock="Top"/>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <TextBlock Text="Create Project" Margin="17,0,0,0"/>
+            </Border>
 
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <TextBlock Text="Share Project" Margin="17,0,0,0"/>
+            </Border>
 
-                <TextBlock Text="Share Project"
-                Margin="20,20,20,5"
-                VerticalAlignment="Center"
-                Grid.Column="0"
-                Grid.Row="1"/>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <TextBlock Text="Open Project" Margin="17,0,0,0"/>
+            </Border>
 
-                <Path Fill="Black" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Grid.Column="1"
-                    Grid.Row="1"/>
-            </Grid>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <TextBlock Text="Save Project" Margin="17,0,0,0"/>
+            </Border>
 
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <TextBlock Text="Delete Project" Margin="17,0,0,0"/>
+            </Border>
 
-                <TextBlock Text="Open Project"
-                Margin="20,20,20,0"
-                VerticalAlignment="Top"
-                Grid.Column="0" Grid.ColumnSpan="2"/>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Path Fill="Black" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Grid.Column="2" Margin="122,0,0,0"/>
-            </Grid>
+                    <TextBlock Text="Import"
+                               VerticalAlignment="Center"
+                               Grid.Column="0"
+                               Grid.Row="1" 
+                               Margin="17,0,0,0"/>
 
-            <TextBlock Text="Save Project"
-                Margin="20,20,20,5"
-                   DockPanel.Dock="Top"/>
+                    <Path Fill="Black" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Margin="0,0,0,0"/>
+                </Grid>
+            </Border>
 
-            <TextBlock Text="Delete Project"
-                Margin="20,20,20,5"
-                   DockPanel.Dock="Top"/>
 
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Import"
-                Margin="20,20,20,5"
-                VerticalAlignment="Center"
-                Grid.Column="0"
-                Grid.Row="1"/>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Top"
+                    Margin="3,30,3,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Path Fill="Black" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Grid.Column="1"
-                    Grid.Row="1"/>
-            </Grid>
+                    <TextBlock Text="Export"
+                               VerticalAlignment="Center"
+                               Grid.Column="0"
+                               Grid.Row="1" 
+                               Margin="17,0,0,0"/>
 
-            <Grid DockPanel.Dock="top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                    <Path Fill="Black" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Margin="0,0,0,0"/>
+                </Grid>
+            </Border>
 
-                <TextBlock Text="Export"
-                Margin="20,20,20,5"
-                VerticalAlignment="Center"
-                Grid.Column="0"
-                Grid.Row="1"/>
+            <Border Style="{StaticResource borderstyle1}"
+                Background="#a7b5d1"
+                    DockPanel.Dock="Bottom"
+                    Margin="3,30,3,0"
+                    Height="25"
+                    Width="70"
+                    HorizontalAlignment="Left">
+                <TextBlock Text="Close"
+                           Foreground="Red"
+                           FontWeight="Bold"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Center"/>
+            </Border>
 
-                <Path Fill="Black" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Grid.Column="1"
-                    Grid.Row="1"/>
-            </Grid>
-
-            <TextBlock Text="Close"
-                   Margin="20,20,20,5"
-                   VerticalAlignment="Bottom"
-                   Foreground="Red"
-                   FontWeight="DemiBold"
-                   DockPanel.Dock="Bottom"/>
-
+            
+            
         </DockPanel>
     </Border>
 </UserControl>

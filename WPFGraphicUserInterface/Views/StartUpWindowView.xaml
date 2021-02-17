@@ -34,13 +34,11 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <DockPanel Background="White"  Grid.ColumnSpan="5">
+        <DockPanel Background="White"  Grid.ColumnSpan="3">
 
             <DockPanel DockPanel.Dock="Top" 
                    Background="#6e8bc4" 
@@ -114,7 +112,6 @@
 
             <DockPanel DockPanel.Dock="Right" 
                    Background="#a7b5d1"
-                   Width="160"
                    HorizontalAlignment="Stretch" 
                    Margin="0,0.5,0,0"
                    MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
@@ -131,17 +128,7 @@
                 </CheckBox>
                 <TextBlock Text="Doctor Who!" Canvas.Left ="45"/>
 
-                <Popup IsOpen="{Binding ElementName=chkb1, Path=IsChecked}" 
-                       Placement="MousePoint"
-                       StaysOpen="False" 
-                       PopupAnimation="Fade"
-                       AllowsTransparency="True">
-                    <StackPanel Background="AliceBlue">
-                        <TextBlock Text="First Name"/>
-                        <TextBlock Text="Second Name"/>
-                        <TextBlock Text="Third Name"/>
-                    </StackPanel>
-                </Popup>
+                
             </Canvas>
 
         </DockPanel>
@@ -156,18 +143,18 @@
             Visibility="Collapsed"
             HorizontalAlignment="Stretch"
             
-            Grid.Column="4"/>
+            Grid.Column="2"/>
         <local:SharedUsersPaneView
             x:Name="sharedPropertyPaneView"
-            Visibility="Collapsed"
-            HorizontalAlignment="Right"
-            Grid.Column="4"/>
+            Visibility="Visible"
+            HorizontalAlignment="Stretch"
+            Grid.Column="2"/>
         
         <local:ProjectPaneView
             x:Name="projectPaneView"
             Visibility="Collapsed"
-            HorizontalAlignment="Right"
-            Grid.Column="4"/>
+            HorizontalAlignment="Stretch"
+            Grid.Column="2"/>
     </Grid>
     
 </Window>

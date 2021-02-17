@@ -86,13 +86,14 @@
             Grid.Column="1"
             Grid.ColumnSpan="3"/>
 
-        <Button Style="{StaticResource RoundCorner}" HorizontalAlignment="Stretch"
+        <Button Style="{StaticResource RoundCorner}"
                 VerticalAlignment="Center"
                 BorderBrush="Gray"
                 Grid.Column="0" 
                 Grid.Row="4"
                 Grid.ColumnSpan="4"
-                Margin="50,0,50,0"
+                Padding="0,0,0,0"
+                Margin="30,5,30,0"
                 Content="Create Account">
                 
         </Button>

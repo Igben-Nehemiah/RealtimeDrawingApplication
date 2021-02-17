@@ -8,10 +8,47 @@
         xmlns:CorLib="clr-namespace:System;assembly=mscorlib"
         Title="Testing" Height="450" Width="800" MouseMove="Window_MouseMove">
 
+    <Window.Resources>
+        <Style TargetType="Border" x:Key="borderstyle1">
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="1.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
  
     <StackPanel>
         <!-- The Static markup extension lets us obtain a value
 from a static member of a class -->
+
+        <Border Style="{StaticResource borderstyle1}"
+                Background="#FF7AA0CD"
+                Width="60">
+            <Label BorderThickness="1"
+           Foreground="Gainsboro"
+           Content=" Options"/>
+        </Border>
+
+        <Border Margin="10,0,0,0"
+            Background="#FF7AA0CD"
+            BorderBrush="Gray"
+            Height="25"
+            CornerRadius="5"
+            Width="60"
+            HorizontalAlignment="Left">
+            <Label BorderThickness="1"
+           Foreground="Gainsboro"
+           Content=" Options"/>
+        </Border>
+
+        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10" Padding="2"
+        HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <TextBox Text="Hello ! " BorderThickness="0"/>
+        </Border>
         <Button Style="{StaticResource RoundCorner}" Width="400" Height="50" Background="{StaticResource CustomBrushOne}"  Content ="Testing"/>
         <Label Content ="{x:Static CorLib:Environment.OSVersion}"/>
         <Label Content ="{x:Static CorLib:Environment.ProcessorCount}"/>

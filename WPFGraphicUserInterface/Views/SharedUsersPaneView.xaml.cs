@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xaml;
 
 namespace WPFGraphicUserInterface.Views
 {
@@ -18,9 +19,32 @@ namespace WPFGraphicUserInterface.Views
     /// </summary>
     public partial class SharedUsersPaneView : UserControl
     {
+        public bool IsPathUp { get; set; } = false;
         public SharedUsersPaneView()
         {
             InitializeComponent();
+        }
+
+        private void UpPath_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (IsPathUp == false)
+            {
+                IsPathUp = true;
+                var newPath = new Path();
+                //newPath.Data = "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z";
+                //SharedUsersWindowPath = newPath;
+                //Show pop up
+
+                newPath.Data = Geometry.Parse( "m 150,0 A 150,0 0 0 0 150,0 A 150,150 0 0 0 150,0");
+                SharedUsersWindowPath.Data = newPath.Data;
+                PaneOptionsPopUp.IsOpen = true;
+            }
+            else
+            {
+                //Remove pop up
+                IsPathUp = false;
+                PaneOptionsPopUp.IsOpen = false;
+            }
         }
     }
 }
