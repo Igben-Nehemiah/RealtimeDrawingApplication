@@ -5,9 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
         mc:Ignorable="d"
-        Title="SharedUsersWindowView" Height="200" Width="400">
+        Title="SharedUsersWindowView" Height="200" Width="400" Background="#a7b5d1">
 
-    <Grid Background="White">
+    <Window.Resources>
+        <Style TargetType="Border" x:Key="TextBoxBorder">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="3,2,3,2"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="SkyBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -29,19 +46,22 @@
                    Margin="20,5,0,0"
                    Grid.Row="1"
                    Grid.Column="0"/>
-        <TextBox
-            TextAlignment="Left"
-            VerticalAlignment="Center"
-            FontSize="11" FontWeight="DemiBold"
-            BorderBrush="Gray"
-            Margin="20,5,30,0"
-            BorderThickness="1"
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"/>
+        <Border Style="{StaticResource TextBoxBorder}"
+                Margin="0,5,30,0"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="3">
+
+            <TextBox FontSize="12" 
+                     FontWeight="DemiBold"
+                     BorderThickness="0"
+                     TextAlignment="Left"/>
+        </Border>
+        
 
         <Label Content="Seperate shared users with a semi-colon"
-               FontSize="10"
+               FontSize="7"
+               FontWeight="DemiBold"
                HorizontalAlignment="Center"
                Grid.Row="2"
                Grid.Column="0" Grid.ColumnSpan="4"/>
@@ -49,7 +69,7 @@
             Grid.Column="0" 
             Grid.Row="3"
             Grid.ColumnSpan="4"
-            Margin="20,5,30,0"
+            Margin="100,5,100,0"
             Padding="0,0,0,0"
             Style="{StaticResource ResourceKey=RoundCorner}"
             Content="Create">

@@ -5,15 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
         mc:Ignorable="d"
-        Title="CreateAccountWindowView" Height="200" Width="350" >
+        Title="CreateAccountWindowView" Height="250" Width="350" Background="#a7b5d1">
+    
     <Window.Resources>
-        <!--<Style TargetType="Button" x:Key="CustomButton1">
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Stroke" Value="white"/>
-                <Setter Property="StrokeThickness" Value="2"/>
-                <Setter Property="Cursor" Value="Hand"/>
-            </Trigger>
-        </Style>-->
+        <Style TargetType="Border" x:Key="TextBoxBorder">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="3,2,3,2"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="SkyBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -40,16 +48,20 @@
                    Margin="20,5,0,0"
                    Grid.Row="1"
                    Grid.Column="0"/>
-        <TextBox
-            TextAlignment="Left"
-            VerticalAlignment="Center"
-            FontSize="11" FontWeight="DemiBold"
-            BorderBrush="Gray"
-            Margin="20,5,30,0"
-            BorderThickness="1"
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"/>
+        
+        <Border Style="{StaticResource TextBoxBorder}"
+                Margin="20,5,30,0"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="3">
+
+            <TextBox FontSize="12" 
+                     FontWeight="DemiBold"
+                     BorderThickness="0"
+                     TextAlignment="Left"/>
+        </Border>
+        
+        
 
         <TextBlock Text="Email"
                    TextAlignment="Left"
@@ -58,16 +70,18 @@
                    Margin="20,5,0,0"
                    Grid.Row="2"
                    Grid.Column="0"/>
-        <TextBox
-            TextAlignment="Left"
-            VerticalAlignment="Center"
-            FontSize="11" FontWeight="DemiBold"
-            BorderBrush="Gray"
-            Margin="20,5,30,0"
-            BorderThickness="1"
-            Grid.Row="2"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"/>
+
+        <Border Style="{StaticResource TextBoxBorder}"
+                Margin="20,5,30,0"
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="3">
+
+            <TextBox FontSize="12" 
+                     FontWeight="DemiBold"
+                     BorderThickness="0"
+                     TextAlignment="Left"/>
+        </Border>
 
         <TextBlock Text="Password"
                    TextAlignment="Left"
@@ -76,24 +90,27 @@
                    Margin="20,5,0,0"
                    Grid.Row="3"
                    Grid.Column="0"/>
-        <PasswordBox
-            VerticalAlignment="Center"
-            FontSize="11" FontWeight="DemiBold"
-            BorderBrush="Gray"
-            Margin="20,5,30,0"
-            BorderThickness="1"
-            Grid.Row="3"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"/>
+
+        <Border Style="{StaticResource TextBoxBorder}"
+                Margin="20,5,30,0"
+                Grid.Row="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="3">
+
+            <TextBox FontSize="12" 
+                     FontWeight="DemiBold"
+                     BorderThickness="0"
+                     TextAlignment="Left"/>
+        </Border>
+        
 
         <Button Style="{StaticResource RoundCorner}"
-                VerticalAlignment="Center"
                 BorderBrush="Gray"
                 Grid.Column="0" 
                 Grid.Row="4"
                 Grid.ColumnSpan="4"
                 Padding="0,0,0,0"
-                Margin="30,5,30,0"
+                Margin="50,10,50,0"
                 Content="Create Account">
                 
         </Button>
