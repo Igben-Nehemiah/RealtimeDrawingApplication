@@ -94,7 +94,7 @@
                         Grid.Row="0"/>
         </Grid>
 
-        <Button Margin="15,0">
+        <Button Margin="15,0" Style="{StaticResource ResourceKey=RoundCorner}">
             Add new User
         </Button>
 

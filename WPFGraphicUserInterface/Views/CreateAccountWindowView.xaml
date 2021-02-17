@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
         mc:Ignorable="d"
-        Title="CreateAccountWindowView" Height="250" Width="350" Background="#a7b5d1">
+        Title="Create New Account"
+        Opacity=".8" 
+        Height="250" 
+        Width="500" 
+        Background="#a7b5d1"
+        WindowStartupLocation="CenterScreen"
+        BorderThickness="0"
+        WindowStyle= "ToolWindow"
+        ShowInTaskbar="False">
     
     <Window.Resources>
         <Style TargetType="Border" x:Key="TextBoxBorder">

@@ -35,49 +35,53 @@
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,10,3,0"
+                    MouseLeftButtonDown="CreateAccount_Click">
+                
                 <TextBlock Text="Create Account" Margin="17,0,0,0"/>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,20,3,0"
+                    MouseLeftButtonDown="CreateProject_Click">
                 <TextBlock Text="Create Project" Margin="17,0,0,0"/>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,20,3,0"
+                    MouseLeftButtonDown="ShareProject_Click">
                 <TextBlock Text="Share Project" Margin="17,0,0,0"/>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,20,3,0">
                 <TextBlock Text="Open Project" Margin="17,0,0,0"/>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,20,3,0">
                 <TextBlock Text="Save Project" Margin="17,0,0,0"/>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,20,3,0">
                 <TextBlock Text="Delete Project" Margin="17,0,0,0"/>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,20,3,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -104,7 +108,7 @@
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,30,3,0">
+                    Margin="3,20,3,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -129,10 +133,11 @@
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Bottom"
-                    Margin="3,30,3,0"
                     Height="25"
                     Width="70"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    MouseDown="MenuPaneViewClose_Click">
                 <TextBlock Text="Close"
                            Foreground="Red"
                            FontWeight="Bold"

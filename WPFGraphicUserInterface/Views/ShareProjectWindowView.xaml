@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
         mc:Ignorable="d"
-        Title="SharedUsersWindowView" Height="200" Width="400" Background="#a7b5d1">
+        Title="Add Shared Users"
+        Opacity=".8" 
+        Height="250" 
+        Width="500" 
+        Background="#a7b5d1"
+        WindowStartupLocation="CenterScreen"
+        BorderThickness="0"
+        WindowStyle= "ToolWindow"
+        ShowInTaskbar="False">
 
     <Window.Resources>
         <Style TargetType="Border" x:Key="TextBoxBorder">
@@ -72,7 +80,7 @@
             Margin="100,5,100,0"
             Padding="0,0,0,0"
             Style="{StaticResource ResourceKey=RoundCorner}"
-            Content="Create">
+            Content="Add">
             
         </Button>
     </Grid>
