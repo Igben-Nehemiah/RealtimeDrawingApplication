@@ -56,7 +56,8 @@
                   Width="24" Height="24"
                   HorizontalAlignment="Right"
                   Margin="10,5"
-                      Style="{StaticResource IconGlow}"/>
+                      Style="{StaticResource IconGlow}"
+                      MouseDown="AddUserIcon_Click"/>
             </DockPanel>
 
             <StackPanel DockPanel.Dock="Left" Background="#a7b5d1" >

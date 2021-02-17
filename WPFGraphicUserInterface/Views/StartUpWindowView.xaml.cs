@@ -17,6 +17,8 @@ namespace WPFGraphicUserInterface.Views
     /// </summary>
     public partial class StartUpWindowView : Window
     {
+        private ShareProjectWindowView ShareProjectWindowView { get; set; }
+
         public StartUpWindowView()
         {
             InitializeComponent();
@@ -30,6 +32,13 @@ namespace WPFGraphicUserInterface.Views
         private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             menuPaneView.Visibility = Visibility.Collapsed;
+        }
+
+        private void AddUserIcon_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (ShareProjectWindowView != null) { ShareProjectWindowView = null; }
+            ShareProjectWindowView = new ShareProjectWindowView();
+            ShareProjectWindowView.Show();
         }
     }
 }
