@@ -109,25 +109,26 @@
 
             </StackPanel>
 
-            
 
-            <DockPanel DockPanel.Dock="Right" 
+
+            <ContentControl x:Name="RightPane" DockPanel.Dock="Right" 
                    Background="#a7b5d1"
-                   HorizontalAlignment="Stretch" 
+                   HorizontalAlignment = "Stretch" 
                    Margin="0,0.5,0,0"
-                   MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
-
-            </DockPanel>
+                   >
+            </ContentControl>
 
             <Canvas Background="White" 
                     MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
 
                 <CheckBox x:Name="chkb1" 
-                          Canvas.Left="0"
-                          >
+                          Canvas.Left="0">
                     
                 </CheckBox>
-                <TextBlock Text="Doctor Who!" Canvas.Left ="45"/>
+                <Button Content="Doctor Who!" Canvas.Left ="45"
+                        Click="DoctorWho_Click"/>
+                
+                
 
                 
             </Canvas>
@@ -147,7 +148,7 @@
             Grid.Column="2"/>
         <local:SharedUsersPaneView
             x:Name="sharedPropertyPaneView"
-            Visibility="Visible"
+            Visibility="Collapsed"
             HorizontalAlignment="Stretch"
             Grid.Column="2"/>
         

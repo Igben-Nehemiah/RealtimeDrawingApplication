@@ -19,6 +19,8 @@ namespace WPFGraphicUserInterface.Views
     {
         private ShareProjectWindowView ShareProjectWindowView { get; set; }
 
+        private FrameworkElement RightMenuPane { get; set; } = new SharedUsersPaneView();
+
         public StartUpWindowView()
         {
             InitializeComponent();
@@ -40,5 +42,22 @@ namespace WPFGraphicUserInterface.Views
             ShareProjectWindowView = new ShareProjectWindowView();
             ShareProjectWindowView.Show();
         }
+
+        private void OnClick(object sender, MouseButtonEventArgs eventArgs)
+        {
+
+        }
+
+        private void DoctorWho_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+
+    public enum PaneWindow
+    {
+        SharedUserPaneWindow,
+        ProjectsPaneWindow,
+        PropertyPaneWindow
     }
 }

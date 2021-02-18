@@ -63,71 +63,40 @@
             </Label>
         </DockPanel>
 
-        <Grid Margin="0, 0, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-
-            <CheckBox IsChecked="True"
-                        Height="20" Width="20"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        Grid.Column="0"
-                        Grid.Row="0"/>
-            <TextBlock Text="Igben Obomaese Nehemiah"
-                        FontWeight="DemiBold"
-                        TextAlignment="Left"
-                        HorizontalAlignment="Stretch"
-                        Margin="5,0,0,0"
-                        VerticalAlignment="Stretch"
-                        Grid.Column="1"
-                        Grid.Row="0"/>
-        </Grid>
-
-        <Grid Margin="0, 10, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-
-            <CheckBox IsChecked="True"
-                        Height="20" Width="20"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        Grid.Column="0"
-                        Grid.Row="0"/>
-            <TextBlock Text="Benjamin Sunday"
-                        FontWeight="DemiBold"
-                        TextAlignment="Left"
-                        HorizontalAlignment="Stretch"
-                        Margin="5,0,0,0"
-                        VerticalAlignment="Stretch"
-                        Grid.Column="1"
-                        Grid.Row="0"/>
-        </Grid>
-
-        <Grid Margin="0, 10, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-
-            <CheckBox IsChecked="True"
-                        Height="20" Width="20"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        Grid.Column="0"
-                        Grid.Row="0"/>
-            <TextBlock Text="Endurance Egbe"
-                        FontWeight="DemiBold"
-                        TextAlignment="Left"
-                        HorizontalAlignment="Stretch"
-                        Margin="5,0,0,0"
-                        VerticalAlignment="Stretch"
-                        Grid.Column="1"
-                        Grid.Row="0"/>
-        </Grid>
+        <ListBox x:Name="SharedUsersListBox">
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="True"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"/>
+                    <TextBlock
+                        VerticalAlignment="Center">
+                        Igben Obomaese Nehemiah
+                    </TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="True"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"/>
+                    <TextBlock
+                        VerticalAlignment="Center">
+                        Sunday Benjamin
+                    </TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="True"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"/>
+                <TextBlock
+                    VerticalAlignment="Center">
+                    Endurance Egbe
+                </TextBlock>
+            </StackPanel>
+        </ListBox>
+       
         <Button  Style="{StaticResource ResourceKey=RoundCorner}" Margin="50,20,50,0" 
                  FontSize="14">
             Add new User

@@ -33,11 +33,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -51,15 +53,16 @@
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
-                   Margin="20,5,0,0"
+                   Margin="20,5,0,5"
                    Grid.Row="1"
                    Grid.Column="0"/>
 
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="0,5,30,0"
+                Margin="0,5,30,5"
                 Grid.Row="1"
                 Grid.Column="1"
-                Grid.ColumnSpan="3">
+                Grid.ColumnSpan="3"
+                VerticalAlignment="Stretch">
 
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
@@ -71,15 +74,16 @@
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
-                   Margin="20,5,0,0"
+                   Margin="20,5,0,5"
                    Grid.Row="2"
                    Grid.Column="0"/>
         
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="0,5,30,0"
+                Margin="0,5,30,5"
                 Grid.Row="2"
                 Grid.Column="1"
-                Grid.ColumnSpan="3">
+                Grid.ColumnSpan="3"
+                VerticalAlignment="Stretch">
 
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
@@ -88,7 +92,7 @@
         </Border>
 
         <Label Content="Seperate shared users with a semi-colon"
-               FontSize="7"
+               FontSize="10"
                FontWeight="DemiBold"
                HorizontalAlignment="Center"
                Grid.Row="3"
@@ -98,7 +102,7 @@
             Grid.Column="0" 
             Grid.Row="4"
             Grid.ColumnSpan="4"
-            Margin="20,5,30,0"
+            Margin="20,5,30,5"
             Background="Gray"
             Padding="0,0,0,0"
             Content="Create Project"

@@ -22,6 +22,18 @@ namespace WPFGraphicUserInterface.WPF.Views
             InitializeComponent();
             this.Closed += Testing_OnClosed;
             this.Closing += Testing_Closing;
+            List<TodoItem> items = new List<TodoItem>();
+            items.Add(new TodoItem() { Title = "Complete this WPF tutorial", Completion = 45 });
+            items.Add(new TodoItem() { Title = "Learn C#", Completion = 80 });
+            items.Add(new TodoItem() { Title = "Wash the car", Completion = 0 });
+
+            lbTodoList.ItemsSource = items;
+        }
+
+        public class TodoItem
+        {
+            public string Title { get; set; }
+            public int Completion { get; set; }
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -44,6 +56,11 @@ namespace WPFGraphicUserInterface.WPF.Views
         private void Testing_OnClosed(object sender, EventArgs e)
         {
             MessageBox.Show("See ya!");
+        }
+
+        private void lbTodoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

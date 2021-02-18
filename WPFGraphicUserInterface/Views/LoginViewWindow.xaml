@@ -1,11 +1,11 @@
-﻿<Window x:Class="WPFGraphicUserInterface.Views.ShareProjectWindowView"
+﻿<Window x:Class="WPFGraphicUserInterface.Views.LoginViewWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
-        mc:Ignorable="d"
-        Title="Add Shared Users"
+         mc:Ignorable="d"
+        Title="Login"
         Opacity=".8" 
         Height="250" 
         Width="500" 
@@ -30,8 +30,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="TextBlock" x:Key="GlowText">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -39,25 +47,29 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+
 
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.3*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Shared Users Emails"
+        <TextBlock Text="Email"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
-                   Margin="20,10,0,10"
+                   Margin="20,3,0,3"
                    Grid.Row="1"
                    Grid.Column="0"/>
+
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="0,10,30,10"
+                Margin="20,3,30,03"
                 Grid.Row="1"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
@@ -68,24 +80,54 @@
                      BorderThickness="0"
                      TextAlignment="Left"/>
         </Border>
-        
 
-        <Label Content="Seperate shared users with a semi-colon"
-               FontSize="10"
-               FontWeight="DemiBold"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Grid.Row="2"
-               Grid.Column="0" Grid.ColumnSpan="4"/>
-        <Button 
-            Grid.Column="0" 
-            Grid.Row="3"
-            Grid.ColumnSpan="4"
-            Margin="100,10,100,10"
-            Padding="0,0,0,0"
-            Style="{StaticResource ResourceKey=RoundCorner}"
-            Content="Add">
-            
+        <TextBlock Text="Password"
+                   TextAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="11" FontWeight="DemiBold"
+                   Margin="20,3,0,3"
+                   Grid.Row="2"
+                   Grid.Column="0"/>
+
+        <Border Style="{StaticResource TextBoxBorder}"
+                Margin="20,3,30,3"
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                VerticalAlignment="Stretch">
+
+            <TextBox FontSize="12" 
+                     FontWeight="DemiBold"
+                     BorderThickness="0"
+                     TextAlignment="Left"/>
+        </Border>
+
+
+        <Button Style="{StaticResource RoundCorner}"
+                BorderBrush="Gray"
+                Grid.Column="0" 
+                Grid.Row="4"
+                Grid.ColumnSpan="4"
+                Padding="0,0,0,0"
+                Margin="50,3,50,3"
+                Content="Sign In">
+
         </Button>
+
+        <Label Content="Don't have an account?"
+               Grid.Row="5" 
+               Grid.Column="1"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Left" />
+        <Label Grid.Row="5" 
+               Grid.Column="2"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Center">
+            <TextBlock TextDecorations="Underline"
+                       Text="Sign Up" Style="{StaticResource ResourceKey=GlowText}">
+
+            </TextBlock>
+        </Label>
+
     </Grid>
 </Window>

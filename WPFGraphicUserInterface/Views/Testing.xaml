@@ -25,6 +25,25 @@
         <!-- The Static markup extension lets us obtain a value
 from a static member of a class -->
 
+        <Grid Margin="10" Height="92">
+            <ListBox Name="lbTodoList" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ScrollBar Grid.RowSpan="3" Grid.Column="2"/>
+                            <TextBlock Text="{Binding Title}" />
+                            <ProgressBar Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding Completion}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
         <Border Style="{StaticResource borderstyle1}"
                 Background="#FF7AA0CD"
                 Width="60">
