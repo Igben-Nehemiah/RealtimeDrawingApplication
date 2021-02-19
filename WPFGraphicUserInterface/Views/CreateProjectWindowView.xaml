@@ -102,7 +102,7 @@
             Grid.Column="0" 
             Grid.Row="4"
             Grid.ColumnSpan="4"
-            Margin="20,5,30,5"
+            Margin="200,5,200,5"
             Background="Gray"
             Padding="0,0,0,0"
             Content="Create Project"

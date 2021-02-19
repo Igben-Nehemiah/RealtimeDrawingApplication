@@ -81,10 +81,10 @@
             Grid.Column="0" 
             Grid.Row="3"
             Grid.ColumnSpan="4"
-            Margin="100,10,100,10"
+            Margin="200,10,200,10"
             Padding="0,0,0,0"
             Style="{StaticResource ResourceKey=RoundCorner}"
-            Content="Add">
+            Content="Share">
             
         </Button>
     </Grid>

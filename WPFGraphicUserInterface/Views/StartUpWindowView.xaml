@@ -127,9 +127,20 @@
                 </CheckBox>
                 <Button Content="Doctor Who!" Canvas.Left ="45"
                         Click="DoctorWho_Click"/>
-                
-                
 
+                <Popup x:Name="ShareAsPopUp" IsOpen="True">
+                    <ListBox>
+                        <ListBoxItem>
+                            <TextBlock Text="JSON" />
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <Separator/>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <TextBlock Text="XML" />
+                        </ListBoxItem>
+                    </ListBox>
+                </Popup>
                 
             </Canvas>
 

@@ -1,8 +1,8 @@
-﻿<Application x:Class="WPFGraphicUserInterface.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WPFGraphicUserInterface"
-             StartupUri="Views\Testing.xaml">
+﻿<prism:PrismApplication  x:Class="WPFGraphicUserInterface.App"
+                         xmlns:prism="http://prismlibrary.com/"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:local="clr-namespace:WPFGraphicUserInterface">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,4 +11,4 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
-</Application>
+</prism:PrismApplication>

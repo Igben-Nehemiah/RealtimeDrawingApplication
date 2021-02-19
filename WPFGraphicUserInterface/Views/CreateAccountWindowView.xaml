@@ -57,9 +57,9 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1.3*"/>
+            <ColumnDefinition Width="1.1*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width=".5*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Full Name"
@@ -155,7 +155,7 @@
                 Grid.Row="6"
                 Grid.ColumnSpan="4"
                 Padding="0,0,0,0"
-                Margin="50,3,50,3"
+                Margin="200,0,200,0"
                 Content="Create Account">
                 
         </Button>
@@ -168,7 +168,7 @@
         <Label Grid.Row="7" 
                Grid.Column="2"
                VerticalAlignment="Bottom"
-               HorizontalAlignment="Center">
+               HorizontalAlignment="Left">
             <TextBlock TextDecorations="Underline"
                        Text="Sign In" Style="{StaticResource ResourceKey=GlowText}">
                 
