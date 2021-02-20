@@ -4,6 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
 
@@ -44,16 +47,22 @@
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,10,3,0"
-                    MouseLeftButtonDown="CreateProject_Click">
+                    Margin="3,10,3,0">
                 <TextBlock Text="Create Project" Margin="17,0,0,0"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding ShowCreateProjectWindowCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,20,3,0"
-                    MouseLeftButtonDown="ShareProject_Click">
+                    Margin="3,20,3,0">
                 <TextBlock Text="Share Project" Margin="17,0,0,0"/>
             </Border>
 

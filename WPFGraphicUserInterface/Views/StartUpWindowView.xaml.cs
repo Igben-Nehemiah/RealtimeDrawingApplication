@@ -17,40 +17,13 @@ namespace WPFGraphicUserInterface.Views
     /// </summary>
     public partial class StartUpWindowView : Window
     {
-        private ShareProjectWindowView ShareProjectWindowView { get; set; }
+        
 
-        private FrameworkElement RightMenuPane { get; set; } = new SharedUsersPaneView();
+        //public MenuPaneView menuPaneView { get; set; } = new MenuPaneView();
 
         public StartUpWindowView()
         {
             InitializeComponent();
-        }
-
-        private void Path_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            menuPaneView.Visibility = Visibility.Visible;
-        }
-
-        private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            menuPaneView.Visibility = Visibility.Collapsed;
-        }
-
-        private void AddUserIcon_Click(object sender, MouseButtonEventArgs e)
-        {
-            if (ShareProjectWindowView != null) { ShareProjectWindowView = null; }
-            ShareProjectWindowView = new ShareProjectWindowView();
-            ShareProjectWindowView.Show();
-        }
-
-        private void OnClick(object sender, MouseButtonEventArgs eventArgs)
-        {
-
-        }
-
-        private void DoctorWho_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 

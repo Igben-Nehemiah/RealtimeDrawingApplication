@@ -54,7 +54,6 @@
                    DockPanel.Dock="Left"
                    FontSize="14"/>
             <Path DataContext="{Binding ElementName=PaneOptionsPopUp}" x:Name="SharedUsersWindowPath" Fill="Black" 
-                      Data="{Binding IsOpen }"
                       HorizontalAlignment="Stretch" 
                       Style="{StaticResource IconGlow}"
                       MouseDown="UpPath_MouseDown"
@@ -102,7 +101,7 @@
             Add new User
         </Button>
 
-        <Popup x:Name="PaneOptionsPopUp" IsOpen="{Binding Path=IsPathUp}" 
+        <Popup x:Name="PaneOptionsPopUp" 
                        Placement ="MousePoint" 
                        StaysOpen="False" 
                        PopupAnimation="Fade"

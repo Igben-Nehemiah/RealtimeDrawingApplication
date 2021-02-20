@@ -18,34 +18,9 @@ namespace WPFGraphicUserInterface.Views
     /// </summary>
     public partial class MenuPaneView : UserControl
     {
-        public CreateAccountWindowView CreateAccountWindowView { get; set; }
-        public CreateProjectWindowView CreateProjectWindowView { get; set; }
-        public ShareProjectWindowView ShareProjectWindowView { get; set; }
-
         public MenuPaneView()
         {
             InitializeComponent();
-        }
-
-        public void CreateAccount_Click(object sender, MouseButtonEventArgs e)
-        {
-            if (CreateAccountWindowView != null) { CreateAccountWindowView = null; }
-            CreateAccountWindowView = new CreateAccountWindowView();
-            CreateAccountWindowView.Show();
-        }
-
-        public void CreateProject_Click(object sender, MouseButtonEventArgs e)
-        {
-            if (CreateProjectWindowView != null) { CreateProjectWindowView = null; }
-            CreateProjectWindowView = new CreateProjectWindowView();
-            CreateProjectWindowView.Show();
-        }
-
-        public void ShareProject_Click(object sender, MouseButtonEventArgs e)
-        {
-            if (ShareProjectWindowView != null) { ShareProjectWindowView = null; }
-            ShareProjectWindowView = new ShareProjectWindowView();
-            ShareProjectWindowView.Show();
         }
 
         public void MenuPaneViewClose_Click(object sender, MouseButtonEventArgs e)
