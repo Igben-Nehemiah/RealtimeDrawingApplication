@@ -53,7 +53,7 @@
                     <i:EventTrigger
                         EventName="MouseDown">
                         <i:InvokeCommandAction 
-                            Command="{Binding ShowCreateProjectWindowCommand}"/>
+                            Command="{Binding CreateProjectWindowCommand}"/>
 
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -62,29 +62,61 @@
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,20,3,0">
+                    Margin="3,10,3,0">
                 <TextBlock Text="Share Project" Margin="17,0,0,0"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding ShareProjectWindowCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,20,3,0">
+                    Margin="3,10,3,0">
                 <TextBlock Text="Open Project" Margin="17,0,0,0"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding OpenProjectCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,20,3,0">
+                    Margin="3,10,3,0">
                 <TextBlock Text="Save Project" Margin="17,0,0,0"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding SaveProjectCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="#a7b5d1"
                     DockPanel.Dock="Top"
-                    Margin="3,20,3,0">
+                    Margin="3,10,3,0">
                 <TextBlock Text="Delete Project" Margin="17,0,0,0"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding DeleteProjectCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
@@ -110,6 +142,14 @@
                             Grid.Row="1"
                             Margin="0,0,0,0"/>
                 </Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding ImportProjectCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
 
@@ -137,6 +177,14 @@
                             Grid.Row="1"
                             Margin="0,0,0,0"/>
                 </Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding ExportProjectCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
