@@ -9,7 +9,7 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d" Topmost="False"
-        Title="{Binding StartUpWindowTitle}" Height="450" Width="800">
+        Title="{Binding StartUpWindowTitle}" Height="450" Width="800" Loaded="ShowLogInPage">
     
     <Window.Resources>
         <Style x:Key="IconGlow" TargetType="Path">
@@ -46,6 +46,8 @@
 
             <DockPanel DockPanel.Dock="Top" 
                    Background="#6e8bc4">
+                <TextBlock Text="{Binding UserName}"
+                           DockPanel.Dock="Left"/>
                 <Path Fill="AntiqueWhite" Data="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z"
                   DockPanel.Dock="Right"
                   HorizontalAlignment="Right"
@@ -115,37 +117,30 @@
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Right" Background="#a7b5d1" >
-                <Label>
-                    <Path Style="{StaticResource IconMouseOverHandCursor}" Fill="Black" Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
+                <Button Command="{Binding ShowRightPaneCommand}">
+                    <Path Style="{StaticResource IconMouseOverHandCursor}" Fill="BlueViolet" 
+                          Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M18,11H10L13.5,7.5L12.08,6.08L6.16,12L12.08,17.92L13.5,16.5L10,13H18V11Z" 
                   Width="24" Height="24"
                   Margin="10,5,10,5"/>
-                </Label>
+                </Button>
             </StackPanel>
 
 
 
-            <ContentControl x:Name="RightPane" DockPanel.Dock="Right" 
-                   Background="#a7b5d1"
-                   HorizontalAlignment = "Stretch" 
-                   Margin="0,0.5,0,0"
-                   >
-            </ContentControl>
+            
 
             <Canvas Background="White">
 
-                <Popup x:Name="ShareAsPopUp" IsOpen="True">
+                <!--<Popup x:Name="ShareAsPopUp" IsOpen="True">
                     <ListBox>
                         <ListBoxItem>
                             <TextBlock Text="JSON" />
                         </ListBoxItem>
                         <ListBoxItem>
-                            <Separator/>
-                        </ListBoxItem>
-                        <ListBoxItem>
                             <TextBlock Text="XML" />
                         </ListBoxItem>
                     </ListBox>
-                </Popup>
+                </Popup>-->
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -171,21 +166,29 @@
         </ContentControl>
 
         <!--Content control for shared users pane-->
-        <ContentControl Content="{Binding SharedUsersPaneContentControl}"
+        <!--<ContentControl Content="{Binding SharedUsersPaneContentControl}"
                         Grid.Column="2"
                         HorizontalAlignment="Stretch">
         </ContentControl>
 
-        <!--Content control for property window-->
+        --><!--Content control for property window--><!--
         <ContentControl Content="{Binding PropertyPaneContentControl}"
                         Grid.Column="2"
                         HorizontalAlignment="Stretch">
         </ContentControl>
 
-        <!--Content control got project pane-->
+        --><!--Content control for project pane--><!--
         <ContentControl Content="{Binding ProjectPaneContentControl}"
                         Grid.Column="2"
                         HorizontalAlignment="Stretch">
+        </ContentControl>-->
+
+        <!--Content control for right pane-->
+        <ContentControl Content="{Binding RightPaneContentControl}" Grid.Column="2" 
+                   Background="#a7b5d1"
+                   HorizontalAlignment = "Stretch" 
+                   Margin="0,0.5,0,0"
+                   >
         </ContentControl>
 
     </Grid>

@@ -108,7 +108,8 @@
             Background="Gray"
             Padding="0,0,0,0"
             Content="Create Project"
-            Style="{StaticResource RoundCorner}">
+            Style="{StaticResource RoundCorner}"
+            Command="{Binding CreateProjectCommand}">
         </Button>
     </Grid>
 </Window>

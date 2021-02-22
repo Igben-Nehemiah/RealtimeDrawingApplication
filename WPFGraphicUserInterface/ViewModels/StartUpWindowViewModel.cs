@@ -7,14 +7,42 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Views;
 using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
+    public static class MockUserProxy
+    {
+        public static UserProxy CreateMockUser()
+        {
+            return new UserProxy()
+            {
+                EmailAddress = "igbennehemy@gmail.com",
+                FirstName = "Obomaese",
+                LastName = "Igben"
+            };
+        }
+
+    }
     public class StartUpWindowViewModel : BindableBase
     {
-        
+        public static UserProxy User;
+        public static ProjectProxy CurrentProject;
+        public string UserName { get; set; }
+
+        private FrameworkElement _rightPaneContentControl = new SharedUsersPaneView();
+
+        public FrameworkElement RightPaneContentControl
+        {
+            get { return _rightPaneContentControl; }
+            set 
+            {
+                SetProperty(ref _rightPaneContentControl, value);
+            }
+        }
+
 
         //Start up window property
         public string StartUpWindowTitle { get; set; } = "Main Window";
@@ -71,15 +99,23 @@ namespace WPFGraphicUserInterface.ViewModels
         public DelegateCommand SetSharedUsersPaneCommand { get; set; }
         public DelegateCommand SetPropertyPaneCommand { get; set; }
         public DelegateCommand SetProjectPaneCommand { get; set; }
+        public DelegateCommand ShowRightPaneCommand { get; set; }
+
 
 
         public StartUpWindowViewModel()
         {
+            User = MockUserProxy.CreateMockUser();
+            UserName = User.FirstName + " " + User.LastName;
             AddsharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
             MenuCommand = new DelegateCommand(ExecuteMenu, CanExecuteMenu).ObservesProperty(()=>MenuContentControl);
             SetSharedUsersPaneCommand = new DelegateCommand(ExecuteSetShareUsersPane, CanExecuteSetSharedUsersPane);
             SetPropertyPaneCommand = new DelegateCommand(ExecutePropetyPane, CanExecutePropertyPane);
             SetProjectPaneCommand = new DelegateCommand(ExecuteProjectPane, CanExecuteProjectPane);
+            ShowRightPaneCommand = new DelegateCommand(ShowRightPane, CanShowRightPane);
+
+            //Set visibility of Right pane
+            RightPaneContentControl.Visibility = Visibility.Collapsed;
 
         }
 
@@ -92,6 +128,7 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ExecuteProjectPane()
         {
             PropertyPaneContentControl = new ProjectPaneView();
+            RightPaneContentControl = PropertyPaneContentControl;
         }
 
         //Shared Property Pane
@@ -103,6 +140,7 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ExecutePropetyPane()
         {
             PropertyPaneContentControl = new PropertyPaneView();
+            RightPaneContentControl = PropertyPaneContentControl;
         }
 
         //Shared User Pane
@@ -114,6 +152,7 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ExecuteSetShareUsersPane()
         {
             SharedUsersPaneContentControl = new SharedUsersPaneView();
+            RightPaneContentControl = SharedUsersPaneContentControl;
         }
 
         //Menu
@@ -139,6 +178,17 @@ namespace WPFGraphicUserInterface.ViewModels
             if (ShareProjectWindowView != null) { ShareProjectWindowView = null; }
             ShareProjectWindowView = new ShareProjectWindowView();
             ShareProjectWindowView.Show();
+        }
+
+        //Show Right Pane
+        private bool CanShowRightPane()
+        {
+            return true;
+        }
+
+        private void ShowRightPane()
+        {
+            RightPaneContentControl.Visibility = Visibility.Visible;
         }
     }
 }

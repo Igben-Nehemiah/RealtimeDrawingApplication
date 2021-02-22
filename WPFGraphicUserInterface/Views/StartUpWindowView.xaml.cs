@@ -18,12 +18,20 @@ namespace WPFGraphicUserInterface.Views
     public partial class StartUpWindowView : Window
     {
         
-
+        //private LoginWindowView _loginViewWindow { get; set; }
+        //private CreateAccountWindowView _loginViewWindow { get; set; }
         //public MenuPaneView menuPaneView { get; set; } = new MenuPaneView();
 
         public StartUpWindowView()
         {
             InitializeComponent();
+        }
+
+        private void ShowLogInPage(object sender, RoutedEventArgs e)
+        {
+            //_loginViewWindow = new LoginWindowView();
+            //_loginViewWindow.Topmost = true;
+            //_loginViewWindow.Show();
         }
     }
 

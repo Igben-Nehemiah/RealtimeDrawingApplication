@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using WPFGraphicUserInterface.Views;
 using WPFUserInterface.Core;
 
@@ -13,12 +14,13 @@ namespace WPFGraphicUserInterface.ViewModels
     public class MenuPaneViewModel : BindableBase
     {
         IEventAggregator _eventAggregator;
-        
+
         //Create Project view
         private CreateProjectWindowView _createProjectWindowView;
         private ShareProjectWindowView _shareProjectWindowView;
+        private bool popUpIsOpen = false;
 
-
+        private bool PopUpIsOpen { get => popUpIsOpen; set { popUpIsOpen = value; } }
         //Commands
         public DelegateCommand CreateProjectWindowCommand { get; private set; }
         public DelegateCommand ShareProjectWindowCommand { get; private set; }
@@ -49,6 +51,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteDeleteProject()
         {
+
             MessageBox.Show("Deleting Project");
         }
 
@@ -60,6 +63,11 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteExportProject()
         {
+            PopUpIsOpen = true;
+            if (PopUpIsOpen == true)
+            {
+                PopUpIsOpen = !PopUpIsOpen;
+            }
             MessageBox.Show("Exporting Project");
         }
 
@@ -71,6 +79,11 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteImportProject()
         {
+            PopUpIsOpen = true;
+            if (PopUpIsOpen == true)
+            {
+                PopUpIsOpen = !PopUpIsOpen;
+            }
             MessageBox.Show("Importing Project");
         }
 

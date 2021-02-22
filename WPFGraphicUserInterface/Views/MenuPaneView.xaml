@@ -202,8 +202,19 @@
                            HorizontalAlignment="Center"/>
             </Border>
 
-            
-            
+            <Popup x:Name="ImportExportPopUp" 
+                   Width="40"
+                   IsOpen="{Binding PopUpIsOpen}">
+                <ListBox>
+                    <ListBoxItem>
+                        <TextBlock Text="JSON" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <TextBlock Text="XML" />
+                    </ListBoxItem>
+                </ListBox>
+            </Popup>
+
         </DockPanel>
     </Border>
 </UserControl>

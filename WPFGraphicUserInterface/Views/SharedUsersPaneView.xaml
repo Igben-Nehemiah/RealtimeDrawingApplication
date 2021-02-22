@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
@@ -61,7 +63,27 @@
                   Margin="0,-5,0,0"/>
         </DockPanel>
 
-        <ListBox x:Name="SharedUsersListBox">
+        <ListBox Name="SharedUsersListBox" 
+                 HorizontalContentAlignment="Stretch"
+                 Height="300"
+                 Margin="2,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <CheckBox Grid.Column="1"/>
+                        <TextBlock Text="Name" Grid.Column="1"/>
+                        <RibbonCheckBox Grid.Column="2"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <!--<ListBox x:Name="SharedUsersListBox">
             <ListBoxItem>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="True"
@@ -92,7 +114,7 @@
                     VerticalAlignment="Center">
                     Endurance Egbe
                 </TextBlock>
-            </StackPanel>
+            </StackPanel>-->
         </ListBox>
        
         <Button  Style="{StaticResource ResourceKey=RoundCorner}" 
