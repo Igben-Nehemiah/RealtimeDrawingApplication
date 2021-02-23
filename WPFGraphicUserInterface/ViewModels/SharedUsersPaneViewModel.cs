@@ -20,12 +20,14 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        public DelegateCommand AddSharedUser { get; set; }
+        public DelegateCommand AddSharedUserCommand { get; set; }
 
         public SharedUsersPaneViewModel()
         {
-            AddSharedUser = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
+            AddSharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
+
         }
+
 
         //Add Shared User
         private bool CanExecuteAddSharedUser()

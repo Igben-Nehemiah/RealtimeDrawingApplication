@@ -10,19 +10,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xaml;
 
 namespace WPFGraphicUserInterface.Views
 {
     /// <summary>
-    /// Interaction logic for SharedUsersPaneView.xaml
+    /// Interaction logic for RightMenuPaneView.xaml
     /// </summary>
-    public partial class SharedUsersPaneView : UserControl
+    public partial class RightPaneView : UserControl
     {
-        public SharedUsersPaneView()
+        public RightPaneView()
         {
             InitializeComponent();
         }
 
+        private void CollapseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Collapsed;
+        }
     }
 }

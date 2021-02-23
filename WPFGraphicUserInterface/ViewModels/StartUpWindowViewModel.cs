@@ -3,13 +3,12 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
-using System.Windows.Input;
 using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Views;
-using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
@@ -31,8 +30,21 @@ namespace WPFGraphicUserInterface.ViewModels
         public static UserProxy User;
         public static ProjectProxy CurrentProject;
         public string UserName { get; set; }
+        public ObservableCollection<RightPaneOption> RightPaneOptions { get; set; }
 
-        private FrameworkElement _rightPaneContentControl = new SharedUsersPaneView();
+        public bool _isRightPaneOptionsPopUpOpen;
+
+        public bool IsRightPaneOptionsPopUpOpen
+        {
+            get { return _isRightPaneOptionsPopUpOpen; }
+            set
+            {
+                SetProperty(ref _isRightPaneOptionsPopUpOpen, value);
+            }
+        }
+
+
+        private FrameworkElement _rightPaneContentControl = new RightPaneView();
 
         public FrameworkElement RightPaneContentControl
         {
@@ -48,40 +60,6 @@ namespace WPFGraphicUserInterface.ViewModels
         public string StartUpWindowTitle { get; set; } = "Main Window";
         private ShareProjectWindowView ShareProjectWindowView { get; set; }
 
-        private FrameworkElement _sharedUsersPaneContentControl;
-
-        public FrameworkElement SharedUsersPaneContentControl
-        {
-            get { return _sharedUsersPaneContentControl; }
-            set 
-            {
-                SetProperty(ref _sharedUsersPaneContentControl, value);
-            }
-        }
-
-        private FrameworkElement _propertyPaneContentControl;
-
-        public FrameworkElement PropertyPaneContentControl
-        {
-            get { return _propertyPaneContentControl; }
-            set
-            {
-                SetProperty(ref _propertyPaneContentControl, value);
-            }
-        }
-
-        private FrameworkElement _projectPaneContentControl;
-
-        public FrameworkElement ProjectPaneContentControl
-        {
-            get { return _projectPaneContentControl; }
-            set
-            {
-                SetProperty(ref _projectPaneContentControl, value);
-            }
-        }
-
-
         private FrameworkElement menuContentControl;
 
         public FrameworkElement MenuContentControl
@@ -96,12 +74,12 @@ namespace WPFGraphicUserInterface.ViewModels
         //Commands
         public DelegateCommand AddsharedUserCommand { get; set; }
         public DelegateCommand MenuCommand { get; set; }
-        public DelegateCommand SetSharedUsersPaneCommand { get; set; }
-        public DelegateCommand SetPropertyPaneCommand { get; set; }
-        public DelegateCommand SetProjectPaneCommand { get; set; }
         public DelegateCommand ShowRightPaneCommand { get; set; }
 
-
+        public class RightPaneOption
+        {
+            public string OptionName { get; set; }
+        }
 
         public StartUpWindowViewModel()
         {
@@ -109,50 +87,11 @@ namespace WPFGraphicUserInterface.ViewModels
             UserName = User.FirstName + " " + User.LastName;
             AddsharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
             MenuCommand = new DelegateCommand(ExecuteMenu, CanExecuteMenu).ObservesProperty(()=>MenuContentControl);
-            SetSharedUsersPaneCommand = new DelegateCommand(ExecuteSetShareUsersPane, CanExecuteSetSharedUsersPane);
-            SetPropertyPaneCommand = new DelegateCommand(ExecutePropetyPane, CanExecutePropertyPane);
-            SetProjectPaneCommand = new DelegateCommand(ExecuteProjectPane, CanExecuteProjectPane);
             ShowRightPaneCommand = new DelegateCommand(ShowRightPane, CanShowRightPane);
 
             //Set visibility of Right pane
             RightPaneContentControl.Visibility = Visibility.Collapsed;
-
-        }
-
-        //Shared Project Pane
-        private bool CanExecuteProjectPane()
-        {
-            return true;
-        }
-
-        private void ExecuteProjectPane()
-        {
-            PropertyPaneContentControl = new ProjectPaneView();
-            RightPaneContentControl = PropertyPaneContentControl;
-        }
-
-        //Shared Property Pane
-        private bool CanExecutePropertyPane()
-        {
-            return true;
-        }
-
-        private void ExecutePropetyPane()
-        {
-            PropertyPaneContentControl = new PropertyPaneView();
-            RightPaneContentControl = PropertyPaneContentControl;
-        }
-
-        //Shared User Pane
-        private bool CanExecuteSetSharedUsersPane()
-        {
-            return true;
-        }
-
-        private void ExecuteSetShareUsersPane()
-        {
-            SharedUsersPaneContentControl = new SharedUsersPaneView();
-            RightPaneContentControl = SharedUsersPaneContentControl;
+            
         }
 
         //Menu

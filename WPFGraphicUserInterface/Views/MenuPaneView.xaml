@@ -146,7 +146,8 @@
                     <i:EventTrigger
                         EventName="MouseDown">
                         <i:InvokeCommandAction 
-                            Command="{Binding ImportProjectCommand}"/>
+                            Command="{Binding ShowImportExportOptionsCommand}"
+                            CommandParameter="Import"/>
 
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -181,7 +182,8 @@
                     <i:EventTrigger
                         EventName="MouseDown">
                         <i:InvokeCommandAction 
-                            Command="{Binding ExportProjectCommand}"/>
+                            Command="{Binding ShowImportExportOptionsCommand}"
+                            CommandParameter="Export"/>
 
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -202,16 +204,23 @@
                            HorizontalAlignment="Center"/>
             </Border>
 
-            <Popup x:Name="ImportExportPopUp" 
-                   Width="40"
-                   IsOpen="{Binding PopUpIsOpen}">
-                <ListBox>
-                    <ListBoxItem>
-                        <TextBlock Text="JSON" />
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <TextBlock Text="XML" />
-                    </ListBoxItem>
+            <Popup IsOpen="{Binding ImportExportPopUpIsOpen}"
+                Placement="MousePoint"
+                PopupAnimation="Fade"
+                StaysOpen="False">
+                <ListBox ItemsSource="{Binding ImportExportPopUpOptions}"
+                     SelectedIndex="{Binding SelectedIndex }" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding ImportExportOptionName}"
+                                           FontWeight="DemiBold"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </Popup>
 

@@ -125,34 +125,7 @@
                 </Button>
             </StackPanel>
 
-
-
-            
-
             <Canvas Background="White">
-
-                <!--<Popup x:Name="ShareAsPopUp" IsOpen="True">
-                    <ListBox>
-                        <ListBoxItem>
-                            <TextBlock Text="JSON" />
-                        </ListBoxItem>
-                        <ListBoxItem>
-                            <TextBlock Text="XML" />
-                        </ListBoxItem>
-                    </ListBox>
-                </Popup>-->
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    
-                    <RadioButton x:Name="rdbOne" Grid.Row="0" Command="{Binding SetSharedUsersPaneCommand}"/>
-                    <RadioButton x:Name="rdbTwo" Grid.Row="1" Command="{Binding SetPropertyPaneCommand}"/>
-                    <RadioButton x:Name="rdbThree" Grid.Row="2" Command="{Binding SetProjectPaneCommand}"/>
-                </Grid>
 
             </Canvas>
 
@@ -187,9 +160,16 @@
         <ContentControl Content="{Binding RightPaneContentControl}" Grid.Column="2" 
                    Background="#a7b5d1"
                    HorizontalAlignment = "Stretch" 
-                   Margin="0,0.5,0,0"
-                   >
-        </ContentControl>
+                   Margin="0,0.5,0,0"/>
+
+        <!--<i:Interaction.Triggers>
+                <i:EventTrigger
+                        EventName="IsOpen">
+                    <i:InvokeCommandAction 
+                            Command="{Binding RightPaneOptionsPopUpCommand}"/>
+
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
 
     </Grid>
     
