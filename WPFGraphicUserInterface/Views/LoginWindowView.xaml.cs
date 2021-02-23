@@ -15,9 +15,9 @@ namespace WPFGraphicUserInterface.Views
     /// <summary>
     /// Interaction logic for LoginViewWindow.xaml
     /// </summary>
-    public partial class LoginViewWindow : Window
+    public partial class LoginWindowView : Window
     {
-        public LoginViewWindow()
+        public LoginWindowView()
         {
             InitializeComponent();
         }

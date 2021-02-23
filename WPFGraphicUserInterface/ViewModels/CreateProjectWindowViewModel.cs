@@ -29,9 +29,7 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-
         private ProjectProxy ProjectProxy;
-
 
         public CreateProjectWindowViewModel()
         {
@@ -46,8 +44,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteCreateProject()
         {
-            StartUpWindowViewModel.CurrentProject = MockProjectProxy.CreateMockProject();
-            ProjectCreator = StartUpWindowViewModel.User.FirstName;
+            //ProjectCreator = StartUpWindowViewModel.User.FirstName;
             var message = String.Format($"\nCurrent Project: {StartUpWindowViewModel.CurrentProject}\nProject Creator: {ProjectCreator}");
             MessageBox.Show(message, "TESTING RUNNING");
         }
@@ -57,16 +54,4 @@ namespace WPFGraphicUserInterface.ViewModels
 
     }
 
-    public static class MockProjectProxy
-    {
-        public static ProjectProxy CreateMockProject()
-        {
-            return new ProjectProxy()
-            {
-                ProjectName = "My first project",
-                SharedUsers = new List<UserProxy>()
-            };
-        }
-
-    }
 }

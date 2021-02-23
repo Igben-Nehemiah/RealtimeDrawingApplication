@@ -8,28 +8,35 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using WPFGraphicUserInterface.ModelProxies;
+using WPFGraphicUserInterface.Services;
 using WPFGraphicUserInterface.Views;
+using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
-    public static class MockUserProxy
-    {
-        public static UserProxy CreateMockUser()
-        {
-            return new UserProxy()
-            {
-                EmailAddress = "igbennehemy@gmail.com",
-                FirstName = "Obomaese",
-                LastName = "Igben"
-            };
-        }
-
-    }
     public class StartUpWindowViewModel : BindableBase
     {
-        public static UserProxy User;
+        private UserProxy _user;
+        public UserProxy User
+        {
+            get { return _user; }
+            set
+            {
+                SetProperty(ref _user, value);
+            }
+        }
+
         public static ProjectProxy CurrentProject;
-        public string UserName { get; set; }
+
+        private string _userName;
+        public string UserName 
+        { 
+            get { return _userName; }
+            set
+            {
+                SetProperty(ref _userName, value);
+            }
+        }
         public ObservableCollection<RightPaneOption> RightPaneOptions { get; set; }
 
         public bool _isRightPaneOptionsPopUpOpen;
@@ -81,10 +88,10 @@ namespace WPFGraphicUserInterface.ViewModels
             public string OptionName { get; set; }
         }
 
-        public StartUpWindowViewModel()
+        public StartUpWindowViewModel(IEventAggregator eventAggregator)
         {
-            User = MockUserProxy.CreateMockUser();
-            UserName = User.FirstName + " " + User.LastName;
+            //Set user here
+            eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(SetUser);
             AddsharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
             MenuCommand = new DelegateCommand(ExecuteMenu, CanExecuteMenu).ObservesProperty(()=>MenuContentControl);
             ShowRightPaneCommand = new DelegateCommand(ShowRightPane, CanShowRightPane);
@@ -92,6 +99,13 @@ namespace WPFGraphicUserInterface.ViewModels
             //Set visibility of Right pane
             RightPaneContentControl.Visibility = Visibility.Collapsed;
             
+        }
+
+        //Set User
+        private void SetUser(UserProxy user)
+        {
+            User = user;
+            UserName = User.UserFirstName + " " + User.UserLastName;
         }
 
         //Menu

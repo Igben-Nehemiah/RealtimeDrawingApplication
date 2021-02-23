@@ -9,6 +9,7 @@ namespace Models
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string UserEmailAddress { get; set; }
+        public string UserPassword { get; set; }
 
         //Navigation properties
         public virtual ICollection<Project> UserCreatedProjects { get; set; }

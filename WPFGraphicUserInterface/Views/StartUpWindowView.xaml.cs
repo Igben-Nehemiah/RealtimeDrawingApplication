@@ -19,7 +19,7 @@ namespace WPFGraphicUserInterface.Views
     public partial class StartUpWindowView : Window
     {
         
-        private LoginViewWindow _loginViewWindow { get; set; }
+        public LoginWindowView loginViewWindow { get; set; }
         //private CreateAccountWindowView _loginViewWindow { get; set; }
         //public MenuPaneView menuPaneView { get; set; } = new MenuPaneView();
 
@@ -30,9 +30,9 @@ namespace WPFGraphicUserInterface.Views
 
         private void ShowLogInPage(object sender, RoutedEventArgs e)
         {
-            _loginViewWindow = new LoginViewWindow();
-            _loginViewWindow.Topmost = true;
-            _loginViewWindow.Show();
+            loginViewWindow = new LoginWindowView();
+            loginViewWindow.Topmost = true;
+            loginViewWindow.Show();
         }
     }
 }

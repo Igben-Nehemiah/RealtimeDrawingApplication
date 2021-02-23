@@ -34,7 +34,7 @@ namespace WPFGraphicUserInterface.ViewModels
             //Creation logic is done here
             //Set user to account
             //StartUpWindowViewModel.User = new UserProxy();
-            StartUpWindowViewModel.User = MockUserProxy.CreateMockUser();
+            //StartUpWindowViewModel.User = MockUserProxy.CreateMockUser();
 
         }
     }

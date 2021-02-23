@@ -1,9 +1,11 @@
-﻿<Window x:Class="WPFGraphicUserInterface.Views.LoginViewWindow"
+﻿<Window x:Class="WPFGraphicUserInterface.Views.LoginWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
          mc:Ignorable="d"
         Title="Login"
         Opacity=".8" 
@@ -78,7 +80,8 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Text="{Binding UserEmail}"/>
         </Border>
 
         <TextBlock Text="Password"
@@ -99,7 +102,8 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Text="{Binding UserPassword}"/>
         </Border>
 
 
@@ -110,7 +114,8 @@
                 Grid.ColumnSpan="4"
                 Padding="0,0,0,0"
                 Margin="200,3,200,3"
-                Content="Sign In">
+                Content="Sign In"
+                Command="{Binding LoginCommand}">
 
         </Button>
 

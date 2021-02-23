@@ -1,6 +1,6 @@
 ﻿namespace WPFGraphicUserInterface.ModelProxies
 {
-    public class AccountProxy
+    public class DrawingCanvasObjectProxy
     {
         public UserProxy User { get; set; }
     }
