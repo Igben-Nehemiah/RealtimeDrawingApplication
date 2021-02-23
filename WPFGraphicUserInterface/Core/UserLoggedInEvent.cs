@@ -8,6 +8,5 @@ namespace WPFUserInterface.Core
 {
     public class UserLoggedInEvent : PubSubEvent<UserProxy>
     {
-
     }
 }

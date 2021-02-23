@@ -1,9 +1,11 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
@@ -22,12 +24,13 @@ namespace WPFGraphicUserInterface.ViewModels
 
         public DelegateCommand AddSharedUserCommand { get; set; }
 
-        public SharedUsersPaneViewModel()
+        IEventAggregator _eventAggregator;
+
+        public SharedUsersPaneViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
             AddSharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
-
         }
-
 
         //Add Shared User
         private bool CanExecuteAddSharedUser()
@@ -37,7 +40,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteAddSharedUser()
         {
-            throw new NotImplementedException();
+            _eventAggregator.GetEvent<AddSharedUserEvent>().Publish();
         }
     }
 }

@@ -26,7 +26,15 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        public static ProjectProxy CurrentProject;
+        private ProjectProxy _activeProject;
+        public ProjectProxy ActiveProject
+        {
+            get { return _activeProject; }
+            set
+            {
+                SetProperty(ref _activeProject, value);
+            }
+        }
 
         private string _userName;
         public string UserName 
@@ -88,10 +96,13 @@ namespace WPFGraphicUserInterface.ViewModels
             public string OptionName { get; set; }
         }
 
+        IEventAggregator _eventAggregator;
         public StartUpWindowViewModel(IEventAggregator eventAggregator)
         {
             //Set user here
             eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(SetUser);
+            eventAggregator.GetEvent<CreateProjectEvent>().Subscribe(SetCurrentProject);
+            _eventAggregator = eventAggregator;
             AddsharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
             MenuCommand = new DelegateCommand(ExecuteMenu, CanExecuteMenu).ObservesProperty(()=>MenuContentControl);
             ShowRightPaneCommand = new DelegateCommand(ShowRightPane, CanShowRightPane);
@@ -99,6 +110,29 @@ namespace WPFGraphicUserInterface.ViewModels
             //Set visibility of Right pane
             RightPaneContentControl.Visibility = Visibility.Collapsed;
             
+        }
+
+        private void SetCurrentProject(ProjectProxy activeProject)
+        {
+            //Check if project name exists in user projects
+            if (User.UserCreatedProjects != null)
+            {
+                var userCreatedProjects = User.UserCreatedProjects;
+                foreach(var project in userCreatedProjects)
+                {
+                    if(activeProject.ProjectName == project.ProjectName)
+                    {
+                        MessageBox.Show("Project name already exists!");
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                User.UserCreatedProjects = new List<ProjectProxy>();
+            }
+            User.UserCreatedProjects.Add(activeProject);
+            _eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Publish(activeProject.ProjectName);
         }
 
         //Set User

@@ -14,44 +14,47 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class CreateProjectWindowViewModel : BindableBase
     {
-        
-        private string ProjectCreator;
-        private ObservableCollection<UserProxy> ProjectSharedUsers;
-
-        private string _projectTitle;
-        public string ProjectTitle
+        private ProjectProxy _currentProject;
+        public ProjectProxy CurrentProject
         {
-            get { return _projectTitle; }
+            get { return _currentProject; }
             set
             {
-                _projectTitle = value;
-                RaisePropertyChanged();
+                SetProperty(ref _currentProject, value);
+            }
+        }
+        private string _projectName;
+
+        public string ProjectName
+        {
+            get { return _projectName; }
+            set
+            {
+                SetProperty(ref _projectName, value);
             }
         }
 
-        private ProjectProxy ProjectProxy;
+        public DelegateCommand CreateProjectCommand { get; set; }
 
-        public CreateProjectWindowViewModel()
+        IEventAggregator _eventAggregator;
+
+        public CreateProjectWindowViewModel(IEventAggregator eventAggregator)
         {
-            CreateProjectCommand = new DelegateCommand(ExecuteCreateProject, CanExecuteCreateProject);
+            _eventAggregator = eventAggregator;
+            CreateProjectCommand = new DelegateCommand(CreateProject, CanCreateProject);
         }
 
-        private bool CanExecuteCreateProject()
+        private bool CanCreateProject()
         {
             //Validation Logic
             return true;
         }
 
-        private void ExecuteCreateProject()
+        private void CreateProject()
         {
-            //ProjectCreator = StartUpWindowViewModel.User.FirstName;
-            var message = String.Format($"\nCurrent Project: {StartUpWindowViewModel.CurrentProject}\nProject Creator: {ProjectCreator}");
-            MessageBox.Show(message, "TESTING RUNNING");
+            _currentProject = new ProjectProxy();
+            _currentProject.ProjectName = ProjectName;
+            _eventAggregator.GetEvent<CreateProjectEvent>().Publish(_currentProject);
         }
-
-        //On Create Project button click, check if project name already exists. All validations should be done in the project proxy
-        public DelegateCommand CreateProjectCommand { get; set; }
-
     }
-
 }

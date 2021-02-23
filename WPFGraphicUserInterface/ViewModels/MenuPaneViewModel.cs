@@ -14,9 +14,17 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class MenuPaneViewModel : BindableBase
     {
-        IEventAggregator _eventAggregator;
-
         //Create Project view
+        private string _projectName;
+        public string ProjectName
+        {
+            get { return _projectName; }
+            set
+            {
+                SetProperty(ref _projectName, value);
+            }
+        }
+
         private string _importOrExport;
         public string ImportOrExport
         {
@@ -68,10 +76,13 @@ namespace WPFGraphicUserInterface.ViewModels
         public DelegateCommand ExportProjectCommand { get; set; }
         public DelegateCommand<string> ShowImportExportOptionsCommand { get; set; }
 
+        IEventAggregator _eventAggregator;
 
         public MenuPaneViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Subscribe(SetProjectName);
+            eventAggregator.GetEvent<AddSharedUserEvent>().Subscribe(ExecuteShareProjectView);
             CreateProjectWindowCommand = new DelegateCommand(ExecuteCreateProjectView, CanExecuteCreateProjectView);
             ShareProjectWindowCommand = new DelegateCommand(ExecuteShareProjectView, CanExecuteShareProjectView);
             OpenProjectCommand = new DelegateCommand(ExecuteOpenProject, CanExecuteOpenProject);
@@ -86,6 +97,11 @@ namespace WPFGraphicUserInterface.ViewModels
                 new ImportExportOption() { ImportExportOptionName = "JSON" },
                 new ImportExportOption() { ImportExportOptionName = "XML" }
             };
+        }
+
+        private void SetProjectName(string projectName)
+        {
+            ProjectName = projectName;
         }
 
         //Resposible for showing pop-up
@@ -182,6 +198,7 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             _createProjectWindowView = new CreateProjectWindowView();
             _createProjectWindowView.Show();
+            
         }
 
         private bool CanExecuteCreateProjectView()

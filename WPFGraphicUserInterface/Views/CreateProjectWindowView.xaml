@@ -69,6 +69,7 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
+                     Text="{Binding ProjectName}"
                      TextAlignment="Left"/>
         </Border>
 
