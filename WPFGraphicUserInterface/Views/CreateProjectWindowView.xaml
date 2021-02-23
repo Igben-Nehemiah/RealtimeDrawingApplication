@@ -72,7 +72,7 @@
                      TextAlignment="Left"/>
         </Border>
 
-        <TextBlock Text="Shared Users Emails"
+        <!--<TextBlock Text="Shared Users Emails"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
@@ -91,14 +91,14 @@
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      TextAlignment="Left"/>
-        </Border>
+        </Border>-->
 
-        <Label Content="Seperate shared users with a semi-colon"
+        <!--<Label Content="Seperate shared users with a semi-colon"
                FontSize="10"
                FontWeight="DemiBold"
                HorizontalAlignment="Center"
                Grid.Row="3"
-               Grid.Column="0" Grid.ColumnSpan="4"/>
+               Grid.Column="0" Grid.ColumnSpan="4"/>-->
 
         <Button 
             Grid.Column="0" 

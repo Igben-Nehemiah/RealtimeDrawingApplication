@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPFGraphicUserInterface.ViewModels;
 
 namespace WPFGraphicUserInterface.Views
 {
@@ -18,7 +19,7 @@ namespace WPFGraphicUserInterface.Views
     public partial class StartUpWindowView : Window
     {
         
-        //private LoginWindowView _loginViewWindow { get; set; }
+        private LoginViewWindow _loginViewWindow { get; set; }
         //private CreateAccountWindowView _loginViewWindow { get; set; }
         //public MenuPaneView menuPaneView { get; set; } = new MenuPaneView();
 
@@ -29,16 +30,9 @@ namespace WPFGraphicUserInterface.Views
 
         private void ShowLogInPage(object sender, RoutedEventArgs e)
         {
-            //_loginViewWindow = new LoginWindowView();
-            //_loginViewWindow.Topmost = true;
-            //_loginViewWindow.Show();
+            _loginViewWindow = new LoginViewWindow();
+            _loginViewWindow.Topmost = true;
+            _loginViewWindow.Show();
         }
-    }
-
-    public enum PaneWindow
-    {
-        SharedUserPaneWindow,
-        ProjectsPaneWindow,
-        PropertyPaneWindow
     }
 }

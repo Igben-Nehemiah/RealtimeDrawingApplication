@@ -49,6 +49,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
 
@@ -62,7 +63,7 @@
             <ColumnDefinition Width=".5*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Full Name"
+        <TextBlock Text="First Name"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
@@ -82,10 +83,8 @@
                      BorderThickness="0"
                      TextAlignment="Left"/>
         </Border>
-        
-        
 
-        <TextBlock Text="Email"
+        <TextBlock Text="Last Name"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
@@ -94,7 +93,7 @@
                    Grid.Column="0"/>
 
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="20,3,30,03"
+                Margin="20,3,30,3"
                 Grid.Row="2"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
@@ -106,7 +105,7 @@
                      TextAlignment="Left"/>
         </Border>
 
-        <TextBlock Text="Password"
+        <TextBlock Text="Email"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
@@ -115,7 +114,7 @@
                    Grid.Column="0"/>
 
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="20,3,30,3"
+                Margin="20,3,30,03"
                 Grid.Row="3"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
@@ -127,7 +126,7 @@
                      TextAlignment="Left"/>
         </Border>
 
-        <TextBlock Text="Verify Password"
+        <TextBlock Text="Password"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="11" FontWeight="DemiBold"
@@ -148,11 +147,32 @@
                      TextAlignment="Left"/>
         </Border>
 
+        <TextBlock Text="Verify Password"
+                   TextAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="11" FontWeight="DemiBold"
+                   Margin="20,3,0,3"
+                   Grid.Row="5"
+                   Grid.Column="0"/>
+
+        <Border Style="{StaticResource TextBoxBorder}"
+                Margin="20,3,30,3"
+                Grid.Row="5"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                VerticalAlignment="Stretch">
+
+            <TextBox FontSize="12" 
+                     FontWeight="DemiBold"
+                     BorderThickness="0"
+                     TextAlignment="Left"/>
+        </Border>
+
 
         <Button Style="{StaticResource RoundCorner}"
                 BorderBrush="Gray"
                 Grid.Column="0" 
-                Grid.Row="6"
+                Grid.Row="7"
                 Grid.ColumnSpan="4"
                 Padding="0,0,0,0"
                 Margin="200,0,200,0"
@@ -161,11 +181,11 @@
         </Button>
 
         <Label Content="Already have an account?"
-               Grid.Row="7" 
+               Grid.Row="8" 
                Grid.Column="1"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left" />
-        <Label Grid.Row="7" 
+        <Label Grid.Row="8" 
                Grid.Column="2"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left">
