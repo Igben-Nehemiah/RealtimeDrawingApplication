@@ -18,7 +18,18 @@ namespace WPFGraphicUserInterface.Services
                 UserId = 1,
                 UserPassword = "Bart Allen"
             };
+
+            var User2 = new UserProxy()
+            {
+                UserFirstName = "Sarah",
+                UserLastName = "Allen",
+                UserEmailAddress = "sarahallen@gmail.com",
+                UserId = 1,
+                UserPassword = "Sarah Allen"
+            };
+
             generatedUsers.Add(User1);
+            generatedUsers.Add(User2);
             return generatedUsers;
         }
     }

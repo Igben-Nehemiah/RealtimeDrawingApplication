@@ -40,7 +40,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteAddSharedUser()
         {
-            _eventAggregator.GetEvent<AddSharedUserEvent>().Publish();
+            _eventAggregator.GetEvent<ShowAddSharedUserEvent>().Publish();
         }
     }
 }

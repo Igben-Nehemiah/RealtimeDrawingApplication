@@ -8,9 +8,9 @@ namespace WPFGraphicUserInterface.ModelProxies
         public int ProjectId { get; set; }
         public string ProjectName { get; set; }
         public DateTime ProjectCreationDate { get; set; }
+        public string ProjectCreatorEmailAddress { get; set; }
 
         //Navigation Properties
-        public virtual UserProxy ProjectCreator { get; set; }
         public virtual ICollection<DrawingCanvasObjectProxy> ProjectDrawingCanvasObjects { get; set; }
     }
 }

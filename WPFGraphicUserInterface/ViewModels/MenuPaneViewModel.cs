@@ -82,7 +82,7 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             _eventAggregator = eventAggregator;
             eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Subscribe(SetProjectName);
-            eventAggregator.GetEvent<AddSharedUserEvent>().Subscribe(ExecuteShareProjectView);
+            eventAggregator.GetEvent<ShowAddSharedUserEvent>().Subscribe(ExecuteShareProjectView);
             CreateProjectWindowCommand = new DelegateCommand(ExecuteCreateProjectView, CanExecuteCreateProjectView);
             ShareProjectWindowCommand = new DelegateCommand(ExecuteShareProjectView, CanExecuteShareProjectView);
             OpenProjectCommand = new DelegateCommand(ExecuteOpenProject, CanExecuteOpenProject);

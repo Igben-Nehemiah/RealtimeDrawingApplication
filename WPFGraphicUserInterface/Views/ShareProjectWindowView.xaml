@@ -69,6 +69,7 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
+                     Text="{Binding SharedUserEmailAddress}"
                      TextAlignment="Left"/>
         </Border>
         
@@ -88,7 +89,8 @@
             Margin="200,10,200,10"
             Padding="0,0,0,0"
             Style="{StaticResource ResourceKey=RoundCorner}"
-            Content="Share">
+            Content="Share"
+            Command="{Binding AddSharedUserCommand}">
             
         </Button>
     </Grid>

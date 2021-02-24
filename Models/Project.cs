@@ -8,9 +8,9 @@ namespace Models
         public int ProjectId { get; set; }
         public string ProjectName { get; set; }
         public DateTime ProjectCreationDate { get; set; }
+        public string ProjectCreatorEmailAddress { get; set; }
 
         //Navigation Properties
-        public virtual User ProjectCreator { get; set; }
         public virtual ICollection<DrawingCanvasObject> ProjectDrawingCanvasObjects { get; set; }
     }
 }

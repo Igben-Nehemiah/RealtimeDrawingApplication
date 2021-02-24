@@ -16,6 +16,8 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class StartUpWindowViewModel : BindableBase
     {
+        List<Tuple<string, string>> shared = new List<Tuple<string, string>>();
+
         private UserProxy _user;
         public UserProxy User
         {
@@ -102,6 +104,8 @@ namespace WPFGraphicUserInterface.ViewModels
             //Set user here
             eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(SetUser);
             eventAggregator.GetEvent<CreateProjectEvent>().Subscribe(SetCurrentProject);
+            eventAggregator.GetEvent<AddSharedUserEvent>().Subscribe(AddSharedUser);
+
             _eventAggregator = eventAggregator;
             AddsharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
             MenuCommand = new DelegateCommand(ExecuteMenu, CanExecuteMenu).ObservesProperty(()=>MenuContentControl);
@@ -110,6 +114,11 @@ namespace WPFGraphicUserInterface.ViewModels
             //Set visibility of Right pane
             RightPaneContentControl.Visibility = Visibility.Collapsed;
             
+        }
+
+        private void AddSharedUser(UserProxy sharedUser)
+        {
+            shared.Add(new Tuple<string, string>(User.UserEmailAddress, sharedUser.UserEmailAddress));
         }
 
         private void SetCurrentProject(ProjectProxy activeProject)
@@ -131,6 +140,7 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 User.UserCreatedProjects = new List<ProjectProxy>();
             }
+            activeProject.ProjectCreatorEmailAddress = User.UserEmailAddress;
             User.UserCreatedProjects.Add(activeProject);
             _eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Publish(activeProject.ProjectName);
         }
