@@ -8,15 +8,17 @@ using System.Text;
 using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Services;
 using WPFUserInterface.Core;
+using WPFGraphicUserInterface.Views;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
     public class LoginWindowViewModel : BindableBase
     {
+        //private StartUpWindowViewModel _startUpWindowViewModel;
         private UserProxy _user;
        
-        private string _userEmail;
-        private string _userPassword;
+        private string _userEmail = "igbennehemiah@gmail.com";
+        private string _userPassword ="Bart Allen";
 
         public UserProxy User
         {
@@ -26,7 +28,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _user, value);
             }
         }
-
         public string UserEmail
         {
             get { return _userEmail; }
@@ -35,7 +36,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _userEmail, value);
             }
         }
-
         public string UserPassword
         {
             get { return _userPassword; }
@@ -44,8 +44,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _userPassword, value);
             }
         }
-
-        public DelegateCommand LoginCommand { get; set; }
+        //public DelegateCommand LoginCommand { get; set; }
         public DelegateCommand SignUpCommand { get; set; }
 
         IEventAggregator _eventAggregator;
@@ -54,7 +53,8 @@ namespace WPFGraphicUserInterface.ViewModels
         public LoginWindowViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            LoginCommand = new DelegateCommand(Login, CanLogin);
+            _eventAggregator.GetEvent<TriedToSignInEvent>().Subscribe(Login);
+            //LoginCommand = new DelegateCommand(Login, CanLogin);
             SignUpCommand = new DelegateCommand(SignUp, CanSignUp);
         }
 
@@ -63,28 +63,29 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             return true;
         }
-
         private void SignUp()
         {
             //Take user to Create account page
             throw new NotImplementedException();
         }
-
         //Login
-        private bool CanLogin()
-        {
-            return true;
-        }
-
+        //private bool CanLogin()
+        //{
+        //    return true;
+        //}
         private void Login()
         {
             //Throw LoggedInEvent to StartUpWindowViewModel
             if (IsValidUser()) 
-            { 
-                _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(User); 
-            }
-        }
+            {
+                var startUpWindowView = new StartUpWindowView();
 
+                _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(User);
+
+                startUpWindowView.Show();
+            }
+            _eventAggregator.GetEvent<SignInStatusEvent>().Publish(IsValidUser());
+        }
         private bool IsValidUser()
         {
             //Perform the test here
@@ -96,14 +97,12 @@ namespace WPFGraphicUserInterface.ViewModels
             }
             return false;
         }
-
         private bool ValidateUserPassword(UserProxy userFetchedFromDatabase)
         {
             var databasePassword = userFetchedFromDatabase.UserPassword;
             if (databasePassword == UserPassword) { return true; }
             return false;
         }
-
         private UserProxy SearchDataBaseForUser(object userEmail)
         {
             var database = UserProxyProvider.GenerateUsers();

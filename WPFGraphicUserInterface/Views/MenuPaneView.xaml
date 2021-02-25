@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
 
@@ -32,7 +30,7 @@
     </UserControl.Resources>
 
     <Border BorderBrush="White" BorderThickness=".0" Padding="0,0"
-        Margin="0,34,0,0">
+        Margin="0,34,0,20">
         <DockPanel Margin="0,0" Background="#a7b5d1">
 
             <TextBlock Text="{Binding ProjectName}"
@@ -53,7 +51,7 @@
                     <i:EventTrigger
                         EventName="MouseDown">
                         <i:InvokeCommandAction 
-                            Command="{Binding CreateProjectWindowCommand}"/>
+                            Command="{Binding ShowCreateProjectWindowCommand}"/>
 
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -68,7 +66,7 @@
                     <i:EventTrigger
                         EventName="MouseDown">
                         <i:InvokeCommandAction 
-                            Command="{Binding ShareProjectWindowCommand}"/>
+                            Command="{Binding ShowShareProjectWindowCommand}"/>
 
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -209,7 +207,7 @@
                 PopupAnimation="Fade"
                 StaysOpen="False">
                 <ListBox ItemsSource="{Binding ImportExportPopUpOptions}"
-                     SelectedIndex="{Binding SelectedIndex }" >
+                     SelectedIndex="{Binding SelectedIndex }">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,2">

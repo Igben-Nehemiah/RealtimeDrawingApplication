@@ -185,15 +185,16 @@
                Grid.Column="1"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left" />
-        <Label Grid.Row="8" 
+        <Button Grid.Row="8" 
                Grid.Column="2"
                VerticalAlignment="Bottom"
-               HorizontalAlignment="Left">
+               HorizontalAlignment="Left"
+               Click="SignInBtn_Click">
             <TextBlock TextDecorations="Underline"
                        Text="Sign In" Style="{StaticResource ResourceKey=GlowText}">
                 
             </TextBlock>
-        </Label>
+        </Button>
 
     </Grid>
 </Window>

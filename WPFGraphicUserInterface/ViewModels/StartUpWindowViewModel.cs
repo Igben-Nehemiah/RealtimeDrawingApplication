@@ -16,9 +16,18 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class StartUpWindowViewModel : BindableBase
     {
+        private RightPaneViewModel _rightPaneViewModel;
+        private FrameworkElement _rightPaneContentControl;
+        private UserProxy _user;
+        private string _userName;
+        private ProjectProxy _activeProject;
+        private string _statusBarMessage;
+        private MenuPaneViewModel _menuPaneViewModel;
+        private FrameworkElement _menuContentControl;
+
+        //A store for the shared projects
         List<Tuple<string, string>> shared = new List<Tuple<string, string>>();
 
-        private UserProxy _user;
         public UserProxy User
         {
             get { return _user; }
@@ -27,8 +36,14 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _user, value);
             }
         }
-
-        private ProjectProxy _activeProject;
+        public string StatusBarMessage
+        {
+            get { return _statusBarMessage; }
+            set
+            {
+                SetProperty(ref _statusBarMessage, value);
+            }
+        }
         public ProjectProxy ActiveProject
         {
             get { return _activeProject; }
@@ -37,8 +52,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _activeProject, value);
             }
         }
-
-        private string _userName;
         public string UserName 
         { 
             get { return _userName; }
@@ -50,7 +63,6 @@ namespace WPFGraphicUserInterface.ViewModels
         public ObservableCollection<RightPaneOption> RightPaneOptions { get; set; }
 
         public bool _isRightPaneOptionsPopUpOpen;
-
         public bool IsRightPaneOptionsPopUpOpen
         {
             get { return _isRightPaneOptionsPopUpOpen; }
@@ -60,9 +72,6 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-
-        private FrameworkElement _rightPaneContentControl = new RightPaneView();
-
         public FrameworkElement RightPaneContentControl
         {
             get { return _rightPaneContentControl; }
@@ -71,49 +80,42 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _rightPaneContentControl, value);
             }
         }
-
-
         //Start up window property
-        public string StartUpWindowTitle { get; set; } = "Main Window";
-        private ShareProjectWindowView ShareProjectWindowView { get; set; }
-
-        private FrameworkElement menuContentControl;
-
+        public string StartUpWindowTitle { get; set; } = "Start Up Window";
         public FrameworkElement MenuContentControl
-        { get => menuContentControl;
+        { get => _menuContentControl;
             set
             {
-                SetProperty(ref menuContentControl, value);
+                SetProperty(ref _menuContentControl, value);
             }
         }
 
-
         //Commands
         public DelegateCommand AddsharedUserCommand { get; set; }
-        public DelegateCommand MenuCommand { get; set; }
+        public DelegateCommand ShowMenuCommand { get; set; }
         public DelegateCommand ShowRightPaneCommand { get; set; }
 
+        //Helpers
         public class RightPaneOption
         {
             public string OptionName { get; set; }
         }
 
         IEventAggregator _eventAggregator;
+
         public StartUpWindowViewModel(IEventAggregator eventAggregator)
         {
             //Set user here
-            eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(SetUser);
-            eventAggregator.GetEvent<CreateProjectEvent>().Subscribe(SetCurrentProject);
-            eventAggregator.GetEvent<AddSharedUserEvent>().Subscribe(AddSharedUser);
-
             _eventAggregator = eventAggregator;
-            AddsharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
-            MenuCommand = new DelegateCommand(ExecuteMenu, CanExecuteMenu).ObservesProperty(()=>MenuContentControl);
-            ShowRightPaneCommand = new DelegateCommand(ShowRightPane, CanShowRightPane);
+            _eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(SetUser);
+            _eventAggregator.GetEvent<CreateProjectEvent>().Subscribe(SetCurrentProject);
+            _eventAggregator.GetEvent<AddSharedUserEvent>().Subscribe(AddSharedUser);
 
-            //Set visibility of Right pane
-            RightPaneContentControl.Visibility = Visibility.Collapsed;
-            
+            AddsharedUserCommand = new DelegateCommand(AddSharedUser, () => true);
+            ShowMenuCommand = new DelegateCommand(ShowMenu, ()=>true);
+            ShowRightPaneCommand = new DelegateCommand(ShowRightPane, ()=>true);
+
+            StatusBarMessage = "Ready";
         }
 
         private void AddSharedUser(UserProxy sharedUser)
@@ -129,9 +131,10 @@ namespace WPFGraphicUserInterface.ViewModels
                 var userCreatedProjects = User.UserCreatedProjects;
                 foreach(var project in userCreatedProjects)
                 {
-                    if(activeProject.ProjectName == project.ProjectName)
+                    if(!string.IsNullOrEmpty(activeProject.ProjectName) && activeProject.ProjectName == project.ProjectName)
                     {
                         MessageBox.Show("Project name already exists!");
+                        //Exit method
                         return;
                     }
                 }
@@ -140,9 +143,21 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 User.UserCreatedProjects = new List<ProjectProxy>();
             }
-            activeProject.ProjectCreatorEmailAddress = User.UserEmailAddress;
+            //Add project of list of user projects
             User.UserCreatedProjects.Add(activeProject);
+
+            //Raises an event to close project creation window||Should come up before adding
+            _eventAggregator.GetEvent<ProjectCreationStatusEvent>().Publish(CanCreateProject());
+
+            //activeProject.ProjectCreatorEmailAddress = User.UserEmailAddress;
+            //Set the project name on the menu pane
             _eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Publish(activeProject.ProjectName);
+        }
+
+        private bool CanCreateProject()
+        {
+            //Validation Logic
+            return true;
         }
 
         //Set User
@@ -153,38 +168,25 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         //Menu
-        private bool CanExecuteMenu()
-        {
-            return true;
-        }
-
-        private void ExecuteMenu()
+        private void ShowMenu()
         {
             MenuContentControl = new MenuPaneView();
+            _menuPaneViewModel = new MenuPaneViewModel(_eventAggregator);
+            MenuContentControl.DataContext = _menuPaneViewModel;
             MenuContentControl.Visibility = Visibility.Visible;
         }
 
         //Add Shared user
-        private bool CanExecuteAddSharedUser()
+        private void AddSharedUser()
         {
-            return true;
-        }
-
-        private void ExecuteAddSharedUser()
-        {
-            if (ShareProjectWindowView != null) { ShareProjectWindowView = null; }
-            ShareProjectWindowView = new ShareProjectWindowView();
-            ShareProjectWindowView.Show();
-        }
-
-        //Show Right Pane
-        private bool CanShowRightPane()
-        {
-            return true;
+            _menuPaneViewModel.ShowShareProjectWindow();
         }
 
         private void ShowRightPane()
         {
+            RightPaneContentControl = new RightPaneView();
+            _rightPaneViewModel = new RightPaneViewModel(_eventAggregator);
+            RightPaneContentControl.DataContext = _rightPaneViewModel;
             RightPaneContentControl.Visibility = Visibility.Visible;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,13 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class RightPaneViewModel : BindableBase
     {
+        //This pane should have three view models
+        private SharedUsersPaneViewModel _sharedUsersPaneViewModel;
+
+        private ProjectPaneViewModel _projectPaneViewModel;
+
+        private PropertyPaneViewModel _propertyPaneViewModel;
+
         private string _currentPaneName;
 
         private FrameworkElement _currentPane;
@@ -65,8 +73,11 @@ namespace WPFGraphicUserInterface.ViewModels
 
         public DelegateCommand ShowRightPaneOptionsPopUpCommand { get; set; }
 
-        public RightPaneViewModel()
+        IEventAggregator _eventAggregator;
+
+        public RightPaneViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
             ShowRightPaneOptionsPopUpCommand = new DelegateCommand(ShowRightPaneOptionsPopUp, CanShowRightPaneOptionsPopUp);
             RightPaneOptions = new ObservableCollection<RightPaneOption>();
             RightPaneOptions.Add(new RightPaneOption() { OptionName = "Shared Users Pane" });
@@ -84,14 +95,20 @@ namespace WPFGraphicUserInterface.ViewModels
                 case 0:
                     //Change the marker on others
                     CurrentPane = new SharedUsersPaneView();
+                    _sharedUsersPaneViewModel = new SharedUsersPaneViewModel(_eventAggregator);
+                    CurrentPane.DataContext = _sharedUsersPaneViewModel;
                     CurrentPaneName = RightPaneOptions[0].OptionName;
                     break;
                 case 1:
                     CurrentPane = new PropertyPaneView();
+                    _propertyPaneViewModel = new PropertyPaneViewModel(_eventAggregator);
+                    CurrentPane.DataContext = _propertyPaneViewModel;
                     CurrentPaneName = RightPaneOptions[1].OptionName;
                     break;
                 case 2:
                     CurrentPane = new ProjectPaneView();
+                    _projectPaneViewModel = new ProjectPaneViewModel(_eventAggregator);
+                    CurrentPane.DataContext = _projectPaneViewModel;
                     CurrentPaneName = RightPaneOptions[2].OptionName;
                     break;
                 default:

@@ -14,8 +14,11 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class MenuPaneViewModel : BindableBase
     {
+        private CreateProjectWindowViewModel _createProjectWindowViewModel;
+        private ShareProjectWindowViewModel _shareProjectWindowViewModel;
+
         //Create Project view
-        private string _projectName;
+        private string _projectName = "Project Name";
         public string ProjectName
         {
             get { return _projectName; }
@@ -25,7 +28,7 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        private string _importOrExport;
+        private string _importOrExport = "JSON";
         public string ImportOrExport
         {
             get { return _importOrExport; }
@@ -35,8 +38,6 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        private CreateProjectWindowView _createProjectWindowView;
-        private ShareProjectWindowView _shareProjectWindowView;
         private bool _importExportPopUpIsOpen = false;
 
         public ObservableCollection<ImportExportOption> ImportExportPopUpOptions { get; set; }
@@ -67,8 +68,8 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         //Commands
-        public DelegateCommand CreateProjectWindowCommand { get; set; }
-        public DelegateCommand ShareProjectWindowCommand { get; set; }
+        public DelegateCommand ShowCreateProjectWindowCommand { get; set; }
+        public DelegateCommand ShowShareProjectWindowCommand { get; set; }
         public DelegateCommand OpenProjectCommand { get; set; }
         public DelegateCommand SaveProjectCommand { get; set; }
         public DelegateCommand DeleteProjectCommand { get; set; }
@@ -81,10 +82,10 @@ namespace WPFGraphicUserInterface.ViewModels
         public MenuPaneViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Subscribe(SetProjectName);
-            eventAggregator.GetEvent<ShowAddSharedUserEvent>().Subscribe(ExecuteShareProjectView);
-            CreateProjectWindowCommand = new DelegateCommand(ExecuteCreateProjectView, CanExecuteCreateProjectView);
-            ShareProjectWindowCommand = new DelegateCommand(ExecuteShareProjectView, CanExecuteShareProjectView);
+            _eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Subscribe(SetProjectName);
+            _eventAggregator.GetEvent<ShowAddSharedUserEvent>().Subscribe(ShowShareProjectWindow);
+            ShowCreateProjectWindowCommand = new DelegateCommand(ShowCreateProjectWindow, ()=>true);
+            ShowShareProjectWindowCommand = new DelegateCommand(ShowShareProjectWindow, ()=>true);
             OpenProjectCommand = new DelegateCommand(ExecuteOpenProject, CanExecuteOpenProject);
             SaveProjectCommand = new DelegateCommand(ExecuteSaveProject, CanExecuteSaveProject);
             DeleteProjectCommand = new DelegateCommand(ExecuteDeleteProject, CanExecuteDeleteProject);
@@ -182,26 +183,30 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         //Create Project
-        private bool CanExecuteShareProjectView()
+        private bool CanShowShareProjectWindow()
         {
             return true;
         }
 
-        private void ExecuteShareProjectView()
+        public void ShowShareProjectWindow()
         {
-            _shareProjectWindowView = new ShareProjectWindowView();
-            _shareProjectWindowView.Show();
+             var shareProjectWindowView = new ShareProjectWindowView();
+            _shareProjectWindowViewModel = new ShareProjectWindowViewModel(_eventAggregator);
+            shareProjectWindowView.DataContext = _shareProjectWindowViewModel;
+            shareProjectWindowView.ShowDialog();
         }
 
         //Share Project
-        private void ExecuteCreateProjectView()
+        private void ShowCreateProjectWindow()
         {
-            _createProjectWindowView = new CreateProjectWindowView();
-            _createProjectWindowView.Show();
+            var createProjectWindowView = new CreateProjectWindowView();
+            _createProjectWindowViewModel = new CreateProjectWindowViewModel(_eventAggregator);
+            createProjectWindowView.DataContext = _createProjectWindowViewModel;
+            createProjectWindowView.ShowDialog();
             
         }
 
-        private bool CanExecuteCreateProjectView()
+        private bool CanShowCreateProjectView()
         {
             return true;
         }

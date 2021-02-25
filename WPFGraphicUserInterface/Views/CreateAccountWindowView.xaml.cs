@@ -21,5 +21,12 @@ namespace WPFGraphicUserInterface.Views
         {
             InitializeComponent();
         }
+
+        private void SignInBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var logInWindow = new LoginWindowView();
+            this.Close();
+            logInWindow.ShowDialog();
+        }
     }
 }

@@ -9,7 +9,7 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d" Topmost="False"
-        Title="{Binding StartUpWindowTitle}" Height="450" Width="800" Loaded="ShowLogInPage">
+        Title="{Binding StartUpWindowTitle}" Height="450" Width="800">
     
     <Window.Resources>
         <Style x:Key="IconGlow" TargetType="Path">
@@ -70,8 +70,17 @@
                 
             </DockPanel>
 
+            <DockPanel DockPanel.Dock="Bottom" 
+                       Height="25"
+                   Background="#6e8bc4">
+                <Label Content="{Binding StatusBarMessage}"
+                       FontSize="10"
+                       FontWeight="DemiBold"
+                       />
+            </DockPanel>
+
             <StackPanel DockPanel.Dock="Left" Background="#a7b5d1" >
-                <Button Command="{Binding MenuCommand}">
+                <Button Command="{Binding ShowMenuCommand}">
                     <Path Style="{StaticResource IconMouseOverHandCursor}" Fill="Black" Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
                   Width="24" Height="24"
                   Margin="10,5,10,5"/>

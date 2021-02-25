@@ -115,7 +115,7 @@
                 Padding="0,0,0,0"
                 Margin="200,3,200,3"
                 Content="Sign In"
-                Command="{Binding LoginCommand}">
+                Click="SignInBtn_Click">
 
         </Button>
 
@@ -124,15 +124,16 @@
                Grid.Column="1"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left" />
-        <Label Grid.Row="5" 
+        <Button Grid.Row="5" 
                Grid.Column="2"
                VerticalAlignment="Bottom"
-               HorizontalAlignment="Center">
+               HorizontalAlignment="Center"
+                Click="SignUpBtn_Click">
             <TextBlock TextDecorations="Underline"
                        Text="Sign Up" Style="{StaticResource ResourceKey=GlowText}">
 
             </TextBlock>
-        </Label>
+        </Button>
 
     </Grid>
 </Window>

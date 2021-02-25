@@ -23,7 +23,7 @@ namespace WPFGraphicUserInterface
         protected override Window CreateShell()
         {
             ShellContainer = Container;
-            return Container.Resolve<Views.StartUpWindowView>();
+            return Container.Resolve<Views.LoginWindowView>();
         }
         public static IContainerProvider ShellContainer { get; private set; }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

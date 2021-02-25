@@ -23,6 +23,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _currentProject, value);
             }
         }
+
         private string _projectName;
 
         public string ProjectName
@@ -34,27 +35,19 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        public DelegateCommand CreateProjectCommand { get; set; }
-
         IEventAggregator _eventAggregator;
 
         public CreateProjectWindowViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            CreateProjectCommand = new DelegateCommand(CreateProject, CanCreateProject);
+            _eventAggregator.GetEvent<TriedToCreateProjectEvent>().Subscribe(RaiseCreateProjectEvent);
         }
 
-        private bool CanCreateProject()
+        private void RaiseCreateProjectEvent()
         {
-            //Validation Logic
-            return true;
-        }
-
-        private void CreateProject()
-        {
-            _currentProject = new ProjectProxy();
-            _currentProject.ProjectName = ProjectName;
-            _eventAggregator.GetEvent<CreateProjectEvent>().Publish(_currentProject);
+            var project = new ProjectProxy();
+            project.ProjectName = ProjectName;
+            _eventAggregator.GetEvent<CreateProjectEvent>().Publish(project);
         }
     }
 }
