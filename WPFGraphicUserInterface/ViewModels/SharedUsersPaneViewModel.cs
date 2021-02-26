@@ -29,7 +29,13 @@ namespace WPFGraphicUserInterface.ViewModels
         public SharedUsersPaneViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<ProjectSharedToAnotherUser>().Subscribe(RefreshSharedProjectPane);
             AddSharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
+        }
+
+        private void RefreshSharedProjectPane(string sharedUserEmailAddress)
+        {
+            SharedUsers.Add(sharedUserEmailAddress);
         }
 
         //Add Shared User

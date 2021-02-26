@@ -10,7 +10,7 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class ShareProjectWindowViewModel : BindableBase
     {
-        private string _sharedUserEmailAddress;
+        private string _sharedUserEmailAddress = "sarahallen@gmail.com";
         public string SharedUserEmailAddress
         {
             get { return _sharedUserEmailAddress; }
@@ -44,6 +44,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 if (user.UserEmailAddress == SharedUserEmailAddress)
                 {
                     _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(user);
+                    return;
                 }
             }
             //Email Address not registered in db

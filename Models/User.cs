@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public class User
+    public partial class User 
     {
         //public int UserId { get; set; }
         public string UserFirstName { get; set; }
@@ -15,4 +15,5 @@ namespace Models
         public virtual ICollection<Project> UserCreatedProjects { get; set; }
         public virtual ICollection<ProjectUser> UserSharedProjects { get; set; }
     }
+
 }

@@ -2,7 +2,7 @@
 
 namespace Models
 {
-    public class DrawingCanvasObject
+    public partial class DrawingCanvasObject
     {
         [Key]
         public int CanvasObjectId { get; set; }

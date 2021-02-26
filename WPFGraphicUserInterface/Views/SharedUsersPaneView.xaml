@@ -50,34 +50,51 @@
     <StackPanel Background="#a7b5d1"
                 Margin="0,0,0,0"
                 VerticalAlignment="Stretch">
-        
-        <Button  Height="24" Width="24"
+
+        <DockPanel>
+            <Button DockPanel.Dock="Left"
+                HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+                 Command="{Binding AddSharedUserCommand}"
+                    Margin="0,0,5,0">
+                Add User
+            </Button>
+
+            <Button DockPanel.Dock="Left"
                  HorizontalAlignment="Left"
               VerticalAlignment="Top"
-                 Command="{Binding AddSharedUserCommand}">
-            <Path Fill="Black"  
-              
-              Data="M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z" />
-        </Button>
-        
+                 Command="{Binding}">
+                Delete User
+            </Button>
+        </DockPanel> 
 
-        <ListBox ItemsSource="{Binding}"
-                 MinHeight="300" 
-                 Margin="2,0">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="0,2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="110"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Path Width="24" Height="24" Fill="Black" Data= "M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z"
-                                Grid.RowSpan="3" Grid.Column="2"/>
-                        <TextBlock Text="{Binding}" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Border CornerRadius="20"
+                Background="WhiteSmoke"
+                BorderThickness="2"
+                BorderBrush="WhiteSmoke"
+                Margin="3,3"
+                Padding="7,7">
+            <ListBox ItemsSource="{Binding SharedUsers}"
+                 MinHeight="500"
+                 MaxHeight="500"
+                 Margin="0,0"
+                 Background="WhiteSmoke"
+                     BorderThickness="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.RowSpan="3" Grid.Column="2"/>
+                            <TextBlock Text="{Binding}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+        
 
     </StackPanel>
 </UserControl>

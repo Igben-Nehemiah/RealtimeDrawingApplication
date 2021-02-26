@@ -15,7 +15,6 @@ namespace WPFGraphicUserInterface.Services
                 UserFirstName = "Obomaese",
                 UserLastName = "Igben",
                 UserEmailAddress = "igbennehemiah@gmail.com",
-                UserId = 1,
                 UserPassword = "Bart Allen"
             };
 
@@ -24,7 +23,6 @@ namespace WPFGraphicUserInterface.Services
                 UserFirstName = "Sarah",
                 UserLastName = "Allen",
                 UserEmailAddress = "sarahallen@gmail.com",
-                UserId = 1,
                 UserPassword = "Sarah Allen"
             };
 

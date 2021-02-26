@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public class ProjectUser
+    public partial class ProjectUser
     {
         public int ProjectId { get; set; }
         public string UserEmail { get; set; }

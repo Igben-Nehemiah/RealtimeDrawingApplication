@@ -4,14 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
 
 
     <StackPanel Background="#a7b5d1"
-                Margin="0,33,0,20"
+                Margin="0,39,0,30"
                 VerticalAlignment="Stretch">
         <DockPanel HorizontalAlignment="Center" Margin="0, 5, 0, 2">
             <Button DockPanel.Dock="Left"
@@ -23,10 +21,13 @@
                    DockPanel.Dock="Left"
                    FontSize="14"/>
             <Button DockPanel.Dock="Left"
-                    Command="{Binding ShowRightPaneOptionsPopUpCommand}">
+                    Height="20"
+                    Width="20"
+                    Command="{Binding ShowRightPaneOptionsPopUpCommand}"
+                Style="{DynamicResource RoundedButton}">
                 <Path Fill="Black"
-                      VerticalAlignment="Stretch"
-                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
                       Data="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />
             </Button>
         </DockPanel>

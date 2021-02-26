@@ -14,8 +14,10 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class MenuPaneViewModel : BindableBase
     {
-        private CreateProjectWindowViewModel _createProjectWindowViewModel;
-        private ShareProjectWindowViewModel _shareProjectWindowViewModel;
+        public CreateProjectWindowView createProjectWindowView;
+        public CreateProjectWindowViewModel _createProjectWindowViewModel;
+        public ShareProjectWindowView shareProjectWindowView;
+        public ShareProjectWindowViewModel _shareProjectWindowViewModel;
 
         //Create Project view
         private string _projectName = "Project Name";
@@ -82,7 +84,6 @@ namespace WPFGraphicUserInterface.ViewModels
         public MenuPaneViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<ProjectCreationSuccessfulEvent>().Subscribe(SetProjectName);
             _eventAggregator.GetEvent<ShowAddSharedUserEvent>().Subscribe(ShowShareProjectWindow);
             ShowCreateProjectWindowCommand = new DelegateCommand(ShowCreateProjectWindow, ()=>true);
             ShowShareProjectWindowCommand = new DelegateCommand(ShowShareProjectWindow, ()=>true);
@@ -91,18 +92,12 @@ namespace WPFGraphicUserInterface.ViewModels
             DeleteProjectCommand = new DelegateCommand(ExecuteDeleteProject, CanExecuteDeleteProject);
             ShowImportExportOptionsCommand = new DelegateCommand<string>(ShowImportExportOptions, CanShowImportExportOptions);
 
-
             //Initialize and add import and export pop up options
             ImportExportPopUpOptions = new ObservableCollection<ImportExportOption>
             {
                 new ImportExportOption() { ImportExportOptionName = "JSON" },
                 new ImportExportOption() { ImportExportOptionName = "XML" }
             };
-        }
-
-        private void SetProjectName(string projectName)
-        {
-            ProjectName = projectName;
         }
 
         //Resposible for showing pop-up
@@ -190,8 +185,12 @@ namespace WPFGraphicUserInterface.ViewModels
 
         public void ShowShareProjectWindow()
         {
-             var shareProjectWindowView = new ShareProjectWindowView();
-            _shareProjectWindowViewModel = new ShareProjectWindowViewModel(_eventAggregator);
+            if (shareProjectWindowView == null)
+            {
+                shareProjectWindowView = new ShareProjectWindowView();
+                _shareProjectWindowViewModel = new ShareProjectWindowViewModel(_eventAggregator);
+            }
+            
             shareProjectWindowView.DataContext = _shareProjectWindowViewModel;
             shareProjectWindowView.ShowDialog();
         }
@@ -199,8 +198,11 @@ namespace WPFGraphicUserInterface.ViewModels
         //Share Project
         private void ShowCreateProjectWindow()
         {
-            var createProjectWindowView = new CreateProjectWindowView();
-            _createProjectWindowViewModel = new CreateProjectWindowViewModel(_eventAggregator);
+            if (createProjectWindowView == null)
+            {
+                createProjectWindowView = new CreateProjectWindowView();
+                _createProjectWindowViewModel = new CreateProjectWindowViewModel(_eventAggregator);
+            }
             createProjectWindowView.DataContext = _createProjectWindowViewModel;
             createProjectWindowView.ShowDialog();
             
