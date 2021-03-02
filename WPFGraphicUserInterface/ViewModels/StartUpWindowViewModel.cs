@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Services;
 using WPFGraphicUserInterface.Views;
@@ -14,6 +15,20 @@ using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
+    public interface IDrawingCanvasItem { }
+    public interface ISelectedObject
+    {
+        ControlEnum ControlType { get; set; }
+        int SelectedObjectFontsize { get; set; }
+        string SelectedObjectTitle { get; set; }
+        double SelectedObjectWidth { get; set; }
+        double SelectedObjectHeight { get; set; }
+        Brush SelectedObjectFill { get; set; }
+        Brush SelectedObjectBorder { get; set; }
+        double SelectedObjectXPos { get; set; }
+        double SelectedObjectYPos { get; set; }
+    }
+
     public class StartUpWindowViewModel : BindableBase
     {
         private RightPaneViewModel _rightPaneViewModel;
@@ -100,7 +115,7 @@ namespace WPFGraphicUserInterface.ViewModels
             public string OptionName { get; set; }
         }
 
-        IEventAggregator _eventAggregator;
+        public IEventAggregator _eventAggregator;
 
         public StartUpWindowViewModel(IEventAggregator eventAggregator)
         {
@@ -132,21 +147,28 @@ namespace WPFGraphicUserInterface.ViewModels
         private void AddUserToShareProjectWith(UserProxy sharedUser)
         {
             //Should not be able to add self to shared users
-            StatusBarMessage = $"Adding {sharedUser.UserEmailAddress} to list of shared users!";
-            _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
-            var sharedProjectFullname = ActiveProject.ProjectName + "_" + User.UserEmailAddress;
-            if (shared.ContainsKey(sharedProjectFullname))
+            //should be able to shared if project has been created
+            if (_activeProject != null)
             {
-                shared[sharedProjectFullname].Add(sharedUser.UserEmailAddress);
+                StatusBarMessage = $"Adding {sharedUser.UserEmailAddress} to list of shared users!";
+                _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
+                var sharedProjectFullname = ActiveProject.ProjectName + "_" + User.UserEmailAddress;
+                if (shared.ContainsKey(sharedProjectFullname))
+                {
+                    shared[sharedProjectFullname].Add(sharedUser.UserEmailAddress);
+                }
+                else
+                {
+                    shared.Add(sharedProjectFullname, new List<string>());
+                    shared[sharedProjectFullname].Add(sharedUser.UserEmailAddress);
+                }
+                //Send notification to SharedProjectWindow
+                _eventAggregator.GetEvent<ProjectSharedToAnotherUser>().Publish(sharedUser.UserEmailAddress);
+                StatusBarMessage = "Done!";
+                return;
             }
-            else
-            {
-                shared.Add(sharedProjectFullname, new List<string>());
-                shared[sharedProjectFullname].Add(sharedUser.UserEmailAddress);
-            }
-            //Send notification to SharedProjectWindow
-            _eventAggregator.GetEvent<ProjectSharedToAnotherUser>().Publish(sharedUser.UserEmailAddress);
-            StatusBarMessage = "Done!";
+
+            StatusBarMessage = "Create Project First";
         }
 
         private void SetActiveProject(ProjectProxy createdProject)

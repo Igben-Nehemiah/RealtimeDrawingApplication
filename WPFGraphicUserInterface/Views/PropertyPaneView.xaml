@@ -33,7 +33,7 @@
                    Grid.Row="0"/>
 
             <TextBox
-                Text="50"
+                Text="{Binding XPos}"
                 FontSize="12"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
@@ -52,7 +52,7 @@
                    Grid.Row="1"/>
 
             <TextBox
-                Text="50"
+                Text="{Binding YPos}"
                 FontSize="12"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
@@ -71,7 +71,7 @@
                    Grid.Row="2"/>
 
             <TextBox
-                Text="50"
+                Text="{Binding Width}"
                 FontSize="12"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
@@ -90,7 +90,7 @@
                    Grid.Row="3"/>
 
             <TextBox
-                Text="50"
+                Text="{Binding Height}"
                 FontSize="12"
                 FontWeight="DemiBold"
                 TextAlignment="Center"

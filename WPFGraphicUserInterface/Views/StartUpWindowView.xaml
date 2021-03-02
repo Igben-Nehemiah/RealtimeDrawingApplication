@@ -3,11 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFGraphicUserInterface.Views" 
-        xmlns:local1="clr-namespace:WPFGraphicUserInterface.Views"
+        xmlns:vm="clr-namespace:WPFGraphicUserInterface.ViewModels"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d" Topmost="False"
         Title="{Binding StartUpWindowTitle}" Height="450" Width="800">
 
@@ -30,9 +28,6 @@
             </Style.Triggers>
         </Style>
 
-        <!--<Style TargetType="Label">
-            <Setter Property="FontSize" Value="12"/>
-        </Style>-->
     </Window.Resources>
 
     <Grid>
@@ -107,45 +102,47 @@
                   Margin="10,5,10,5"/>
                 </Button>
 
-                <Label>
+                <!--<Label>
                     <Path Fill="Black" Data="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"
                   Width="24" Height="24"
                   Margin="10,5,10,5">
-                        <Path.RenderTransform>
-                            <RotateTransform Angle="0"/>
-                        </Path.RenderTransform>
+                        
                     </Path>
-                </Label>
+                </Label>-->
 
-                <Label>
-                    <Path Fill="Black" Data="M4,6V19H20V6H4M18,17H6V8H18V17Z"
-                  Width="24" Height="24"
-                  Margin="10,5,10,5"/>
-                </Label>
+                <Rectangle
+                  Fill="Black"  
+                  Width="50" Height="50"
+                  Margin="10,5,10,5"
+                   MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
+                </Rectangle>
 
-                <Label>
-                    <Path Fill="Black" Data="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
-                  Width="24" Height="24"
-                  Margin="10,5,10,5"/>
-                </Label>
+                <Ellipse Fill="Black"
+                  Width="50" Height="50"
+                  Margin="10,5,10,5"
+                         MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
+                </Ellipse>
 
-                <Label>
-                    <Path Fill="Black" Data="M12,2L1,21H23M12,6L19.53,19H4.47" 
+                <Line X1="0"  Y1="50" X2="50" Y2="0"
+                      Stroke="Black"
+                      StrokeThickness="3"
                   Width="24" Height="24"
-                  Margin="10,5,10,5"/>
-                </Label>
+                  Margin="10,5,10,5"
+                      MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
+                </Line>
 
-                <Label BorderBrush="Black">
-                    <Path Fill="Black" Data="M5.79 21.61L4.21 20.39L18.21 2.39L19.79 3.61Z" 
-                  Width="24" Height="24"
-                  Margin="10,5,10,5"/>
-                </Label>
+                <Path Fill="Black"
+                  Data="M25,0 L50,50 L0,50Z"
+                  Margin="10"
+                  MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown"/>
 
-                <Label>
-                    <Path Fill="Black" Data="M3,3H16V6H11V18H8V6H3V3M12,7H14V9H12V7M15,7H17V9H15V7M18,7H20V9H18V7M12,10H14V12H12V10M12,13H14V15H12V13M12,16H14V18H12V16M12,19H14V21H12V19Z"
-                  Width="24" Height="24"
-                  Margin="10,5,10,5" />
-                </Label>
+                <TextBlock FontSize="20"
+                       FontWeight="DemiBold"
+                       HorizontalAlignment="Center"
+                           MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
+                <Run Text="T" FontSize="30"/>
+                <Run Text="T" FontSize="20"/>
+                </TextBlock>
 
             </StackPanel>
 
@@ -156,9 +153,9 @@
                 </Button>
             </StackPanel>
 
-            <Canvas Background="White">
+            <vm:DrawingCanvas x:Name="DrawingSheet">
 
-            </Canvas>
+            </vm:DrawingCanvas>
 
         </DockPanel>
 
