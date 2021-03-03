@@ -153,9 +153,12 @@
                 </Button>
             </StackPanel>
 
-            <vm:DrawingCanvas x:Name="DrawingSheet">
+            <!--Content control for canvas-->
+            <ContentControl Content="{Binding DrawingCanvas}"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch">
 
-            </vm:DrawingCanvas>
+            </ContentControl>
 
         </DockPanel>
 

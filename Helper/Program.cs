@@ -10,7 +10,7 @@ namespace Helper
         {
             try
             {
-                var db = new EFCoreSQLServerDBContext();
+                var db = new RealtimeDrawingApplicationContext();
                 var user1 = new User()
                 {
                     UserFirstName = "Obomaese",

@@ -3,12 +3,12 @@ using Models;
 
 namespace Infrastructure
 {
-    public class EFCoreSQLServerDBContext : DbContext
+    public class RealtimeDrawingApplicationContext : DbContext
     {
         //private readonly string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RealtimeDrawingApplication";
         private readonly string _connectionString = "Data Source=C:\\Users\\user\\Desktop\\RealtimeDrawingApplication.db";
 
-        public EFCoreSQLServerDBContext()
+        public RealtimeDrawingApplicationContext()
         {
             Database.EnsureCreated();
         }

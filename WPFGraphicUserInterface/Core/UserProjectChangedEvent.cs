@@ -1,9 +1,10 @@
 ﻿using Prism.Events;
+using System.Collections.Generic;
 using WPFGraphicUserInterface.ModelProxies;
 
 namespace WPFUserInterface.Core
 {
-    public class UserLoggedInEvent : PubSubEvent<UserProxy>
+    public class UserProjectChangedEvent : PubSubEvent<ICollection<ProjectProxy>>
     {
     }
 }

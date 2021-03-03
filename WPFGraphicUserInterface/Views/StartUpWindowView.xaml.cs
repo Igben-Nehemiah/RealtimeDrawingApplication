@@ -116,6 +116,8 @@ namespace WPFGraphicUserInterface.Views
         public double SelectedObjectXPos { get; set; }
         public double SelectedObjectYPos { get; set; }
         public Geometry Geometry { get; set; }
+        public Guid SelectedObjectId { get; set; } = Guid.NewGuid();
+
         protected override Geometry DefiningGeometry => Geometry;
     }
 
@@ -137,13 +139,6 @@ namespace WPFGraphicUserInterface.Views
         public Brush SelectedObjectBorder { get; set; }
         public double SelectedObjectXPos { get; set; }
         public double SelectedObjectYPos { get; set; }
-
-        //public string Title { get; set; }
-        //public Brush Fill { get; set; }
-        //public Brush Border { get; set; }
-        //public int Fontsize { get; set; }
-        //public ControlEnum ControlType { get; set; }
-        //public double X { get; set; }
-        //public double Y { get; set; }
+        public Guid SelectedObjectId { get; set; } = Guid.NewGuid();
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace WPFGraphicUserInterface.ModelProxies
+﻿using System.Windows;
+
+namespace WPFGraphicUserInterface.ModelProxies
 {
-    public class DrawingCanvasObjectProxy
+    public class DrawingCanvasObjectProxy : UIElement
     {
         public int CanvasObjectId { get; set; }
         public string CanvasObjectName { get; set; }

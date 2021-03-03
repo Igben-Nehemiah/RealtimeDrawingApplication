@@ -2,7 +2,7 @@
 
 namespace WPFUserInterface.Core
 {
-    public class ProjectSharedToAnotherUser : PubSubEvent<string>
+    public class ProjectSharedToAnotherUserEvent : PubSubEvent<string>
     {
     }
 }

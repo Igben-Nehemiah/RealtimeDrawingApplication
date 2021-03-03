@@ -30,7 +30,7 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        private string _importOrExport = "JSON";
+        private string _importOrExport = "";
         public string ImportOrExport
         {
             get { return _importOrExport; }
@@ -109,6 +109,7 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ShowImportExportOptions(string option)
         {
             ImportOrExport = option;
+            SelectedIndex = -1;
             ImportExportPopUpIsOpen = !ImportExportPopUpIsOpen;
         }
 
@@ -129,10 +130,10 @@ namespace WPFGraphicUserInterface.ViewModels
             switch (exportType.ToLower())
             {
                 case "json":
-                    MessageBox.Show("Exporting Project  as JSON");
+                    _eventAggregator.GetEvent<ExportProjectEvent>().Publish("json");
                     break;
                 case "xml":
-                    MessageBox.Show("Exporting Project  as XML");
+                    _eventAggregator.GetEvent<ExportProjectEvent>().Publish("xml");
                     break;
                 default:
                     break;
@@ -145,10 +146,10 @@ namespace WPFGraphicUserInterface.ViewModels
             switch (importType.ToLower())
             {
                 case "json":
-                    MessageBox.Show("Importing Project  as JSON");
+                    _eventAggregator.GetEvent<ImportProjectEvent>().Publish("json");
                     break;
                 case "xml":
-                    MessageBox.Show("Importing Project  as XML");
+                    _eventAggregator.GetEvent<ImportProjectEvent>().Publish("xml");
                     break;
                 default:
                     break;
@@ -163,7 +164,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteSaveProject()
         {
-            MessageBox.Show("Saving Project");
+            _eventAggregator.GetEvent<SaveProjectEvent>().Publish();
         }
 
         //Open Project
@@ -175,12 +176,6 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ExecuteOpenProject()
         {
             MessageBox.Show("Opening Project");
-        }
-
-        //Create Project
-        private bool CanShowShareProjectWindow()
-        {
-            return true;
         }
 
         public void ShowShareProjectWindow()
@@ -206,11 +201,6 @@ namespace WPFGraphicUserInterface.ViewModels
             createProjectWindowView.DataContext = _createProjectWindowViewModel;
             createProjectWindowView.ShowDialog();
             
-        }
-
-        private bool CanShowCreateProjectView()
-        {
-            return true;
         }
 
         //Pop up options selection

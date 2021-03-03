@@ -10,7 +10,7 @@
     <StackPanel Background="#a7b5d1"
                 Margin="0,35,0,0">
 
-        <ListBox ItemsSource="{Binding}"
+        <ListBox ItemsSource="{Binding Projects}"
                  MinHeight="150" 
                  Margin="2,0">
             <ListBox.ItemTemplate>

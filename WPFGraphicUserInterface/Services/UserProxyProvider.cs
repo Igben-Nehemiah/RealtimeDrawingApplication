@@ -7,7 +7,7 @@ namespace WPFGraphicUserInterface.Services
 {
     public static class UserProxyProvider
     {
-        public static IList<UserProxy> GenerateUsers()
+        public static ICollection<UserProxy> GenerateUsers()
         {
             var generatedUsers = new List<UserProxy>();
             var User1 = new UserProxy()
@@ -31,4 +31,5 @@ namespace WPFGraphicUserInterface.Services
             return generatedUsers;
         }
     }
+
 }
