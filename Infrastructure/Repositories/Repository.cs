@@ -9,7 +9,6 @@ namespace Infrastructure.Repositories
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly DbContext Context;
-        private RealtimeDrawingApplicationContext context;
 
         public Repository(DbContext context)
         {

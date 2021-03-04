@@ -297,6 +297,7 @@ namespace WPFGraphicUserInterface.ViewModels
             User = user;
             UserName = User.UserFirstName + " " + User.UserLastName;
             //Load user projects
+            
             if (user.UserCreatedProjects != null)
             {
                 _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(user.UserCreatedProjects);

@@ -6,6 +6,7 @@ namespace Models
     {
         [Key]
         public int CanvasObjectId { get; set; }
+        public string CanvasObjectGuid { get; set; }
         public string CanvasObjectName { get; set; }
         public double XPosition { get; set; }
         public double YPosition { get; set; }

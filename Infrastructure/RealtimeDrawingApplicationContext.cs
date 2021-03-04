@@ -21,17 +21,18 @@ namespace Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Configuring User Domain class
-            modelBuilder.Entity<User>().HasKey(u => u.UserEmailAddress);
+            modelBuilder.Entity<User>().HasKey(u => u.UserId);
             modelBuilder.Entity<User>().HasMany(u => u.UserSharedProjects);
             modelBuilder.Entity<User>().HasMany(u => u.UserCreatedProjects)
                 .WithOne(cp => cp.ProjectCreator);
 
             //Configuring Project Domain class
+            modelBuilder.Entity<Project>().HasKey(p => p.ProjectId);
             modelBuilder.Entity<Project>().HasMany(p => p.ProjectDrawingCanvasObjects);
             modelBuilder.Entity<Project>().HasMany(p => p.SharedUsers);
 
             //Configuring ProjectUser domain class
-            modelBuilder.Entity<ProjectUser>().HasKey(pu => new { pu.ProjectId, pu.UserEmail });
+            modelBuilder.Entity<ProjectUser>().HasKey(pu => new { pu.ProjectId, pu.UserId });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

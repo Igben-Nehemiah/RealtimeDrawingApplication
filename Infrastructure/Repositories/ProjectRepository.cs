@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Models;
+using System.Collections.Generic;
 
 namespace Infrastructure.Repositories
 {
@@ -6,6 +8,17 @@ namespace Infrastructure.Repositories
     {
         public ProjectRepository(RealtimeDrawingApplicationContext context) : base(context)
         {
+        }
+
+        public RealtimeDrawingApplicationContext RealtimeDrawingApplicationContext
+        {
+            get { return Context as RealtimeDrawingApplicationContext; }
+        }
+
+        public IEnumerable<Project> GetUserCreatedProjects(int userId)
+        {
+            return RealtimeDrawingApplicationContext.Projects
+                .Include(p => p.ProjectCreator.UserId == userId);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Models
 {
     public partial class User 
     {
-        //public int UserId { get; set; }
+        public int UserId { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string UserEmailAddress { get; set; }

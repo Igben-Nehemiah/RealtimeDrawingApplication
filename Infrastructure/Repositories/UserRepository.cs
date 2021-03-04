@@ -1,4 +1,5 @@
 ﻿using Models;
+using System.Collections.Generic;
 using System.Data.Entity;
 
 namespace Infrastructure.Repositories
@@ -15,5 +16,6 @@ namespace Infrastructure.Repositories
         {
             get { return Context as RealtimeDrawingApplicationContext; }
         }
+
     }
 }

@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Create New Account"
         Opacity=".8" 
-        Height="250" 
-        Width="500" 
+        Height="350" 
+        Width="550" 
         Background="#a7b5d1"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0"
@@ -81,7 +81,8 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Text="{Binding FirstName}"/>
         </Border>
 
         <TextBlock Text="Last Name"
@@ -102,7 +103,8 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Text="{Binding LastName}"/>
         </Border>
 
         <TextBlock Text="Email"
@@ -123,7 +125,8 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Text="{Binding EmailAddress}"/>
         </Border>
 
         <TextBlock Text="Password"
@@ -144,7 +147,8 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Text="{Binding Password}"/>
         </Border>
 
         <TextBlock Text="Verify Password"
@@ -165,7 +169,8 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Text="{Binding VerifiedPassword}"/>
         </Border>
 
 
@@ -176,7 +181,8 @@
                 Grid.ColumnSpan="4"
                 Padding="0,0,0,0"
                 Margin="200,0,200,0"
-                Content="Create Account">
+                Content="Create Account"
+                Command="{Binding CreateAccountCommand}">
                 
         </Button>
 

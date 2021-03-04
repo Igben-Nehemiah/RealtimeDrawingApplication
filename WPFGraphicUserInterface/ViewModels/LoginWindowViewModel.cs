@@ -69,10 +69,6 @@ namespace WPFGraphicUserInterface.ViewModels
             throw new NotImplementedException();
         }
         //Login
-        //private bool CanLogin()
-        //{
-        //    return true;
-        //}
         private void Login()
         {
             //Throw LoggedInEvent to StartUpWindowViewModel
@@ -88,33 +84,7 @@ namespace WPFGraphicUserInterface.ViewModels
         }
         private bool IsValidUser()
         {
-            //Perform the test here
-            var userFetchedFromDatabase = SearchDataBaseForUser(UserEmail);
-            if (userFetchedFromDatabase != null)
-            {
-                bool IsValidUser = ValidateUserPassword(userFetchedFromDatabase);
-                return IsValidUser;
-            }
-            return false;
-        }
-        private bool ValidateUserPassword(UserProxy userFetchedFromDatabase)
-        {
-            var databasePassword = userFetchedFromDatabase.UserPassword;
-            if (databasePassword == UserPassword) { return true; }
-            return false;
-        }
-        private UserProxy SearchDataBaseForUser(object userEmail)
-        {
-            var database = UserProxyProvider.GenerateUsers();
-            foreach(var user in database)
-            {
-                if(user.UserEmailAddress == UserEmail)
-                {
-                    User = user;
-                    return user;
-                }
-            }
-            return null;
+            return DAL.IsValidUser(UserEmail, UserPassword, out _user);
         }
     }
 }

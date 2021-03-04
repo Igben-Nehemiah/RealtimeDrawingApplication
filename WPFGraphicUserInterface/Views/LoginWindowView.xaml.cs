@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using WPFUserInterface.Core;
 using Prism.Ioc;
 using WPFGraphicUserInterface.Services;
+using WPFGraphicUserInterface.ViewModels;
 
 namespace WPFGraphicUserInterface.Views
 {
@@ -21,6 +22,7 @@ namespace WPFGraphicUserInterface.Views
     /// </summary>
     public partial class LoginWindowView : Window
     {
+        private CreateAccountWindowViewModel _createAccountWindowViewModel;
         IEventAggregator _eventAggregator;
         bool isValidUser;
         public LoginWindowView()
@@ -28,14 +30,17 @@ namespace WPFGraphicUserInterface.Views
             _eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
             _eventAggregator.GetEvent<SignInStatusEvent>().Subscribe(SetIsValidUser);
             isValidUser = false;
+
             InitializeComponent();
         }
 
         private void SignUpBtn_Click(object sender, RoutedEventArgs e)
         {
-            var _createAccountView = new CreateAccountWindowView();
+            _createAccountWindowViewModel = new CreateAccountWindowViewModel();
+            var _createAccountWindowView = new CreateAccountWindowView();
+            _createAccountWindowView.DataContext = _createAccountWindowViewModel;
             this.Close();
-            _createAccountView.ShowDialog();
+            _createAccountWindowView.ShowDialog();
         }
 
         private void SignInBtn_Click(object sender, RoutedEventArgs e)
