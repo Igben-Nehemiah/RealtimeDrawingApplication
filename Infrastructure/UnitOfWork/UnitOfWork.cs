@@ -1,7 +1,5 @@
 ﻿using Infrastructure.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.UnitOfWork
 {
@@ -23,7 +21,7 @@ namespace Infrastructure.UnitOfWork
 
         public IProjectUserRepository ProjectUsers { get; private set; }
 
-        public IDrawingCanvasObject DrawingCanvasObjects { get; private set; }
+        public IDrawingCanvasObjectRepository DrawingCanvasObjects { get; private set; }
 
         public int Complete()
         {
@@ -41,7 +39,7 @@ namespace Infrastructure.UnitOfWork
         IUserRepository Users { get; }
         IProjectRepository Projects { get; }
         IProjectUserRepository ProjectUsers { get; }
-        IDrawingCanvasObject DrawingCanvasObjects { get; }
+        IDrawingCanvasObjectRepository DrawingCanvasObjects { get; }
         int Complete();
     }
 }

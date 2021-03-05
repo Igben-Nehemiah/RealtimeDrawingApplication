@@ -14,17 +14,8 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class CreateProjectWindowViewModel : BindableBase
     {
-        private ProjectProxy _currentProject;
-        private string _projectName;
-
-        public string ProjectName
-        {
-            get { return _projectName; }
-            set
-            {
-                SetProperty(ref _projectName, value);
-            }
-        }
+        private ProjectProxy _currentProject = new ProjectProxy();
+        
         public ProjectProxy CurrentProject
         {
             get { return _currentProject; }
@@ -46,13 +37,10 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void RaiseCreateProjectEvent()
         {
-            var project = new ProjectProxy();
-            project.ProjectName = ProjectName;
-            project.ProjectCreationDate = DateTime.Now;
             //The creation of a project is done in the main window because the main window holds an instance of the active project
-            if (project.ProjectName != null)
+            if (CurrentProject.ProjectName != null)
             {
-                _eventAggregator.GetEvent<CreateProjectEvent>().Publish(project);
+                _eventAggregator.GetEvent<CreateProjectEvent>().Publish(CurrentProject);
             }
         }
     }

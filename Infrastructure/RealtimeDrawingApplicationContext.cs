@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
+using System.Linq;
 
 namespace Infrastructure
 {
@@ -24,7 +25,7 @@ namespace Infrastructure
             modelBuilder.Entity<User>().HasKey(u => u.UserId);
             modelBuilder.Entity<User>().HasMany(u => u.UserSharedProjects);
             modelBuilder.Entity<User>().HasMany(u => u.UserCreatedProjects)
-                .WithOne(cp => cp.ProjectCreator);
+                                       .WithOne(p => p.ProjectCreator);
 
             //Configuring Project Domain class
             modelBuilder.Entity<Project>().HasKey(p => p.ProjectId);

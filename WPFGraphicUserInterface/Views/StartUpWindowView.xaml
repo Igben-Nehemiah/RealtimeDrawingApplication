@@ -4,8 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WPFGraphicUserInterface.ViewModels"
-        xmlns:prism="http://prismlibrary.com/"
-        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d" Topmost="False"
         Title="{Binding StartUpWindowTitle}" Height="450" Width="800">
 
@@ -41,7 +39,7 @@
 
             <DockPanel DockPanel.Dock="Top" 
                    Background="#6e8bc4">
-                <TextBlock Text="{Binding UserName}"
+                <TextBlock Text="{Binding UserProxy.UserFirstName}"
                            FontSize="14"
                            FontStyle="Italic"
                            FontWeight="DemiBold"

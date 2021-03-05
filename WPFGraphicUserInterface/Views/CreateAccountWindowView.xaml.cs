@@ -33,7 +33,6 @@ namespace WPFGraphicUserInterface.Views
         {
             if (isAcccountCreated)
             {
-             
                 this.Close();
             }
         }

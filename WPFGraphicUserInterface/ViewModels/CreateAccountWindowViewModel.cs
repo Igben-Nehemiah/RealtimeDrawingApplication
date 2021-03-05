@@ -14,47 +14,18 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class CreateAccountWindowViewModel : BindableBase
     {
-        private string _firstName;
-        private string _lastName;
-        private string _emailAddress;
-        private string _password;
         private string _verifiedpassword;
 
-        public string FirstName
-        {
-            get { return _firstName; }
-            set
-            {
-                SetProperty(ref _firstName, value);
-            }
-        }
-        public string LastName
-        {
-            get { return _lastName; }
-            set
-            {
-                SetProperty(ref _lastName, value);
-            }
-        }
+        private UserProxy _userProxy = new UserProxy();
 
-        public string EmailAddress
+        public UserProxy UserProxy
         {
-            get { return _emailAddress; }
+            get { return _userProxy; }
             set
             {
-                SetProperty(ref _emailAddress, value);
+                SetProperty(ref _userProxy, value);
             }
         }
-
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                SetProperty(ref _password, value);
-            }
-        }
-
         public string VerifiedPassword
         {
             get { return _verifiedpassword; }
@@ -64,9 +35,8 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        public UserProxy UserProxy { get; set; }
-
         public DelegateCommand CreateAccountCommand { get; set; }
+
 
         IEventAggregator _eventAggregator;
         public CreateAccountWindowViewModel()
@@ -77,8 +47,6 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
         }
 
-        
-
         private bool CanExecuteCreateAccount()
         {
             return true;
@@ -87,30 +55,24 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ExecuteCreateAccount()
         {
             //If entries pass validation
-            if (VerifiedPassword == Password)
+            if (VerifiedPassword == UserProxy.UserPassword)
             {
-                UserProxy = new UserProxy();
-                UserProxy.UserFirstName = FirstName;
-                UserProxy.UserLastName = LastName;
-                UserProxy.UserPassword = Password;
-                UserProxy.UserEmailAddress = EmailAddress;
+                //Perform check here
 
-                //Perform checks here
-
-                DAL.AddNewUserToDatabase(UserProxy);
+                DAL.AddUserToDatabase(UserProxy);
 
                 var startUpWindowView = new StartUpWindowView();
                 var startUpWindowViewModel = new StartUpWindowViewModel(_eventAggregator);
-                startUpWindowView.DataContext = startUpWindowViewModel;
 
-                _eventAggregator.GetEvent<AccountCreationStatusEvent>().Publish(true);
-                _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(UserProxy);
-                //if succesful 
-                
+                startUpWindowView.DataContext = startUpWindowViewModel;
                 startUpWindowView.Visibility = System.Windows.Visibility.Visible;
+
+                DAL.IsApplicationUser(UserProxy.UserEmailAddress, out _userProxy);
+
+                _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(UserProxy);
+                _eventAggregator.GetEvent<AccountCreationStatusEvent>().Publish(true);
             }
+            //check password
         }
     }
-
-    
 }

@@ -1,10 +1,12 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
@@ -17,8 +19,7 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public interface ISelectedObject
     {
-        ControlEnum ControlType { get; set; }
-        int SelectedObjectFontsize { get; set; }
+        string ControlType { get; set; }
         string SelectedObjectTitle { get; set; }
         double SelectedObjectWidth { get; set; }
         double SelectedObjectHeight { get; set; }
@@ -33,8 +34,7 @@ namespace WPFGraphicUserInterface.ViewModels
     {
         private RightPaneViewModel _rightPaneViewModel;
         private FrameworkElement _rightPaneContentControl;
-        private UserProxy _user;
-        private string _userName;
+        private UserProxy _userProxy;
         private ProjectProxy _activeProject;
         private string _statusBarMessage;
         private MenuPaneViewModel _menuPaneViewModel;
@@ -52,12 +52,12 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _drawingCanvas, value);
             }
         }
-        public UserProxy User
+        public UserProxy UserProxy
         {
-            get { return _user; }
+            get { return _userProxy; }
             set
             {
-                SetProperty(ref _user, value);
+                SetProperty(ref _userProxy, value);
             }
         }
         public string StatusBarMessage
@@ -74,14 +74,6 @@ namespace WPFGraphicUserInterface.ViewModels
             set
             {
                 SetProperty(ref _activeProject, value);
-            }
-        }
-        public string UserName 
-        { 
-            get { return _userName; }
-            set
-            {
-                SetProperty(ref _userName, value);
             }
         }
 
@@ -103,7 +95,6 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
         //Start up window property
-        public string StartUpWindowTitle { get; set; } = "Start Up Window";
         public FrameworkElement MenuContentControl
         { get => _menuContentControl;
             set
@@ -111,17 +102,12 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _menuContentControl, value);
             }
         }
+        public string StartUpWindowTitle { get; set; } = "Realtime Drawing Application";
 
         //Commands
         public DelegateCommand AddsharedUserFromTopPaneCommand { get; set; }
         public DelegateCommand ShowMenuCommand { get; set; }
         public DelegateCommand ShowRightPaneCommand { get; set; }
-
-        //Helpers
-        public class RightPaneOption
-        {
-            public string OptionName { get; set; }
-        }
 
         public IEventAggregator _eventAggregator;
 
@@ -158,28 +144,48 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ExportProject(string exportType)
         {
             StatusBarMessage = $"Starting Export as {exportType}";
-            try
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            if (saveFileDialog.ShowDialog() == true)
             {
-                ExporterImporter.Export(ActiveProject, exportType.ToLower());
-            }
-            catch (Exception)
-            {
-                StatusBarMessage = $"Something went wrong!";
+                var filePath = saveFileDialog.FileName;
+                ExporterImporter.Export(ActiveProject, filePath, exportType);
             }
 
+            StatusBarMessage = $"Finished Exporting as {exportType.ToUpper()}";
         }
 
         private void ImportProject(string importType)
         {
             StatusBarMessage = $"Starting Import as {importType}";
-            try
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == true)
             {
-                ExporterImporter.Import(ActiveProject, importType.ToLower());
+                var filePath = openFileDialog.FileName;
+
+                ActiveProject.ProjectDrawingCanvasObjects = (List<DrawingCanvasObjectProxy>)ExporterImporter.Import(filePath, importType);
+
+                //Set up drawing canvas
+                DrawingCanvas = new DrawingCanvas();
+
+                foreach (var drawingObj in ActiveProject.ProjectDrawingCanvasObjects)
+                {
+                    DrawingCanvas.Children.Add(drawingObj);
+                   // var element = drawingObj as FrameworkElement;
+                   //Create ISelectedObject
+
+                    DrawingCanvas.SetItemOnCanvas(drawingObj, drawingObj.XPosition, drawingObj.YPosition);
+                    //DrawingCanvas.SetLeft(drawingObj, drawingObj.XPosition);
+                    //DrawingCanvas.SetTop(drawingObj, drawingObj.YPosition);
+                }
             }
-            catch (Exception)
-            {
-                StatusBarMessage = $"Something went wrong!";
-            }
+
+            //Check later if import is successful
+            StatusBarMessage = $"Import as {importType} complete!";
+
         }
 
         private void SaveProject()
@@ -197,10 +203,14 @@ namespace WPFGraphicUserInterface.ViewModels
                     ActiveProject.ProjectDrawingCanvasObjects.Add(item);
                 }
 
-                User.UserCreatedProjects.Add(ActiveProject);
+                ActiveProject.ProjectId = DAL.LoadProjectFromDatabase(UserProxy, ActiveProject.ProjectName).ProjectId;
+
+                DAL.SaveProjectDrawingCanvasObjectsToDB(ActiveProject.ProjectDrawingCanvasObjects, ActiveProject);
+
+                //UserProxy.UserCreatedProjects.Add(ActiveProject);
                 StatusBarMessage = "Project Saved";
 
-                _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(User.UserCreatedProjects);
+                _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(UserProxy.UserCreatedProjects);
             }
             else
             {
@@ -214,19 +224,31 @@ namespace WPFGraphicUserInterface.ViewModels
             var item = new DrawingCanvasObjectProxy();
             item.XPosition = ch.SelectedObjectXPos;
             item.YPosition = ch.SelectedObjectYPos;
+            item.Height = ch.SelectedObjectHeight;
+            item.Width = ch.SelectedObjectWidth;
+            //item.BorderFill = ch.SelectedObjectBorder.ToString();
+            //item.ShapeFill = ch.SelectedObjectFill.ToString();
+            item.CanvasObjectName = ch.SelectedObjectTitle;
+            item.Project = ActiveProject;
+            //item.CanvasObjectGuid = ch.SelectedObjectId.ToString();
             //other things
             return item;
         }
 
         private void AddUserToShareProjectWith(UserProxy sharedUser)
         {
+            if (sharedUser == null)
+            {
+                _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
+                return;
+            }
             //Should not be able to add self to shared users
             //should be able to shared if project has been created
             if (_activeProject != null)
             {
                 StatusBarMessage = $"Adding {sharedUser.UserEmailAddress} to list of shared users!";
                 _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
-                var sharedProjectFullname = ActiveProject.ProjectName + "_" + User.UserEmailAddress;
+                var sharedProjectFullname = ActiveProject.ProjectName + "_" + UserProxy.UserEmailAddress;
                 if (shared.ContainsKey(sharedProjectFullname))
                 {
                     shared[sharedProjectFullname].Add(sharedUser.UserEmailAddress);
@@ -248,31 +270,28 @@ namespace WPFGraphicUserInterface.ViewModels
         private void SetActiveProject(ProjectProxy createdProject)
         {
             _menuPaneViewModel.createProjectWindowView.Visibility = Visibility.Collapsed;
-            //Check if project name exists in user projects
-            if (User.UserCreatedProjects != null)
-            {
-                var userCreatedProjects = User.UserCreatedProjects;
-                foreach(var project in userCreatedProjects)
-                {
-                    if(createdProject.ProjectName == project.ProjectName)
-                    {
-                        //Exit method
-                        //Creation Not successful
 
+            //Check if project name exists in user projects
+            if (UserProxy.UserCreatedProjects.Count != 0)
+            {
+                //Setting up local variable for easy access
+                var userCreatedProjects = UserProxy.UserCreatedProjects;
+
+                foreach(var existingProject in userCreatedProjects)
+                {
+                    if(createdProject.ProjectName == existingProject.ProjectName)
+                    {
+                        //Creation Not successful
                         _menuPaneViewModel.createProjectWindowView.Visibility = Visibility.Visible;
                         MessageBox.Show("Project name already exists!");
                         return;
                     }
                 }
             }
-            else
-            {
-                User.UserCreatedProjects = new List<ProjectProxy>();
-            }
-
+            //Set up drawing canvas
             DrawingCanvas = new DrawingCanvas();
-            //Make user project creator
-            createdProject.ProjectCreator = User;
+            //Make user project creatorId
+            createdProject.ProjectCreator = UserProxy;
             //Initialize drawing canvas
 
             createdProject.ProjectDrawingCanvasObjects = new List<DrawingCanvasObjectProxy>();
@@ -283,7 +302,10 @@ namespace WPFGraphicUserInterface.ViewModels
             //Make project active project
             ActiveProject = createdProject;
 
-            //User.UserCreatedProjects.Add(createdProject);
+            ActiveProject.ProjectCreationDate = DateTime.Now;
+
+            //Add newly created project to the database
+            DAL.AddProjectToDatabase(ActiveProject);
 
             //Set the project name on the menu pane
             _menuPaneViewModel.ProjectName = createdProject.ProjectName;
@@ -292,15 +314,17 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         //Set User
-        private void SetUser(UserProxy user)
+        private void SetUser(UserProxy pUserProxy)
         {
-            User = user;
-            UserName = User.UserFirstName + " " + User.UserLastName;
+            UserProxy = pUserProxy;
+
             //Load user projects
+            pUserProxy.UserCreatedProjects = DAL.LoadUserProjectsFromDatabase(pUserProxy).ToList();
+
             
-            if (user.UserCreatedProjects != null)
+            if (pUserProxy.UserCreatedProjects.Count != 0)
             {
-                _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(user.UserCreatedProjects);
+                _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(pUserProxy.UserCreatedProjects);
             }
         }
 

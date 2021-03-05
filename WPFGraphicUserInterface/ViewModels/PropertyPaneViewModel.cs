@@ -2,7 +2,10 @@
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -10,8 +13,22 @@ using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
-    public class PropertyPaneViewModel : INotifyPropertyChanged
+    public class PropertyPaneViewModel :  INotifyPropertyChanged
     {
+        private ObservableCollection<ComboBoxColour> _comboBoxColours;
+        public ObservableCollection<ComboBoxColour> ComboBoxColours
+        {
+            get { return _comboBoxColours; }
+            set { _comboBoxColours = value; }
+        }
+
+        public class ComboBoxColour
+        {
+            public string ColourName { get; set; }
+            public Brush ColourBrush { get; set; }
+
+        }
+
         private ISelectedObject _focusedCanvasDrawingObject;
         public ISelectedObject FocusedCanvasDrawingObject
         {
@@ -25,8 +42,8 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         private string _title;
-        private double _width;
         private double _height;
+        private double _width;
         private Brush _fill;
         private Brush _border;
         private double _xPos;
@@ -122,6 +139,18 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Subscribe(ChangeFocusedObjectProperties);
             //_eventAggregator.GetEvent<PropertyPaneChangedEvent>().Publish()
+
+            ComboBoxColours = new ObservableCollection<ComboBoxColour>();
+
+            var brushNames = BrushesProvider.GetBrushNames();
+            var brushes = BrushesProvider.GetBrushes();
+
+            for (int i = 0; i < brushNames.Count ; i++)
+            {
+                var Colour = new ComboBoxColour { ColourName = brushNames[i], ColourBrush = brushes[i] };
+
+                ComboBoxColours.Add(Colour);
+            }
         }
 
         private void ChangeFocusedObjectProperties(ISelectedObject focusedItem)
@@ -135,6 +164,11 @@ namespace WPFGraphicUserInterface.ViewModels
                 Width = item.SelectedObjectWidth;
                 XPos = item.SelectedObjectXPos;
                 YPos = item.SelectedObjectYPos;
+                Fill = item.SelectedObjectFill;
+                Border = item.SelectedObjectBorder;
+                Title = item.SelectedObjectTitle;
+
+                
                 FocusedCanvasDrawingObject = item;
             }
         }
@@ -150,7 +184,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 FocusedCanvasDrawingObject.SelectedObjectBorder = Border;
                 FocusedCanvasDrawingObject.SelectedObjectFill = Fill;
                 FocusedCanvasDrawingObject.SelectedObjectTitle = Title;
-
             }
         }
 
@@ -161,7 +194,26 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<PropertyPaneChangedEvent>().Publish(FocusedCanvasDrawingObject);
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            
+        }
+    }
+
+    public static class BrushesProvider
+    {
+        public static List<Brush> GetBrushes()
+        {
+            var brushDictionary = typeof(Brushes).GetProperties().
+                    Select(p => new { Name = p.Name, Brush = p.GetValue(null) as Brush }).
+                    ToList();
+
+            return brushDictionary.Select(v => v.Brush).ToList();
+        }
+
+        public static List<string> GetBrushNames()
+        {
+            var brushDictionary = typeof(Brushes).GetProperties().
+                    Select(p => new { Name = p.Name, Brush = p.GetValue(null) as Brush }).
+                    ToList();
+            return brushDictionary.Select(v => v.Name).ToList();
         }
     }
 }

@@ -12,8 +12,7 @@ namespace Models
         public string UserPassword { get; set; }
 
         //Navigation properties
-        public virtual ICollection<Project> UserCreatedProjects { get; set; }
-        public virtual ICollection<ProjectUser> UserSharedProjects { get; set; }
+        public virtual List<Project> UserCreatedProjects { get; set; }
+        public virtual List<ProjectUser> UserSharedProjects { get; set; }
     }
-
 }

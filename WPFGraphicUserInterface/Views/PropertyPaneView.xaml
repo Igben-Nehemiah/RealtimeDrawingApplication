@@ -22,7 +22,17 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
+
+            <Label Content="{Binding Title, FallbackValue=Item Type}"
+                   FontSize="12"
+                   FontWeight="DemiBold"
+                   HorizontalAlignment="Center"
+                   Margin="5,5"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="3"/>
 
             <Label Content="X"
                    FontSize="12"
@@ -30,7 +40,7 @@
                    HorizontalAlignment="Left"
                    Margin="5,5"
                    Grid.Column="0"
-                   Grid.Row="0"/>
+                   Grid.Row="1"/>
 
             <TextBox
                 Text="{Binding XPos}"
@@ -41,7 +51,7 @@
                 BorderThickness="1"
                 Margin="5,5"
                 Grid.Column="1" Grid.ColumnSpan="2"
-                Grid.Row="0"/>
+                Grid.Row="1"/>
 
             <Label Content="Y"
                    FontSize="12"
@@ -49,7 +59,7 @@
                    HorizontalAlignment="Left"
                    Margin="5,5"
                    Grid.Column="0"
-                   Grid.Row="1"/>
+                   Grid.Row="2"/>
 
             <TextBox
                 Text="{Binding YPos}"
@@ -60,7 +70,7 @@
                 BorderThickness="1"
                 Margin="5,5"
                 Grid.Column="1" Grid.ColumnSpan="2"
-                Grid.Row="1"/>
+                Grid.Row="2"/>
 
             <Label Content="Width"
                    FontSize="12"
@@ -68,7 +78,7 @@
                    HorizontalAlignment="Left"
                    Margin="5,5"
                    Grid.Column="0"
-                   Grid.Row="2"/>
+                   Grid.Row="3"/>
 
             <TextBox
                 Text="{Binding Width}"
@@ -79,7 +89,7 @@
                 BorderThickness="1"
                 Margin="5,5"
                 Grid.Column="1" Grid.ColumnSpan="2"
-                Grid.Row="2"/>
+                Grid.Row="3"/>
 
             <Label Content="Height"
                    FontSize="12"
@@ -87,7 +97,7 @@
                    HorizontalAlignment="Left"
                    Margin="5,5"
                    Grid.Column="0"
-                   Grid.Row="3"/>
+                   Grid.Row="4"/>
 
             <TextBox
                 Text="{Binding Height}"
@@ -98,7 +108,7 @@
                 BorderThickness="1"
                 Margin="5,5"
                 Grid.Column="1" Grid.ColumnSpan="2"
-                Grid.Row="3"/>
+                Grid.Row="4"/>
 
             <Label Content="Fill"
                    FontSize="12"
@@ -106,33 +116,24 @@
                    HorizontalAlignment="Left"
                    Margin="5,5"
                    Grid.Column="0"
-                   Grid.Row="4"/>
+                   Grid.Row="5"/>
 
-            <Grid Grid.Column="1" Grid.ColumnSpan="2"
-                Grid.Row="4" >
+            <ComboBox HorizontalContentAlignment="Stretch"
+                          Grid.Column="1" Grid.ColumnSpan="2"
+                Grid.Row="5"
+                      Margin="5,5">
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.RowSpan="3" Grid.Column="2"/>
+                        <TextBlock Text="{Binding Title}" />
+                    </Grid>
+                </DataTemplate>
+            </ComboBox>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Background="Red"
-                           Height="20" Width="20"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                           Margin="5,5"
-                           Grid.Column="0"
-                           Grid.Row="0"/>
-                <TextBlock Text="Red"
-                           FontSize="12"
-                            FontWeight="DemiBold"
-                            TextAlignment="Center"
-                           HorizontalAlignment="Left"
-                            Margin="5,5"
-                            VerticalAlignment="Center"
-                            Grid.Column="1"
-                            Grid.Row="0"/>
-            </Grid>
 
             <Label Content="Border"
                    FontSize="12"
@@ -140,33 +141,27 @@
                    HorizontalAlignment="Left"
                    Margin="5,5"
                    Grid.Column="0"
-                   Grid.Row="5"/>
+                   Grid.Row="6"/>
 
-            <Grid Grid.Column="1" Grid.ColumnSpan="2"
-                Grid.Row="5" >
+            <ComboBox HorizontalContentAlignment="Stretch"
+                          Grid.Column="1" Grid.ColumnSpan="2"
+                Grid.Row="6"
+                      Margin="5,5" ItemsSource="{Binding ComboBoxColours}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Background="{Binding ComboBoxColours.ColourName}"/>
+                            <TextBlock Text="{Binding ComboBoxColours.ColourBrush}" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                
+            </ComboBox>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Background="Blue"
-                           Height="20" Width="20"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                           Margin="5,5"
-                           Grid.Column="0"
-                           Grid.Row="0"/>
-                <TextBlock Text="Blue"
-                           FontSize="12"
-                            FontWeight="DemiBold"
-                            TextAlignment="Center"
-                           HorizontalAlignment="Left"
-                            Margin="5,5"
-                            VerticalAlignment="Center"
-                            Grid.Column="1"
-                            Grid.Row="0"/>
-            </Grid>
 
         </Grid>
     </StackPanel>

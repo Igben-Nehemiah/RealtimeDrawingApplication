@@ -11,8 +11,8 @@ namespace WPFGraphicUserInterface.ModelProxies
         public bool CanEdit { get; set; }
 
         //Navigation Properties
-        public virtual ICollection<DrawingCanvasObjectProxy> ProjectDrawingCanvasObjects { get; set; }
-        public virtual ICollection<ProjectUserProxy> SharedUsers { get; set; }
+        public virtual List<DrawingCanvasObjectProxy> ProjectDrawingCanvasObjects { get; set; }
+        public virtual List<ProjectUserProxy> SharedUsers { get; set; }
         public virtual UserProxy ProjectCreator { get; set; }
     }
 }

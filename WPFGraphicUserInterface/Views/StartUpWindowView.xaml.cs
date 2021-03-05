@@ -39,19 +39,19 @@ namespace WPFGraphicUserInterface.Views
         {
             FrameworkElement component = null;
 
-            if (sender is Rectangle rectangle)
+            if (sender is Rectangle)
             {
                 component = DrawingComponentService.GetDefaultComponent(ControlEnum.Rectangle);
             }
-            else if (sender is Ellipse ellipse)
+            else if (sender is Ellipse)
             {
                 component = DrawingComponentService.GetDefaultComponent(ControlEnum.Ellipse);
             }
-            else if (sender is Path path)
+            else if (sender is Path)
             {
                 component = DrawingComponentService.GetDefaultComponent(ControlEnum.Path);
             }
-            else if (sender is TextBlock textBlock)
+            else if (sender is TextBlock)
             {
                 component = DrawingComponentService.GetDefaultComponent(ControlEnum.TextBox);
             }
@@ -59,7 +59,7 @@ namespace WPFGraphicUserInterface.Views
             if (component != null)
             {
                 DataObject dataObject = new DataObject("toolboxitem", component);
-                DragDrop.DoDragDrop(component as FrameworkElement, dataObject, DragDropEffects.Copy);
+                DragDrop.DoDragDrop(component, dataObject, DragDropEffects.Copy);
             }
         }
     }
@@ -74,7 +74,7 @@ namespace WPFGraphicUserInterface.Views
             }
             else
             {
-                return new ShapeComponent(GetDefaultShapeGeometry(component));
+                return new ShapeComponent(GetDefaultShapeGeometry(component), component);
             }
         }
 
@@ -98,20 +98,27 @@ namespace WPFGraphicUserInterface.Views
 
     public class ShapeComponent : Shape, ISelectedObject
     {
-        public ShapeComponent(Geometry geometry)
+        public ShapeComponent(Geometry geometry, ControlEnum shapeType)
         {
             Geometry = geometry;
-            Fill = Brushes.Black;
-            Width = 50;
-            Height = 50;
+            SelectedObjectFill = Brushes.Black;
+            SelectedObjectBorder = Brushes.Black;
+            SelectedObjectWidth = 50;
+            SelectedObjectHeight = 50;
+            ControlType = shapeType.ToString();
+            SelectedObjectTitle = shapeType.ToString();
+
+            Fill = SelectedObjectFill;
+            Stroke = SelectedObjectBorder;
+            Width = SelectedObjectWidth;
+            Height = SelectedObjectHeight;
         }
 
-        public ControlEnum ControlType { get; set; }
-        public int SelectedObjectFontsize { get; set; }
+        public string ControlType { get; set; }
         public string SelectedObjectTitle { get; set; }
-        public double SelectedObjectWidth { get; set; } = 50;
-        public double SelectedObjectHeight { get; set; } = 50;
-        public Brush SelectedObjectFill { get; set; } = Brushes.Black;
+        public double SelectedObjectWidth { get; set; }
+        public double SelectedObjectHeight { get; set; }
+        public Brush SelectedObjectFill { get; set; }
         public Brush SelectedObjectBorder { get; set; }
         public double SelectedObjectXPos { get; set; }
         public double SelectedObjectYPos { get; set; }
@@ -125,18 +132,23 @@ namespace WPFGraphicUserInterface.Views
     {
         public TextBoxComponent(double width = 60, double height = 20, string text = "Text")
         {
-            Width = width;
-            Height = height;
+            SelectedObjectWidth = width;
+            SelectedObjectHeight = height;
             Text = text;
+            ControlType = ControlEnum.TextBox.ToString();
+
+            Background = SelectedObjectFill;
+            //Stroke = SelectedObjectBorder;
+            Width = SelectedObjectWidth;
+            Height = SelectedObjectHeight;
         }
 
-        public ControlEnum ControlType { get; set; }
-        public int SelectedObjectFontsize { get; set; }
-        public string SelectedObjectTitle { get; set; }
+        public string ControlType { get; set; }
+        public string SelectedObjectTitle { get; set; } = "Text Block";
         public double SelectedObjectWidth { get; set; }
         public double SelectedObjectHeight { get; set; }
-        public Brush SelectedObjectFill { get; set; }
-        public Brush SelectedObjectBorder { get; set; }
+        public Brush SelectedObjectFill { get; set; } = Brushes.Black;
+        public Brush SelectedObjectBorder { get; set; } = Brushes.Black;
         public double SelectedObjectXPos { get; set; }
         public double SelectedObjectYPos { get; set; }
         public Guid SelectedObjectId { get; set; } = Guid.NewGuid();

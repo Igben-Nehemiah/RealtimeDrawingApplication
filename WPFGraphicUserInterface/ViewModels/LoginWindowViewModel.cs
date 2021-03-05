@@ -76,6 +76,8 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 var startUpWindowView = new StartUpWindowView();
 
+                startUpWindowView.DataContext = new StartUpWindowViewModel(_eventAggregator);
+
                 _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(User);
 
                 startUpWindowView.Show();

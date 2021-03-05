@@ -180,27 +180,21 @@ namespace WPFGraphicUserInterface.ViewModels
 
         public void ShowShareProjectWindow()
         {
-            if (shareProjectWindowView == null)
-            {
-                shareProjectWindowView = new ShareProjectWindowView();
-                _shareProjectWindowViewModel = new ShareProjectWindowViewModel(_eventAggregator);
-            }
-            
-            shareProjectWindowView.DataContext = _shareProjectWindowViewModel;
+            shareProjectWindowView = new ShareProjectWindowView();
+            _shareProjectWindowViewModel = new ShareProjectWindowViewModel(_eventAggregator);
+            //shareProjectWindowView.DataContext = _shareProjectWindowViewModel;
             shareProjectWindowView.ShowDialog();
         }
 
         //Share Project
         private void ShowCreateProjectWindow()
         {
-            if (createProjectWindowView == null)
-            {
-                createProjectWindowView = new CreateProjectWindowView();
-                _createProjectWindowViewModel = new CreateProjectWindowViewModel(_eventAggregator);
-            }
+
+            createProjectWindowView = new CreateProjectWindowView();
+            _createProjectWindowViewModel = new CreateProjectWindowViewModel(_eventAggregator);
+           
             createProjectWindowView.DataContext = _createProjectWindowViewModel;
             createProjectWindowView.ShowDialog();
-            
         }
 
         //Pop up options selection

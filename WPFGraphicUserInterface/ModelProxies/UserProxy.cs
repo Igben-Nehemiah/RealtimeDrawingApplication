@@ -13,7 +13,7 @@ namespace WPFGraphicUserInterface.ModelProxies
         public string UserPassword { get; set; }
 
         //Navigation properties
-        public virtual ICollection<ProjectProxy> UserCreatedProjects { get; set; }
-        public virtual ICollection<SharedProxy> UserSharedProjects { get; set; }
+        public virtual List<ProjectProxy> UserCreatedProjects { get; set; }
+        public virtual List<SharedProxy> UserSharedProjects { get; set; }
     }
 }

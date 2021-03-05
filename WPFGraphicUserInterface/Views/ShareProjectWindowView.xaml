@@ -69,7 +69,7 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     Text="{Binding SharedUserEmailAddress}"
+                     Text="{Binding SharedUser.UserEmailAddress}"
                      TextAlignment="Left"/>
         </Border>
         

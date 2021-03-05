@@ -4,6 +4,7 @@
     {
         public int ProjectId { get; set; }
         public int UserId { get; set; }
+        public bool CanEdit { get; set; }
 
         //Navigation Properties
         public virtual Project SharedProject { get; set; }

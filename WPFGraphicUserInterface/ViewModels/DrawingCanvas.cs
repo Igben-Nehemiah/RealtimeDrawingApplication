@@ -56,7 +56,7 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 //FrameworkElement component = null;
 
-                foreach(FrameworkElement item in Children)
+                foreach(UIElement item in Children)
                 {
                     var _item = (ISelectedObject)item;
 
@@ -103,8 +103,6 @@ namespace WPFGraphicUserInterface.ViewModels
                     EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(model);
                 }
             }
-            //    }
-            //}
         }
 
         private MouseButtonEventArgs _mouseButtonEventArgs;
@@ -148,8 +146,10 @@ namespace WPFGraphicUserInterface.ViewModels
                 
                 //The drawing canvas can accept UIElement and its derivatives
                 FocusedDrawingElement = FocusedCanvasItem as FrameworkElement;
-                SetLeft(FocusedDrawingElement, xPos);
-                SetTop(FocusedDrawingElement, yPos);
+
+                //SetLeft(FocusedDrawingElement, xPos);
+                //SetTop(FocusedDrawingElement, yPos);
+                SetItemOnCanvas(FocusedDrawingElement, xPos, yPos);
                 Children.Add(FocusedDrawingElement);
             }
         }
@@ -159,6 +159,12 @@ namespace WPFGraphicUserInterface.ViewModels
         protected void OnPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SetItemOnCanvas(UIElement element, double xPos, double yPos)
+        {
+            SetLeft(element, xPos);
+            SetTop(element, yPos);
         }
     }
 }

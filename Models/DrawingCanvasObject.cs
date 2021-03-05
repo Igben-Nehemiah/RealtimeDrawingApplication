@@ -14,5 +14,9 @@ namespace Models
         public string BorderFill { get; set; }
         public double Width {get; set; }
         public double Height { get; set; }
+        public string ItemType { get; set; }
+
+        //Navigation Property
+        public virtual Project Project { get; set; }
     }
 }

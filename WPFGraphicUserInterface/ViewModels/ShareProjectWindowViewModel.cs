@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Windows;
+using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Services;
 using WPFUserInterface.Core;
 
@@ -10,13 +11,24 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class ShareProjectWindowViewModel : BindableBase
     {
-        private string _sharedUserEmailAddress = "sarahallen@gmail.com";
-        public string SharedUserEmailAddress
+        //private string _sharedUserEmailAddress = "sarahallen@gmail.com";
+        //public string SharedUserEmailAddress
+        //{
+        //    get { return _sharedUserEmailAddress; }
+        //    set
+        //    {
+        //        SetProperty(ref _sharedUserEmailAddress, value);
+        //    }
+        //}
+
+        private UserProxy _sharedUser = new UserProxy();
+        
+        public UserProxy SharedUser
         {
-            get { return _sharedUserEmailAddress; }
+            get { return _sharedUser; }
             set
             {
-                SetProperty(ref _sharedUserEmailAddress, value);
+                SetProperty(ref _sharedUser, value);
             }
         }
 
@@ -38,18 +50,16 @@ namespace WPFGraphicUserInterface.ViewModels
         private void AddSharedUser()
         {
             //Perform validation
-            var userDatabase = UserProxyProvider.GenerateUsers();
-            foreach (var user in userDatabase)
+            var isApplicationUser = DAL.IsApplicationUser(SharedUser.UserEmailAddress, out _sharedUser);
+
+            if (isApplicationUser)
             {
-                if (user.UserEmailAddress == SharedUserEmailAddress)
-                {
-                    _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(user);
-                    return;
-                }
+                _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(SharedUser);
+                return;
             }
             //Email Address not registered in db
+            _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(null);
             MessageBox.Show("Email Addres not registered!");
-
         }
     }
 }

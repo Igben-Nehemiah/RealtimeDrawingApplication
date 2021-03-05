@@ -82,7 +82,7 @@
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      TextAlignment="Left"
-                     Text="{Binding FirstName}"/>
+                     Text="{Binding UserProxy.UserFirstName}"/>
         </Border>
 
         <TextBlock Text="Last Name"
@@ -104,7 +104,7 @@
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      TextAlignment="Left"
-                     Text="{Binding LastName}"/>
+                     Text="{Binding UserProxy.UserLastName}"/>
         </Border>
 
         <TextBlock Text="Email"
@@ -126,7 +126,7 @@
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      TextAlignment="Left"
-                     Text="{Binding EmailAddress}"/>
+                     Text="{Binding UserProxy.UserEmailAddress}"/>
         </Border>
 
         <TextBlock Text="Password"
@@ -148,7 +148,7 @@
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      TextAlignment="Left"
-                     Text="{Binding Password}"/>
+                     Text="{Binding UserProxy.UserPassword}"/>
         </Border>
 
         <TextBlock Text="Verify Password"

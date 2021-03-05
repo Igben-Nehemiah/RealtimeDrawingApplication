@@ -40,7 +40,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
 
@@ -69,7 +68,7 @@
             <TextBox FontSize="12" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
-                     Text="{Binding ProjectName}"
+                     Text="{Binding CurrentProject.ProjectName}"
                      TextAlignment="Left"/>
         </Border>
 
@@ -103,7 +102,7 @@
 
         <Button 
             Grid.Column="0" 
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.ColumnSpan="4"
             Margin="200,5,200,5"
             Background="Gray"
