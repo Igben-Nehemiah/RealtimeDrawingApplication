@@ -19,7 +19,7 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public interface ISelectedObject
     {
-        string ControlType { get; set; }
+        ControlEnum ControlType { get; set; }
         string SelectedObjectTitle { get; set; }
         double SelectedObjectWidth { get; set; }
         double SelectedObjectHeight { get; set; }
@@ -166,27 +166,44 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 var filePath = openFileDialog.FileName;
 
-                ActiveProject.ProjectDrawingCanvasObjects = (List<DrawingCanvasObjectProxy>)ExporterImporter.Import(filePath, importType);
+                var drawingCanvasObjects = (List<DrawingCanvasObjectProxy>)ExporterImporter.Import(filePath, importType);
 
                 //Set up drawing canvas
                 DrawingCanvas = new DrawingCanvas();
 
-                foreach (var drawingObj in ActiveProject.ProjectDrawingCanvasObjects)
+                foreach (var drawingObj in drawingCanvasObjects)
                 {
-                    DrawingCanvas.Children.Add(drawingObj);
-                   // var element = drawingObj as FrameworkElement;
-                   //Create ISelectedObject
+                    var drawingObjFrameworkElement = new FrameworkElement();
 
+                    drawingObj.Project = ActiveProject;
+
+                    var item = drawingObj as ISelectedObject;
+
+                    if (item is ShapeComponent sh)
+                    {
+                        sh.Fill = item.SelectedObjectFill;
+                        sh.Height = item.SelectedObjectHeight;
+                        sh.Width = item.SelectedObjectWidth;
+                        sh.Stroke = item.SelectedObjectBorder;
+                        sh.StrokeThickness = 3;
+                        sh.SelectedObjectXPos = item.SelectedObjectXPos;
+                        sh.SelectedObjectYPos = item.SelectedObjectYPos;
+
+                        sh.Stretch = Stretch.Fill;
+
+                        drawingObjFrameworkElement = sh;
+                    }
+                   
                     DrawingCanvas.SetItemOnCanvas(drawingObj, drawingObj.XPosition, drawingObj.YPosition);
-                    //DrawingCanvas.SetLeft(drawingObj, drawingObj.XPosition);
-                    //DrawingCanvas.SetTop(drawingObj, drawingObj.YPosition);
+
+                    DrawingCanvas.Children.Add(drawingObjFrameworkElement);
                 }
             }
-
             //Check later if import is successful
             StatusBarMessage = $"Import as {importType} complete!";
 
         }
+
 
         private void SaveProject()
         {
@@ -219,21 +236,33 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         //Helper function to unpack a child from a canvas to a drawing canvas object 
-        private DrawingCanvasObjectProxy UnpackProperties(ISelectedObject ch)
+        private DrawingCanvasObjectProxy UnpackProperties(ISelectedObject obj)
         {
             var item = new DrawingCanvasObjectProxy();
-            item.XPosition = ch.SelectedObjectXPos;
-            item.YPosition = ch.SelectedObjectYPos;
-            item.Height = ch.SelectedObjectHeight;
-            item.Width = ch.SelectedObjectWidth;
-            //item.BorderFill = ch.SelectedObjectBorder.ToString();
-            //item.ShapeFill = ch.SelectedObjectFill.ToString();
-            item.CanvasObjectName = ch.SelectedObjectTitle;
+            item.XPosition = obj.SelectedObjectXPos;
+            item.YPosition = obj.SelectedObjectYPos;
+            item.Height = obj.SelectedObjectHeight;
+            item.Width = obj.SelectedObjectWidth;
+            item.BorderFill = BrushConverterHelper.ConvertToString(obj.SelectedObjectBorder);
+            item.ShapeFill = BrushConverterHelper.ConvertToString(obj.SelectedObjectFill);
+            item.CanvasObjectName = obj.SelectedObjectTitle;
             item.Project = ActiveProject;
-            //item.CanvasObjectGuid = ch.SelectedObjectId.ToString();
-            //other things
+            item.CanvasObjectName = obj.SelectedObjectTitle;
+            item.CanvasObjectGuid = obj.SelectedObjectId.ToString();
+
             return item;
         }
+
+        //private ISelectedObject PackProperties(DrawingCanvasObjectProxy obj)
+        //{
+        //    var item = new FrameworkElement();
+        //    if (obj.CanvasObjectName == Enum.Parse(ControlEnum, obj.CanvasObjectName))
+        //    {
+
+        //    }
+
+        //    return item as ISelectedObject;
+        //}
 
         private void AddUserToShareProjectWith(UserProxy sharedUser)
         {

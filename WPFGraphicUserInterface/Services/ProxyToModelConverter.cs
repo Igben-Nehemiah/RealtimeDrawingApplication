@@ -44,7 +44,8 @@ namespace WPFGraphicUserInterface.Services
             drawingCanvasObjectModel.CanvasObjectGuid = drawingCanvasObjectProxy.CanvasObjectGuid;
             drawingCanvasObjectModel.CanvasObjectId = drawingCanvasObjectProxy.CanvasObjectId;
             drawingCanvasObjectModel.BorderFill = drawingCanvasObjectProxy.BorderFill;
-            drawingCanvasObjectModel.ItemType = drawingCanvasObjectProxy.ItemType;
+            drawingCanvasObjectModel.CanvasObjectName = drawingCanvasObjectProxy.CanvasObjectName;
+            //drawingCanvasObjectModel.ItemType = drawingCanvasObjectProxy.typ;
 
             return drawingCanvasObjectModel;
         }

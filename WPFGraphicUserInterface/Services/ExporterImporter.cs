@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using WPFGraphicUserInterface.ModelProxies;
-
+using Models;
 
 namespace WPFGraphicUserInterface.Services
 {
@@ -26,21 +26,32 @@ namespace WPFGraphicUserInterface.Services
         {
             if (importType.ToLower() == "json")
             {
-                return DeserializeFromJSON(filePath);
+                return ConvertDrawingObjModelsToDrawingObjProxies(DeserializeFromJSON(filePath));
             }
             else
             {
-                return DeserializeFromXML(filePath);
+                return ConvertDrawingObjModelsToDrawingObjProxies(DeserializeFromXML(filePath));
             }
         }
 
-        public static void SerializeToXML(IEnumerable<DrawingCanvasObjectProxy> projectDrawingObjects, string filePath)
+        public static void SerializeToXML(List<DrawingCanvasObjectProxy> projectDrawingObjects, string filePath)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DrawingCanvasObjectProxy>));
+            var drawingObjectsModels = new List<DrawingCanvasObject>();
+
+            foreach (var drawingCanvasObjectProxy in projectDrawingObjects)
+            {
+                //Convert model to form that can be serialized
+                var drawingCanvasObjectModel = ProxyToModelConverter
+                    .DrawingCanvasObjectProxyToDrawingCanvasObjectModelConverter(drawingCanvasObjectProxy);
+
+                drawingObjectsModels.Add(drawingCanvasObjectModel);
+            }
+
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DrawingCanvasObject>));
 
             using (TextWriter tw = new StreamWriter(filePath))
             {
-                xmlSerializer.Serialize(tw, projectDrawingObjects);
+                xmlSerializer.Serialize(tw, drawingObjectsModels);
             }
         }
 
@@ -55,33 +66,45 @@ namespace WPFGraphicUserInterface.Services
         }
 
 
-        private static IEnumerable<DrawingCanvasObjectProxy> DeserializeFromXML(string filePath)
+        private static IEnumerable<DrawingCanvasObject> DeserializeFromXML(string filePath)
         {
-            var xmlSerializer = new XmlSerializer(typeof(List<DrawingCanvasObjectProxy>));
-            var drawingObjects = new List<DrawingCanvasObjectProxy>();
+            var xmlSerializer = new XmlSerializer(typeof(List<DrawingCanvasObject>));
+            var drawingObjects = new List<DrawingCanvasObject>();
 
             using (TextReader tr = new StreamReader(filePath))
             {
                 object obj = xmlSerializer.Deserialize(tr);
-                drawingObjects = (List<DrawingCanvasObjectProxy>)obj;
+                drawingObjects = (List<DrawingCanvasObject>)obj;
             }
 
             return drawingObjects;
         }
 
-        private static IEnumerable<DrawingCanvasObjectProxy> DeserializeFromJSON(string filePath)
+        private static IEnumerable<DrawingCanvasObject> DeserializeFromJSON(string filePath)
         {
             var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
-            var drawingObjects = new List<DrawingCanvasObjectProxy>();
-
+            var drawingObjects = new List<DrawingCanvasObject>();
 
             using (TextReader tr = new StreamReader(filePath))
             {
-                object obj = jsonSerializer.Deserialize(tr, typeof(List<DrawingCanvasObjectProxy>));
-                drawingObjects = (List<DrawingCanvasObjectProxy>)obj;
+                object obj = jsonSerializer.Deserialize(tr, typeof(List<DrawingCanvasObject>));
+                drawingObjects = (List<DrawingCanvasObject>)obj;
             }
 
             return drawingObjects;
+        }
+
+        public static IEnumerable<DrawingCanvasObjectProxy> ConvertDrawingObjModelsToDrawingObjProxies
+            (IEnumerable<DrawingCanvasObject> drawingObjectModels)
+        {
+            var drawingCanvasObjectsProxies = new List<DrawingCanvasObjectProxy>();
+            foreach (var drawingObjModel in drawingObjectModels)
+            {
+                var drawingObjProxy = ModelToProxyConverter.DrawingCanvasObjectToDrawingCanvasObjectProxy(drawingObjModel);
+                drawingCanvasObjectsProxies.Add(drawingObjProxy);
+            }
+
+            return drawingCanvasObjectsProxies;
         }
     }
 }

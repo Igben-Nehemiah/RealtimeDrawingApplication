@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using WPFGraphicUserInterface.Services;
 using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.ViewModels
@@ -29,6 +30,30 @@ namespace WPFGraphicUserInterface.ViewModels
 
         }
 
+        private ComboBoxColour _selectedFill = new ComboBoxColour();
+        public ComboBoxColour SelectedFill
+        {
+            get { return _selectedFill; }
+            set
+            {
+                if (value == _selectedFill) return;
+                _selectedFill = value;
+                OnPropertyChanged(nameof(SelectedFill));
+            }
+        }
+
+        private ComboBoxColour _selectedBorder = new ComboBoxColour();
+        public ComboBoxColour SelectedBorder
+        {
+            get { return _selectedBorder; }
+            set
+            {
+                if (value == _selectedBorder) return;
+                _selectedBorder = value;
+                OnPropertyChanged(nameof(SelectedBorder));
+            }
+        }
+
         private ISelectedObject _focusedCanvasDrawingObject;
         public ISelectedObject FocusedCanvasDrawingObject
         {
@@ -41,24 +66,14 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
+        private double _width;
         private string _title;
         private double _height;
-        private double _width;
         private Brush _fill;
         private Brush _border;
         private double _xPos;
         private double _yPos;
 
-        //public Guid Height
-        //{
-        //    get { return _height; }
-        //    set
-        //    {
-        //        if (value == _height) return;
-        //        _height = value;
-        //        OnPropertyChanged(nameof(Height));
-        //    }
-        //}
         public string Title
         {
             get { return _title; }
@@ -67,16 +82,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 if (value == _title) return;
                 _title = value;
                 OnPropertyChanged(nameof(Title));
-            }
-        }
-        public double Width
-        {
-            get { return _width; }
-            set
-            {
-                if (value == _width) return;
-                _yPos = value;
-                OnPropertyChanged(nameof(Width));
             }
         }
         public double Height
@@ -129,6 +134,17 @@ namespace WPFGraphicUserInterface.ViewModels
                 OnPropertyChanged(nameof(YPos));
             }
         }
+        public double Width
+        {
+            get { return _width; }
+            set
+            {
+                if (value == _width) return;
+                _width = value;
+                OnPropertyChanged(nameof(Width));
+            }
+        }
+
 
         IEventAggregator _eventAggregator;
 
@@ -138,7 +154,6 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Subscribe(ChangeFocusedObjectProperties);
-            //_eventAggregator.GetEvent<PropertyPaneChangedEvent>().Publish()
 
             ComboBoxColours = new ObservableCollection<ComboBoxColour>();
 
@@ -155,20 +170,20 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ChangeFocusedObjectProperties(ISelectedObject focusedItem)
         {
-            
             var item = focusedItem;
 
             if (item != null)
             {
                 Height = item.SelectedObjectHeight;
-                Width = item.SelectedObjectWidth;
                 XPos = item.SelectedObjectXPos;
                 YPos = item.SelectedObjectYPos;
                 Fill = item.SelectedObjectFill;
                 Border = item.SelectedObjectBorder;
                 Title = item.SelectedObjectTitle;
+                Width = item.SelectedObjectWidth;
 
-                
+                SelectedFill.ColourBrush = Fill;
+                SelectedBorder.ColourBrush = Border;
                 FocusedCanvasDrawingObject = item;
             }
         }
@@ -177,19 +192,19 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             if (FocusedCanvasDrawingObject != null)
             {
+                
                 FocusedCanvasDrawingObject.SelectedObjectHeight = Height;
                 FocusedCanvasDrawingObject.SelectedObjectWidth = Width;
                 FocusedCanvasDrawingObject.SelectedObjectXPos = XPos;
                 FocusedCanvasDrawingObject.SelectedObjectYPos = YPos;
-                FocusedCanvasDrawingObject.SelectedObjectBorder = Border;
-                FocusedCanvasDrawingObject.SelectedObjectFill = Fill;
+                FocusedCanvasDrawingObject.SelectedObjectBorder = SelectedBorder.ColourBrush;
+                FocusedCanvasDrawingObject.SelectedObjectFill = SelectedFill.ColourBrush;
                 FocusedCanvasDrawingObject.SelectedObjectTitle = Title;
             }
         }
 
         protected void OnPropertyChanged(string propertyName = "")
         {
-
             SetFocusedObjProperties();
             _eventAggregator.GetEvent<PropertyPaneChangedEvent>().Publish(FocusedCanvasDrawingObject);
 
@@ -197,23 +212,5 @@ namespace WPFGraphicUserInterface.ViewModels
         }
     }
 
-    public static class BrushesProvider
-    {
-        public static List<Brush> GetBrushes()
-        {
-            var brushDictionary = typeof(Brushes).GetProperties().
-                    Select(p => new { Name = p.Name, Brush = p.GetValue(null) as Brush }).
-                    ToList();
-
-            return brushDictionary.Select(v => v.Brush).ToList();
-        }
-
-        public static List<string> GetBrushNames()
-        {
-            var brushDictionary = typeof(Brushes).GetProperties().
-                    Select(p => new { Name = p.Name, Brush = p.GetValue(null) as Brush }).
-                    ToList();
-            return brushDictionary.Select(v => v.Name).ToList();
-        }
-    }
+    
 }

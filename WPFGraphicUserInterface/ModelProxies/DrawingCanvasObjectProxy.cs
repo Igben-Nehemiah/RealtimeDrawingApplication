@@ -6,7 +6,7 @@ using System;
 namespace WPFGraphicUserInterface.ModelProxies
 {
     [Serializable]
-    public class DrawingCanvasObjectProxy :UIElement,  ISerializable
+    public class DrawingCanvasObjectProxy : UIElement, ISerializable
     {
         public int CanvasObjectId { get; set; }
         public string CanvasObjectGuid { get; set; }
@@ -17,7 +17,7 @@ namespace WPFGraphicUserInterface.ModelProxies
         public string BorderFill { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
-        public string ItemType { get; set; }
+        //public string ItemType { get; set; }
 
         //Navigation Property
         public virtual ProjectProxy Project { get; set; }
@@ -36,7 +36,7 @@ namespace WPFGraphicUserInterface.ModelProxies
             CanvasObjectName = (string)info.GetValue("CanvasObjectName", typeof(string));
             ShapeFill = (string)info.GetValue("ShapeFill", typeof(string));
             BorderFill = (string)info.GetValue("BorderFill", typeof(string));
-            ItemType = (string)info.GetValue("ItemType", typeof(string));
+            //ItemType = (string)info.GetValue("ItemType", typeof(string));
         }
 
         
@@ -51,7 +51,7 @@ namespace WPFGraphicUserInterface.ModelProxies
             info.AddValue("CanvasObjectName", CanvasObjectName);
             info.AddValue("ShapeFill", ShapeFill);
             info.AddValue("BorderFill", BorderFill);
-            info.AddValue("ItemType", ItemType);
+            //info.AddValue("ItemType", ItemType);
         }
     }
 }

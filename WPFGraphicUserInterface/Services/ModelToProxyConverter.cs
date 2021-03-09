@@ -42,7 +42,7 @@ namespace WPFGraphicUserInterface.Services
             drawingObjProxy.BorderFill = drawingObj.BorderFill;
             drawingObjProxy.YPosition = drawingObj.YPosition;
             drawingObjProxy.ShapeFill = drawingObj.ShapeFill;
-            drawingObjProxy.ItemType = drawingObj.ItemType;
+            //drawingObjProxy.ItemType = drawingObj.ItemType;
 
             return drawingObjProxy;
         }
