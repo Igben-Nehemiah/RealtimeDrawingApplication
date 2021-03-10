@@ -47,7 +47,7 @@ namespace WPFGraphicUserInterface.Views
                 }
                 else 
                 {
-                    component = DrawingComponentService.GetDefaultComponent(ControlEnum.Triangle);
+                    component = DrawingComponentService.GetDefaultComponent(ControlEnum.Line);
                 }
             }
             else if (sender is TextBlock)

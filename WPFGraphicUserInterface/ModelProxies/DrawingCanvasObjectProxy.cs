@@ -5,8 +5,7 @@ using System;
 
 namespace WPFGraphicUserInterface.ModelProxies
 {
-    [Serializable]
-    public class DrawingCanvasObjectProxy : UIElement, ISerializable
+    public class DrawingCanvasObjectProxy : UIElement
     {
         public int CanvasObjectId { get; set; }
         public string CanvasObjectGuid { get; set; }
@@ -38,8 +37,6 @@ namespace WPFGraphicUserInterface.ModelProxies
             BorderFill = (string)info.GetValue("BorderFill", typeof(string));
             //ItemType = (string)info.GetValue("ItemType", typeof(string));
         }
-
-        
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {

@@ -17,22 +17,19 @@ using WPFGraphicUserInterface.Services;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
-    public class DrawingCanvas : Canvas//, INotifyPropertyChanged
+    public class DrawingCanvas : Canvas, INotifyPropertyChanged
     {
-        //private FrameworkElement _focusedDrawingElement;
-        //This is the element having the focus on the canvas
         public FrameworkElement FocusedDrawingElement { get; set; }
-
         //This is the element that is published to the property pane...
         public ISelectedObject FocusedCanvasItem { get; set; }
 
-        //public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         private double xPos;
         private double yPos;
 
         public IEventAggregator EventAggregator { get; set; }
 
-        public DrawingCanvas()// : base()
+        public DrawingCanvas()
         {
             Background = Brushes.White;
             AllowDrop = true;
@@ -47,15 +44,18 @@ namespace WPFGraphicUserInterface.ViewModels
 
             if (obj != null)
             {
+                FrameworkElement _component = null;
+
                 foreach (FrameworkElement item in Children)
                 {
                     var _item = (ISelectedObject)item;
 
                     if (_item != null && _item.SelectedObjectId == obj.SelectedObjectId)
                     {
-                        FocusedDrawingElement = _item as FrameworkElement;
-                        FocusedDrawingElement.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        FocusedDrawingElement.VerticalAlignment = VerticalAlignment.Stretch;
+                        _component = _item as FrameworkElement;
+                        //FocusedDrawingElement = _item as FrameworkElement;
+                        //FocusedDrawingElement.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        //FocusedDrawingElement.VerticalAlignment = VerticalAlignment.Stretch;
                         
                         xPos = obj.SelectedObjectXPos;
                         yPos = obj.SelectedObjectYPos;
@@ -93,15 +93,24 @@ namespace WPFGraphicUserInterface.ViewModels
                         FocusedDrawingElement = FocusedCanvasItem as FrameworkElement;
                         FocusedDrawingElement.Height = _item.SelectedObjectHeight;
                         FocusedDrawingElement.Width = _item.SelectedObjectWidth;
-                        FocusedDrawingElement.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        FocusedDrawingElement.VerticalAlignment = VerticalAlignment.Stretch;
+                        
+                        //FocusedDrawingElement.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        //FocusedDrawingElement.VerticalAlignment = VerticalAlignment.Stretch;
 
-                        return;
+                        SetLeft(FocusedDrawingElement, xPos);
+                        SetTop(FocusedDrawingElement, yPos);
+
+                        //return;
 
                         //var index = Children.IndexOf(item);
                         //Children[index] = FocusedDrawingElement;
+
                     }
                 }
+
+                //SetLeft(FocusedDrawingElement, xPos);
+                //SetRight(FocusedDrawingElement, yPos);
+                //Children.Add(FocusedDrawingElement);
             }
         }
 
@@ -137,35 +146,26 @@ namespace WPFGraphicUserInterface.ViewModels
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             FocusedDrawingElement = null;
-            //FocusedCanvasItem = null;
-            //FocusedDrawingElement = e.Source as FrameworkElement;
-            var item = e.Source as FrameworkElement;
+           
+            var item = e.OriginalSource;
 
-            FocusedDrawingElement = item;
-
-            var _item = item as ISelectedObject;
-
-            if (item is ISelectedObject)
+            if (item is ShapeComponent sh)
             {
-                if (FocusedDrawingElement is ShapeComponent sh)
-                {
-                    sh.Fill = _item.SelectedObjectFill;
-                    sh.Height = _item.SelectedObjectHeight;
-                    sh.Width = _item.SelectedObjectWidth;
-                    sh.Stroke = _item.SelectedObjectBorder;
-                    sh.StrokeThickness = 3;
-                    sh.SelectedObjectXPos = _item.SelectedObjectXPos;
-                    sh.SelectedObjectYPos = _item.SelectedObjectYPos;
-                    sh.SelectedObjectTitle = _item.SelectedObjectTitle;
-                    FocusedCanvasItem = sh;
-                }
-                else if (item is TextBoxComponent tx)
-                {
-                    FocusedCanvasItem = tx;
-                }
+                FocusedCanvasItem = sh;
             }
-            EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(FocusedCanvasItem);
+            else if (item is TextBoxComponent tx)
+            {
+                FocusedCanvasItem = tx;
+            }
 
+            FocusedDrawingElement = FocusedCanvasItem as FrameworkElement;
+
+            if (FocusedDrawingElement == null)
+            {
+                return;
+            }
+
+            EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(FocusedCanvasItem);
             base.OnMouseLeftButtonDown(e);
         }
 
@@ -184,16 +184,17 @@ namespace WPFGraphicUserInterface.ViewModels
         protected override void OnDrop(DragEventArgs e)
         {
             FocusedDrawingElement = null;
-            FocusedDrawingElement = e.Data.GetData("toolboxitem") as FrameworkElement;
-            var dropPosition = e.GetPosition(this);
-            xPos = dropPosition.X;
-            yPos = dropPosition.Y;
 
-            SetItemOnCanvas(FocusedDrawingElement, xPos, yPos);
-            Children.Add(FocusedDrawingElement);
+            var droppedItem = e.Data.GetData("toolboxitem") as FrameworkElement;
+
+            var dropPosition = e.GetPosition(this);
+            
+            SetItemOnCanvas(droppedItem, dropPosition.X, dropPosition.Y);
+
+            FocusedDrawingElement = droppedItem;
 
             //This part is responsible for publishing a model that is used by the property pane window
-            if (FocusedDrawingElement is ISelectedObject selectedObject)
+            if (droppedItem is ISelectedObject selectedObject)
             {
                 if (selectedObject is ShapeComponent shapeObj)
                 {
@@ -204,9 +205,12 @@ namespace WPFGraphicUserInterface.ViewModels
                     FocusedCanvasItem = textboxObj;
                 }
 
-                //Set the item x and y coordinate on canvas since these options are not set by default
-                FocusedCanvasItem.SelectedObjectXPos = xPos;
-                FocusedCanvasItem.SelectedObjectYPos = yPos;
+                FocusedCanvasItem.SelectedObjectXPos = dropPosition.X;
+                FocusedCanvasItem.SelectedObjectYPos = dropPosition.Y;
+
+                var newChild = FocusedCanvasItem as FrameworkElement;
+                Children.Add(newChild);
+
                 EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(FocusedCanvasItem);
             }
         }
@@ -218,6 +222,11 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetLeft(element, xPos);
                 SetTop(element, yPos);
             }
+        }
+
+        protected void OnPropertyChanged(string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

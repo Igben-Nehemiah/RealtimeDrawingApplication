@@ -55,13 +55,24 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
-        private static void SerializeToJSON(IEnumerable<DrawingCanvasObjectProxy> projectDrawingObjects, string filePath)
+        private static void SerializeToJSON(List<DrawingCanvasObjectProxy> projectDrawingObjects, string filePath)
         {
+            var drawingObjectsModels = new List<DrawingCanvasObject>();
+
+            foreach (var drawingCanvasObjectProxy in projectDrawingObjects)
+            {
+                //Convert model to form that can be serialized
+                var drawingCanvasObjectModel = ProxyToModelConverter
+                    .DrawingCanvasObjectProxyToDrawingCanvasObjectModelConverter(drawingCanvasObjectProxy);
+
+                drawingObjectsModels.Add(drawingCanvasObjectModel);
+            }
+
             var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
 
             using (TextWriter tw = new StreamWriter(filePath))
             {
-                jsonSerializer.Serialize(tw, projectDrawingObjects);
+                jsonSerializer.Serialize(tw, drawingObjectsModels);
             }
         }
 

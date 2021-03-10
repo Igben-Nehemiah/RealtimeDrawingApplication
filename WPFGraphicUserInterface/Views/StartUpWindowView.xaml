@@ -100,14 +100,6 @@
                   Margin="10,5,10,5"/>
                 </Button>
 
-                <!--<Label>
-                    <Path Fill="Black" Data="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"
-                  Width="24" Height="24"
-                  Margin="10,5,10,5">
-                        
-                    </Path>
-                </Label>-->
-
                 <Rectangle
                   Fill="Black"  
                   Width="50" Height="50"
@@ -121,13 +113,12 @@
                          MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
                 </Ellipse>
 
-                <Line X1="0"  Y1="50" X2="50" Y2="0"
+                <Path Fill="Black"
+                  Data="M0,0 L50,50"
                       Stroke="Black"
-                      StrokeThickness="3"
-                  Width="24" Height="24"
-                  Margin="10,5,10,5"
-                      MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
-                </Line>
+                      StrokeThickness="5"
+                       Margin="10"
+                  MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown"/>
 
                 <Path Fill="Black"
                   Data="M25,0 L50,50 L0,50Z"

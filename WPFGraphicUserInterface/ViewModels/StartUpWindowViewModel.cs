@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Services;
 using WPFGraphicUserInterface.Views;
@@ -166,44 +168,25 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 var filePath = openFileDialog.FileName;
 
-                var drawingCanvasObjects = (List<DrawingCanvasObjectProxy>)ExporterImporter.Import(filePath, importType);
+                var drawingCanvasObjectsProxies = (List<DrawingCanvasObjectProxy>)ExporterImporter.Import(filePath, importType);
 
                 //Set up drawing canvas
                 DrawingCanvas = new DrawingCanvas();
 
-                foreach (var drawingObj in drawingCanvasObjects)
+                foreach (var drawingCanvasObjectProxy in drawingCanvasObjectsProxies)
                 {
-                    var drawingObjFrameworkElement = new FrameworkElement();
+                    drawingCanvasObjectProxy.Project = ActiveProject;
 
-                    drawingObj.Project = ActiveProject;
+                    var item = DrawingObjectProxyFrameworkElement.ConvertToFrameworkElement(drawingCanvasObjectProxy);
 
-                    var item = drawingObj as ISelectedObject;
+                    DrawingCanvas.SetItemOnCanvas(item, drawingCanvasObjectProxy.XPosition, drawingCanvasObjectProxy.YPosition);
 
-                    if (item is ShapeComponent sh)
-                    {
-                        sh.Fill = item.SelectedObjectFill;
-                        sh.Height = item.SelectedObjectHeight;
-                        sh.Width = item.SelectedObjectWidth;
-                        sh.Stroke = item.SelectedObjectBorder;
-                        sh.StrokeThickness = 3;
-                        sh.SelectedObjectXPos = item.SelectedObjectXPos;
-                        sh.SelectedObjectYPos = item.SelectedObjectYPos;
-
-                        sh.Stretch = Stretch.Fill;
-
-                        drawingObjFrameworkElement = sh;
-                    }
-                   
-                    DrawingCanvas.SetItemOnCanvas(drawingObj, drawingObj.XPosition, drawingObj.YPosition);
-
-                    DrawingCanvas.Children.Add(drawingObjFrameworkElement);
+                    DrawingCanvas.Children.Add(item);
                 }
             }
             //Check later if import is successful
             StatusBarMessage = $"Import as {importType} complete!";
-
         }
-
 
         private void SaveProject()
         {
@@ -215,7 +198,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 {
                     var ch = child as ISelectedObject;
 
-                    var item = UnpackProperties(ch);
+                    var item = ConvertFrameworkElementToDrawingCanvasObjectProxy(ch);
 
                     ActiveProject.ProjectDrawingCanvasObjects.Add(item);
                 }
@@ -236,9 +219,10 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         //Helper function to unpack a child from a canvas to a drawing canvas object 
-        private DrawingCanvasObjectProxy UnpackProperties(ISelectedObject obj)
+        private DrawingCanvasObjectProxy ConvertFrameworkElementToDrawingCanvasObjectProxy(ISelectedObject obj)
         {
             var item = new DrawingCanvasObjectProxy();
+
             item.XPosition = obj.SelectedObjectXPos;
             item.YPosition = obj.SelectedObjectYPos;
             item.Height = obj.SelectedObjectHeight;
@@ -252,17 +236,6 @@ namespace WPFGraphicUserInterface.ViewModels
 
             return item;
         }
-
-        //private ISelectedObject PackProperties(DrawingCanvasObjectProxy obj)
-        //{
-        //    var item = new FrameworkElement();
-        //    if (obj.CanvasObjectName == Enum.Parse(ControlEnum, obj.CanvasObjectName))
-        //    {
-
-        //    }
-
-        //    return item as ISelectedObject;
-        //}
 
         private void AddUserToShareProjectWith(UserProxy sharedUser)
         {

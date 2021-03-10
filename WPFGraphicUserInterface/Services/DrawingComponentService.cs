@@ -43,7 +43,6 @@ namespace WPFGraphicUserInterface.Services
     {
         Ellipse,
         Rectangle,
-        Circle,
         Path,
         Triangle,
         Line,
@@ -60,6 +59,8 @@ namespace WPFGraphicUserInterface.Services
             SelectedObjectWidth = 50;
             SelectedObjectHeight = 50;
             SelectedObjectTitle = shapeType.ToString();
+
+            ControlType = shapeType;
 
             Stretch = Stretch.Fill;
 
@@ -79,7 +80,7 @@ namespace WPFGraphicUserInterface.Services
         public double SelectedObjectYPos { get; set; }
         public Geometry Geometry { get; set; }
         public Guid SelectedObjectId { get; set; } = Guid.NewGuid();
-        public ControlEnum ControlType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ControlEnum ControlType { get; set; }
 
         protected override Geometry DefiningGeometry => Geometry;
 
@@ -91,8 +92,8 @@ namespace WPFGraphicUserInterface.Services
         {
             SelectedObjectWidth = width;
             SelectedObjectHeight = height;
+            SelectedObjectTitle = ControlEnum.TextBox.ToString();
             Text = text;
-            ControlType = ControlEnum.TextBox.ToString();
             HorizontalAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Stretch;
 
@@ -100,10 +101,10 @@ namespace WPFGraphicUserInterface.Services
             //Border = SelectedObjectBorder;
             Width = SelectedObjectWidth;
             Height = SelectedObjectHeight;
+            ControlType = ControlEnum.TextBox;
         }
 
-        public string ControlType { get; set; }
-        public string SelectedObjectTitle { get; set; } = "Text Block";
+        public string SelectedObjectTitle { get; set; }
         public double SelectedObjectWidth { get; set; }
         public double SelectedObjectHeight { get; set; }
         public Brush SelectedObjectFill { get; set; } = Brushes.White;
@@ -111,6 +112,6 @@ namespace WPFGraphicUserInterface.Services
         public double SelectedObjectXPos { get; set; }
         public double SelectedObjectYPos { get; set; }
         public Guid SelectedObjectId { get; set; } = Guid.NewGuid();
-        ControlEnum ISelectedObject.ControlType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ControlEnum ControlType { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace WPFGraphicUserInterface.Services
     {
         public static bool IsApplicationUser(string email, out UserProxy userProxy)
         {
+
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
             {
                 var containsUser = unitOfWork.Users.ContainsUser(email);

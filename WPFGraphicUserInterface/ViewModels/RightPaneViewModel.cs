@@ -88,7 +88,7 @@ namespace WPFGraphicUserInterface.ViewModels
             RightPaneOptions.Add(new RightPaneOption() { OptionName = "Shared Users Pane" });
             RightPaneOptions.Add(new RightPaneOption() { OptionName = "Property Pane" });
             RightPaneOptions.Add(new RightPaneOption() { OptionName = "Project Pane" });
-            SelectedIndex = 0;
+            SelectedIndex = 1;
         }
 
         private void SelectPane()

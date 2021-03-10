@@ -54,17 +54,24 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        private ISelectedObject _focusedCanvasDrawingObject;
-        public ISelectedObject FocusedCanvasDrawingObject
-        {
-            get { return _focusedCanvasDrawingObject; }
-            set
-            {
-                if (value == _focusedCanvasDrawingObject) return;
-                _focusedCanvasDrawingObject = value;
-                OnPropertyChanged(nameof(FocusedCanvasDrawingObject));
-            }
-        }
+        ///private ISelectedObject _focusedCanvasDrawingObject;
+        
+        public ISelectedObject setObject { get; set; }
+        public ISelectedObject FocusedCanvasDrawingObject { get; set; }
+
+        //public ISelectedObject _focusedCanvasDrawingObject;
+        //public ISelectedObject FocusedCanvasDrawingObject
+        //{
+        //    get { return _focusedCanvasDrawingObject; }
+        //    set
+        //    {
+        //        if (value == _focusedCanvasDrawingObject) return;
+        //        _focusedCanvasDrawingObject = value;
+        //        //OnPropertyChanged(nameof(FocusedCanvasDrawingObject));
+        //    }
+        //}
+
+        //public ISelectedObject FocusedCanvasDrawingObject { get; set; }
 
         private double _width;
         private string _title;
@@ -172,6 +179,8 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             var item = focusedItem;
 
+            FocusedCanvasDrawingObject = null;
+
             if (item != null)
             {
                 Height = item.SelectedObjectHeight;
@@ -184,33 +193,52 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 SelectedFill.ColourBrush = Fill;
                 SelectedBorder.ColourBrush = Border;
-                FocusedCanvasDrawingObject = item;
             }
+
+            FocusedCanvasDrawingObject = item;
         }
 
-        private void SetFocusedObjProperties()
+        private void SetFocusedObjProperties(string propertyName="")
         {
+            //FocusedCanvasDrawingObject = setObject;
             if (FocusedCanvasDrawingObject != null)
             {
-                
-                FocusedCanvasDrawingObject.SelectedObjectHeight = Height;
-                FocusedCanvasDrawingObject.SelectedObjectWidth = Width;
-                FocusedCanvasDrawingObject.SelectedObjectXPos = XPos;
-                FocusedCanvasDrawingObject.SelectedObjectYPos = YPos;
-                FocusedCanvasDrawingObject.SelectedObjectBorder = SelectedBorder.ColourBrush;
-                FocusedCanvasDrawingObject.SelectedObjectFill = SelectedFill.ColourBrush;
-                FocusedCanvasDrawingObject.SelectedObjectTitle = Title;
+                if (propertyName == nameof(Height))
+                {
+                    FocusedCanvasDrawingObject.SelectedObjectHeight = Height;
+                }
+                else if (propertyName == nameof(Width))
+                {
+                    FocusedCanvasDrawingObject.SelectedObjectWidth = Width;
+                }
+                else if (propertyName == nameof(XPos))
+                {
+                    FocusedCanvasDrawingObject.SelectedObjectXPos = XPos;
+                }
+                else if (propertyName == nameof(YPos))
+                {
+                    FocusedCanvasDrawingObject.SelectedObjectYPos = YPos;
+                }
+                else if (propertyName == nameof(SelectedBorder))
+                {
+                    FocusedCanvasDrawingObject.SelectedObjectBorder = SelectedBorder.ColourBrush;
+                }
+                else if (propertyName == nameof(SelectedFill))
+                {
+                    FocusedCanvasDrawingObject.SelectedObjectFill = SelectedFill.ColourBrush;
+                }
+                else
+                {
+                    FocusedCanvasDrawingObject.SelectedObjectTitle = Title;
+                }
             }
         }
 
         protected void OnPropertyChanged(string propertyName = "")
-        {
-            SetFocusedObjProperties();
+        { 
+            SetFocusedObjProperties(propertyName);
             _eventAggregator.GetEvent<PropertyPaneChangedEvent>().Publish(FocusedCanvasDrawingObject);
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    
 }
