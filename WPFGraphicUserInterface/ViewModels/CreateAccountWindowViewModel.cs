@@ -52,7 +52,7 @@ namespace WPFGraphicUserInterface.ViewModels
             return true;
         }
 
-        private void ExecuteCreateAccount()
+        private async void ExecuteCreateAccount()
         {
             //If entries pass validation
             if (VerifiedPassword == UserProxy.UserPassword)
@@ -67,7 +67,8 @@ namespace WPFGraphicUserInterface.ViewModels
                 startUpWindowView.DataContext = startUpWindowViewModel;
                 startUpWindowView.Visibility = System.Windows.Visibility.Visible;
 
-                DAL.IsApplicationUser(UserProxy.UserEmailAddress, out _userProxy);
+                var user = await DAL.CheckIfIsApplicationUserAsync(UserProxy.UserEmailAddress);
+                _userProxy = user.Item2;
 
                 _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(UserProxy);
                 _eventAggregator.GetEvent<AccountCreationStatusEvent>().Publish(true);

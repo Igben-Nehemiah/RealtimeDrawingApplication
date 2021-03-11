@@ -9,6 +9,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -123,6 +125,7 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<SaveProjectEvent>().Subscribe(SaveProject);
             _eventAggregator.GetEvent<ExportProjectEvent>().Subscribe(ExportProject);
             _eventAggregator.GetEvent<ImportProjectEvent>().Subscribe(ImportProject);
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Subscribe(SetStatusbarMessage);
 
             //Initialize Right menu pane
             RightPaneContentControl = new RightPaneView();
@@ -143,97 +146,107 @@ namespace WPFGraphicUserInterface.ViewModels
             StatusBarMessage = "Ready";
         }
 
-        private void ExportProject(string exportType)
+        private void SetStatusbarMessage(string newStatusbarMessage)
         {
-            StatusBarMessage = $"Starting Export as {exportType}";
+            StatusBarMessage = newStatusbarMessage;
+        }
 
+        private async void ExportProject(string exportType)
+        {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             if (saveFileDialog.ShowDialog() == true)
             {
                 var filePath = saveFileDialog.FileName;
-                ExporterImporter.Export(ActiveProject, filePath, exportType);
+                await ExporterImporter.ExportAsync(ActiveProject, filePath, exportType);
             }
-
-            StatusBarMessage = $"Finished Exporting as {exportType.ToUpper()}";
         }
 
-        private void ImportProject(string importType)
+        private async void ImportProject(string importType)
         {
-            StatusBarMessage = $"Starting Import as {importType}";
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             if (openFileDialog.ShowDialog() == true)
             {
                 var filePath = openFileDialog.FileName;
 
-                var drawingCanvasObjectsProxies = (List<DrawingCanvasObjectProxy>)ExporterImporter.Import(filePath, importType);
+                var drawingCanvasObjectsProxies = await ExporterImporter.ImportAsync(filePath, importType);
 
                 //Set up drawing canvas
                 DrawingCanvas = new DrawingCanvas();
 
-                foreach (var drawingCanvasObjectProxy in drawingCanvasObjectsProxies)
-                {
-                    drawingCanvasObjectProxy.Project = ActiveProject;
+                _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing Canvas!");
 
-                    var item = DrawingObjectProxyFrameworkElement.ConvertToFrameworkElement(drawingCanvasObjectProxy);
-
-                    DrawingCanvas.SetItemOnCanvas(item, drawingCanvasObjectProxy.XPosition, drawingCanvasObjectProxy.YPosition);
-
-                    DrawingCanvas.Children.Add(item);
-                }
+                UnpackProjectToCanvas(drawingCanvasObjectsProxies);
             }
             //Check later if import is successful
-            StatusBarMessage = $"Import as {importType} complete!";
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Ready!");
+
+        }
+
+        void UnpackProjectToCanvas(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies)
+        {
+            foreach (var drawingCanvasObjectProxy in drawingCanvasObjectProxies)
+            {
+                drawingCanvasObjectProxy.Project = ActiveProject;
+
+                var item = DrawingObjectProxyFrameworkElement.ConvertToFrameworkElement(drawingCanvasObjectProxy);
+
+                DrawingCanvas.SetItemOnCanvas(item, drawingCanvasObjectProxy.XPosition, drawingCanvasObjectProxy.YPosition);
+
+                DrawingCanvas.Children.Add(item);
+            }
         }
 
         private void SaveProject()
         {
             if (ActiveProject != null)
             {
-                StatusBarMessage = "Saving project";
-                
-                foreach (var child in DrawingCanvas.Children)
-                {
-                    var ch = child as ISelectedObject;
-
-                    var item = ConvertFrameworkElementToDrawingCanvasObjectProxy(ch);
-
-                    ActiveProject.ProjectDrawingCanvasObjects.Add(item);
-                }
+                PackProject();
 
                 ActiveProject.ProjectId = DAL.LoadProjectFromDatabase(UserProxy, ActiveProject.ProjectName).ProjectId;
 
                 DAL.SaveProjectDrawingCanvasObjectsToDB(ActiveProject.ProjectDrawingCanvasObjects, ActiveProject);
 
-                //UserProxy.UserCreatedProjects.Add(ActiveProject);
-                StatusBarMessage = "Project Saved";
-
                 _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(UserProxy.UserCreatedProjects);
             }
             else
             {
-                StatusBarMessage = "Create a project before saving";
+                _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Create a project first!");
             }
+        }
+
+        void PackProject()
+        {
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Packing project!");
+
+            foreach (var child in DrawingCanvas.Children)
+            {
+                var ch = child as ISelectedObject;
+
+                var item = ConvertFrameworkElementToDrawingCanvasObjectProxy(ch);
+
+                ActiveProject.ProjectDrawingCanvasObjects.Add(item);
+            }
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Packing Complete!");
         }
 
         //Helper function to unpack a child from a canvas to a drawing canvas object 
         private DrawingCanvasObjectProxy ConvertFrameworkElementToDrawingCanvasObjectProxy(ISelectedObject obj)
         {
-            var item = new DrawingCanvasObjectProxy();
-
-            item.XPosition = obj.SelectedObjectXPos;
-            item.YPosition = obj.SelectedObjectYPos;
-            item.Height = obj.SelectedObjectHeight;
-            item.Width = obj.SelectedObjectWidth;
-            item.BorderFill = BrushConverterHelper.ConvertToString(obj.SelectedObjectBorder);
-            item.ShapeFill = BrushConverterHelper.ConvertToString(obj.SelectedObjectFill);
-            item.CanvasObjectName = obj.SelectedObjectTitle;
-            item.Project = ActiveProject;
-            item.CanvasObjectName = obj.SelectedObjectTitle;
-            item.CanvasObjectGuid = obj.SelectedObjectId.ToString();
-
+            var item = new DrawingCanvasObjectProxy
+            {
+                XPosition = obj.SelectedObjectXPos,
+                YPosition = obj.SelectedObjectYPos,
+                Height = obj.SelectedObjectHeight,
+                Width = obj.SelectedObjectWidth,
+                BorderFill = BrushConverterHelper.ConvertToString(obj.SelectedObjectBorder),
+                ShapeFill = BrushConverterHelper.ConvertToString(obj.SelectedObjectFill),
+                CanvasObjectName = obj.SelectedObjectTitle,
+                Project = ActiveProject,
+                CanvasObjectGuid = obj.SelectedObjectId.ToString()
+            };
+            
             return item;
         }
 
@@ -269,7 +282,7 @@ namespace WPFGraphicUserInterface.ViewModels
             StatusBarMessage = "Create Project First";
         }
 
-        private void SetActiveProject(ProjectProxy createdProject)
+        private async void SetActiveProject(ProjectProxy createdProject)
         {
             _menuPaneViewModel.createProjectWindowView.Visibility = Visibility.Collapsed;
 
@@ -290,7 +303,10 @@ namespace WPFGraphicUserInterface.ViewModels
                     }
                 }
             }
+
             //Set up drawing canvas
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing canvas!");
+
             DrawingCanvas = new DrawingCanvas();
             //Make user project creatorId
             createdProject.ProjectCreator = UserProxy;
@@ -307,12 +323,11 @@ namespace WPFGraphicUserInterface.ViewModels
             ActiveProject.ProjectCreationDate = DateTime.Now;
 
             //Add newly created project to the database
-            DAL.AddProjectToDatabase(ActiveProject);
+            await DAL.AddProjectToDatabaseAsync(ActiveProject);
 
             //Set the project name on the menu pane
             _menuPaneViewModel.ProjectName = createdProject.ProjectName;
             MenuContentControl.DataContext = _menuPaneViewModel;
-
         }
 
         //Set User

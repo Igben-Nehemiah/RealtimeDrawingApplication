@@ -38,10 +38,11 @@ namespace WPFGraphicUserInterface.Views
             {
                 component = DrawingComponentService.GetDefaultComponent(ControlEnum.Ellipse);
             }
-            else if (sender is Path)
+            else if (sender is Path p)
             {
-                if (DrawingComponentService.GetDefaultShapeGeometry(ControlEnum.Path) ==
-                    DrawingComponentService.GetDefaultShapeGeometry(ControlEnum.Triangle))
+                var item1 = Geometry.Parse(p.Data.ToString()).ToString();
+                var item2 = DrawingComponentService.GetDefaultShapeGeometry(ControlEnum.Triangle).ToString();
+                if (item1 == item2)
                 {
                     component = DrawingComponentService.GetDefaultComponent(ControlEnum.Triangle);
                 }

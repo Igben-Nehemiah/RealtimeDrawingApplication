@@ -60,13 +60,14 @@ namespace WPFGraphicUserInterface.Services
             SelectedObjectHeight = 50;
             SelectedObjectTitle = shapeType.ToString();
 
+
             ControlType = shapeType;
 
             Stretch = Stretch.Fill;
 
-
             Fill = SelectedObjectFill;
             Stroke = SelectedObjectBorder;
+            StrokeThickness = 3;
             Width = SelectedObjectWidth;
             Height = SelectedObjectHeight;
         }

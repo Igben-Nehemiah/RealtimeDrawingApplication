@@ -47,13 +47,14 @@ namespace WPFGraphicUserInterface.ViewModels
             return true;
         }
 
-        private void AddSharedUser()
+        private async void AddSharedUser()
         {
             //Perform validation
-            var isApplicationUser = DAL.IsApplicationUser(SharedUser.UserEmailAddress, out _sharedUser);
+            var isApplicationUser = await DAL.CheckIfIsApplicationUserAsync(SharedUser.UserEmailAddress);
 
-            if (isApplicationUser)
+            if (isApplicationUser.Item1)
             {
+                _sharedUser = isApplicationUser.Item2;
                 _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(SharedUser);
                 return;
             }

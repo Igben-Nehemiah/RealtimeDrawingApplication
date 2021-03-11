@@ -9,6 +9,7 @@ using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Services;
 using WPFUserInterface.Core;
 using WPFGraphicUserInterface.Views;
+using System.Threading.Tasks;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
@@ -16,9 +17,11 @@ namespace WPFGraphicUserInterface.ViewModels
     {
         //private StartUpWindowViewModel _startUpWindowViewModel;
         private UserProxy _user;
+        private bool isValidUser;
        
         private string _userEmail = "igbennehemiah@gmail.com";
         private string _userPassword ="Bart Allen";
+
 
         public UserProxy User
         {
@@ -69,10 +72,13 @@ namespace WPFGraphicUserInterface.ViewModels
             throw new NotImplementedException();
         }
         //Login
-        private void Login()
+        private async void Login()
         {
+            var detail = await DAL.CheckIfUserDetailIsValidAsync(UserEmail, UserPassword);
+            _user = detail.Item2;
+            isValidUser = detail.Item1;
             //Throw LoggedInEvent to StartUpWindowViewModel
-            if (IsValidUser()) 
+            if (isValidUser) 
             {
                 var startUpWindowView = new StartUpWindowView();
 
@@ -82,11 +88,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 startUpWindowView.Show();
             }
-            _eventAggregator.GetEvent<SignInStatusEvent>().Publish(IsValidUser());
-        }
-        private bool IsValidUser()
-        {
-            return DAL.IsValidUser(UserEmail, UserPassword, out _user);
+            _eventAggregator.GetEvent<SignInStatusEvent>().Publish(isValidUser);
         }
     }
 }

@@ -54,31 +54,14 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        ///private ISelectedObject _focusedCanvasDrawingObject;
-        
-        public ISelectedObject setObject { get; set; }
         public ISelectedObject FocusedCanvasDrawingObject { get; set; }
-
-        //public ISelectedObject _focusedCanvasDrawingObject;
-        //public ISelectedObject FocusedCanvasDrawingObject
-        //{
-        //    get { return _focusedCanvasDrawingObject; }
-        //    set
-        //    {
-        //        if (value == _focusedCanvasDrawingObject) return;
-        //        _focusedCanvasDrawingObject = value;
-        //        //OnPropertyChanged(nameof(FocusedCanvasDrawingObject));
-        //    }
-        //}
-
-        //public ISelectedObject FocusedCanvasDrawingObject { get; set; }
 
         private double _width;
         private string _title;
         private double _height;
         private Brush _fill;
         private Brush _border;
-        private double _xPos;
+        private int _xPos;
         private double _yPos;
 
         public string Title
@@ -108,7 +91,7 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 if (value == _fill) return;
                 _fill = value;
-                OnPropertyChanged(nameof(Fill));
+                //OnPropertyChanged(nameof(Fill));
             }
         }
         public Brush Border
@@ -118,10 +101,10 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 if (value == _border) return;
                 _border = value;
-                OnPropertyChanged(nameof(Border));
+                //OnPropertyChanged(nameof(Border));
             }
         }
-        public double XPos
+        public int XPos
         {
             get { return _xPos; }
             set
@@ -184,15 +167,17 @@ namespace WPFGraphicUserInterface.ViewModels
             if (item != null)
             {
                 Height = item.SelectedObjectHeight;
-                XPos = item.SelectedObjectXPos;
+                XPos = (int)item.SelectedObjectXPos;
                 YPos = item.SelectedObjectYPos;
                 Fill = item.SelectedObjectFill;
                 Border = item.SelectedObjectBorder;
                 Title = item.SelectedObjectTitle;
                 Width = item.SelectedObjectWidth;
 
-                SelectedFill.ColourBrush = Fill;
-                SelectedBorder.ColourBrush = Border;
+
+                SelectedFill = ComboBoxColours.FirstOrDefault(c => c.ColourBrush == Fill);
+
+                SelectedBorder = ComboBoxColours.FirstOrDefault(c => c.ColourBrush == Border);
             }
 
             FocusedCanvasDrawingObject = item;
