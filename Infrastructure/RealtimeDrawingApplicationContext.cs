@@ -33,7 +33,8 @@ namespace Infrastructure
             modelBuilder.Entity<Project>().HasMany(p => p.SharedUsers);
 
             //Configuring ProjectUser domain class
-            modelBuilder.Entity<ProjectUser>().HasKey(pu => new { pu.ProjectId, pu.UserId });
+            modelBuilder.Entity<ProjectUser>().HasKey(pu => new { pu.ProjectId, pu.UserId })
+                ;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,4 +1,5 @@
 ﻿using Models;
+using System.Linq;
 
 namespace Infrastructure.Repositories
 {
@@ -6,6 +7,19 @@ namespace Infrastructure.Repositories
     {
         public ProjectUserRepository(RealtimeDrawingApplicationContext context) : base(context)
         {
+        }
+
+        public RealtimeDrawingApplicationContext RealtimeDrawingApplicationContext
+        {
+            get { return Context as RealtimeDrawingApplicationContext; }
+        }
+
+        public ProjectUser GetProjectUser(int sharedUserId, int sharedProjectId)
+        {
+            var projectUser = RealtimeDrawingApplicationContext.ProjectUsers
+                .FirstOrDefault(pu => pu.ProjectId == sharedProjectId && pu.UserId == sharedUserId);
+
+            return projectUser;
         }
     }
 }

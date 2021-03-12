@@ -74,12 +74,13 @@
                 BorderBrush="WhiteSmoke"
                 Margin="3,3"
                 Padding="7,7">
-            <ListBox ItemsSource="{Binding SharedUsers}"
-                 MinHeight="500"
-                 MaxHeight="500"
+            <ListBox ItemsSource="{Binding ProjectUsers}"
+                 MinHeight="200"
+                 MaxHeight="200"
                  Margin="0,0"
                  Background="WhiteSmoke"
-                     BorderThickness="0">
+                     BorderThickness="0"
+                     SelectedItem="{Binding SelectedProjectUser}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,2">
@@ -87,8 +88,9 @@
                                 <ColumnDefinition Width="110"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <CheckBox Grid.RowSpan="3" Grid.Column="2"/>
-                            <TextBlock Text="{Binding}" />
+                            <CheckBox Grid.RowSpan="3" Grid.Column="2"
+                                      IsChecked="{Binding CanEdit}"/>
+                            <TextBlock Text="{Binding SharedUserEmailAddress}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

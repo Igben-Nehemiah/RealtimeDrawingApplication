@@ -81,7 +81,8 @@
                VerticalAlignment="Center"
                Grid.Row="2"
                Grid.Column="0" Grid.ColumnSpan="4"
-                  Margin="20,0,0,0"/>
+                  Margin="20,0,0,0"
+                  IsChecked="{Binding CanEdit}"/>
         <Button 
             Grid.Column="0" 
             Grid.Row="3"

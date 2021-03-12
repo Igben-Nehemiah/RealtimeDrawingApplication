@@ -21,6 +21,17 @@ namespace WPFGraphicUserInterface.ViewModels
         //    }
         //}
 
+        private bool _canEdit = false;
+
+        public bool CanEdit
+        {
+            get { return _canEdit; }
+            set
+            {
+                SetProperty(ref _canEdit, value);
+            }
+        }
+
         private UserProxy _sharedUser = new UserProxy();
         
         public UserProxy SharedUser
@@ -39,12 +50,7 @@ namespace WPFGraphicUserInterface.ViewModels
         public ShareProjectWindowViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            AddSharedUserCommand = new DelegateCommand(AddSharedUser, CanAddSharedUser);
-        }
-
-        private bool CanAddSharedUser()
-        {
-            return true;
+            AddSharedUserCommand = new DelegateCommand(AddSharedUser, () => true);
         }
 
         private async void AddSharedUser()
@@ -55,7 +61,9 @@ namespace WPFGraphicUserInterface.ViewModels
             if (isApplicationUser.Item1)
             {
                 _sharedUser = isApplicationUser.Item2;
-                _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(SharedUser);
+
+                var projectUserProxy = new ProjectUserProxy();
+                _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(new Tuple<UserProxy, bool>(_sharedUser, CanEdit));
                 return;
             }
             //Email Address not registered in db

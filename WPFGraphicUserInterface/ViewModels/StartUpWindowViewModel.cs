@@ -126,6 +126,7 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<ExportProjectEvent>().Subscribe(ExportProject);
             _eventAggregator.GetEvent<ImportProjectEvent>().Subscribe(ImportProject);
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Subscribe(SetStatusbarMessage);
+            _eventAggregator.GetEvent<SharedUserInfoChangedEvent>().Subscribe(RefreshSharedUserDetails);
 
             //Initialize Right menu pane
             RightPaneContentControl = new RightPaneView();
@@ -144,6 +145,11 @@ namespace WPFGraphicUserInterface.ViewModels
             ShowRightPaneCommand = new DelegateCommand(ShowRightPane, () => true);
 
             StatusBarMessage = "Ready";
+        }
+
+        private async void RefreshSharedUserDetails(Tuple<string, bool> newInfo)
+        {
+            await DAL.EditSharedUserDetails(newInfo, ActiveProject.ProjectId);
         }
 
         private void SetStatusbarMessage(string newStatusbarMessage)
@@ -250,31 +256,48 @@ namespace WPFGraphicUserInterface.ViewModels
             return item;
         }
 
-        private void AddUserToShareProjectWith(UserProxy sharedUser)
+        private async void AddUserToShareProjectWith(Tuple<UserProxy, bool> sharedUserInfo)
         {
-            if (sharedUser == null)
+            if (sharedUserInfo == null)
             {
                 _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
                 return;
             }
             //Should not be able to add self to shared users
+            if (sharedUserInfo.Item1.UserEmailAddress == UserProxy.UserEmailAddress)
+            {
+                MessageBox.Show("Cannot add self to shared users!");
+                return;
+            }
             //should be able to shared if project has been created
             if (_activeProject != null)
             {
-                StatusBarMessage = $"Adding {sharedUser.UserEmailAddress} to list of shared users!";
+                StatusBarMessage = $"Adding {sharedUserInfo.Item1.UserEmailAddress} to list of shared users!";
                 _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
+
+                var projectSharedUser = new ProjectUserProxy();
+
+                projectSharedUser.ProjectId = ActiveProject.ProjectId;
+                projectSharedUser.UserId = sharedUserInfo.Item1.UserId;
+
+                projectSharedUser.SharedProject = ActiveProject;
+                projectSharedUser.SharedUser = sharedUserInfo.Item1;
+                projectSharedUser.CanEdit = sharedUserInfo.Item2;
+
+                await DAL.AddSharedUserToDatabaseAsync(projectSharedUser);
+
                 var sharedProjectFullname = ActiveProject.ProjectName + "_" + UserProxy.UserEmailAddress;
                 if (shared.ContainsKey(sharedProjectFullname))
                 {
-                    shared[sharedProjectFullname].Add(sharedUser.UserEmailAddress);
+                    shared[sharedProjectFullname].Add(sharedUserInfo.Item1.UserEmailAddress);
                 }
                 else
                 {
                     shared.Add(sharedProjectFullname, new List<string>());
-                    shared[sharedProjectFullname].Add(sharedUser.UserEmailAddress);
+                    shared[sharedProjectFullname].Add(sharedUserInfo.Item1.UserEmailAddress);
                 }
                 //Send notification to SharedProjectWindow
-                _eventAggregator.GetEvent<ProjectSharedToAnotherUserEvent>().Publish(sharedUser.UserEmailAddress);
+                _eventAggregator.GetEvent<ProjectSharedToAnotherUserEvent>().Publish(projectSharedUser);
                 StatusBarMessage = "Done!";
                 return;
             }

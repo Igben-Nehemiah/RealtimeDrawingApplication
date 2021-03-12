@@ -50,5 +50,16 @@ namespace WPFGraphicUserInterface.Services
             return drawingCanvasObjectModel;
         }
 
+        public static ProjectUser ProjectUserProxyToProjectUserModelConverter
+            (ProjectUserProxy projectUserProxy)
+        {
+            var projectUser = new ProjectUser();
+
+            projectUser.CanEdit = projectUserProxy.CanEdit;
+            projectUser.UserId = projectUserProxy.UserId;
+            projectUser.ProjectId = projectUserProxy.ProjectId;
+
+            return projectUser;
+        }
     }
 }

@@ -148,6 +148,27 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
+        public static async Task EditSharedUserDetails(Tuple<string, bool> newInfo, int sharedProjectId)
+        {
+            await Task.Run(() =>
+            {
+                using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+                {
+                    var sharedUserId = unitOfWork.Users.GetUserWithEmailAddress(newInfo.Item1).UserId;
+                    var canEdit = newInfo.Item2;
+
+                    var ProjectUser = unitOfWork.ProjectUsers.GetProjectUser(sharedUserId, sharedProjectId);
+
+                    if (ProjectUser != null)
+                    {
+                        ProjectUser.CanEdit = canEdit;
+                    }
+
+                    unitOfWork.Complete();
+                }
+            });
+        }
+
         public static IEnumerable<ProjectProxy> LoadUserProjectsFromDatabase(UserProxy userProxy)
         {
             var userProjects = new List<ProjectProxy>();
@@ -240,7 +261,20 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
-       
-    }
 
+        public static async Task AddSharedUserToDatabaseAsync(ProjectUserProxy projectSharedUser)
+        {
+            //var projectUserModel = 
+            await Task.Run(() =>
+            {
+                using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+                {
+                    var projectUserModel = ProxyToModelConverter.ProjectUserProxyToProjectUserModelConverter(projectSharedUser);
+                    unitOfWork.ProjectUsers.Add(projectUserModel);
+                    unitOfWork.Complete();
+                }
+            });
+            
+        }
+    }
 }

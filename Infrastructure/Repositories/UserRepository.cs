@@ -18,11 +18,9 @@ namespace Infrastructure.Repositories
 
         public bool ContainsUser(string emailAddress)
         {
-            var user = RealtimeDrawingApplicationContext.Users
-                 .Where(u => u.UserEmailAddress == emailAddress.ToLower())
-                 .ToList();
+            var user = RealtimeDrawingApplicationContext.Users.FirstOrDefault(u => u.UserEmailAddress == emailAddress.ToLower());
 
-            if (user.Count != 0)
+            if (user != null)
             {
                 return true;
             }
@@ -32,28 +30,18 @@ namespace Infrastructure.Repositories
         public User GetUser(string emailAddress, string password)
         {
             var user = RealtimeDrawingApplicationContext.Users
-                 .Where(u => u.UserEmailAddress == emailAddress.ToLower()
-                 && u.UserPassword == password)
-                 .ToList();
+                 .FirstOrDefault(u => u.UserEmailAddress == emailAddress.ToLower()
+                 && u.UserPassword == password);
 
-            if (user.Count != 0)
-            {
-                return user[0];
-            }
-            return null;
+            return user;
         }
 
         public User GetUserWithEmailAddress(string emailAddress)
         {
             var user = RealtimeDrawingApplicationContext.Users
-                .Where(u => u.UserEmailAddress == emailAddress.ToLower())
-                .ToList();
+                .FirstOrDefault(u => u.UserEmailAddress == emailAddress.ToLower());
 
-            if (user.Count != 0)
-            {
-                return user[0];
-            }
-            return null;
+            return user;
         }
     }
 }
