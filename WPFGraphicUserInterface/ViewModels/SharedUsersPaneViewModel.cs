@@ -58,6 +58,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
 
         public DelegateCommand AddSharedUserCommand { get; set; }
+        public DelegateCommand RemoveSharedUserCommand { get; set; }
 
         public IEventAggregator _eventAggregator;
 
@@ -65,7 +66,25 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ProjectSharedToAnotherUserEvent>().Subscribe(RefreshSharedProjectPane);
-            AddSharedUserCommand = new DelegateCommand(ExecuteAddSharedUser, CanExecuteAddSharedUser);
+
+            //Commands
+            AddSharedUserCommand = new DelegateCommand(AddSharedUser, CanAddSharedUser);
+            RemoveSharedUserCommand = new DelegateCommand(RemoveSharedUser, () => true);
+        }
+
+        private void RemoveSharedUser()
+        {
+            if (SelectedProjectUser != null) ProjectUsers.Remove(SelectedProjectUser);
+            _eventAggregator.GetEvent<RemoveSharedUserBtnClickEvent>().Publish(SelectedProjectUser.SharedUserEmailAddress);
+        }
+
+        private bool CanRemoveSharedUser()
+        {
+            if (SelectedProjectUser == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         private void RefreshSharedProjectPane(ProjectUserProxy projectUserProxy)
@@ -79,12 +98,12 @@ namespace WPFGraphicUserInterface.ViewModels
         }
 
         //Add Shared User
-        private bool CanExecuteAddSharedUser()
+        private bool CanAddSharedUser()
         {
             return true;
         }
 
-        private void ExecuteAddSharedUser()
+        private void AddSharedUser()
         {
             _eventAggregator.GetEvent<ShowAddSharedUserEvent>().Publish();
         }

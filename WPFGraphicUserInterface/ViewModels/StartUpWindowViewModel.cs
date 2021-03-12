@@ -127,6 +127,7 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<ImportProjectEvent>().Subscribe(ImportProject);
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Subscribe(SetStatusbarMessage);
             _eventAggregator.GetEvent<SharedUserInfoChangedEvent>().Subscribe(RefreshSharedUserDetails);
+            _eventAggregator.GetEvent<RemoveSharedUserBtnClickEvent>().Subscribe(RemoveSharedUser);
 
             //Initialize Right menu pane
             RightPaneContentControl = new RightPaneView();
@@ -145,6 +146,11 @@ namespace WPFGraphicUserInterface.ViewModels
             ShowRightPaneCommand = new DelegateCommand(ShowRightPane, () => true);
 
             StatusBarMessage = "Ready";
+        }
+
+        private async void RemoveSharedUser(string sharedUserEmailAddress)
+        {
+            await DAL.RemoveSharedUserAsync(sharedUserEmailAddress, ActiveProject.ProjectId);
         }
 
         private async void RefreshSharedUserDetails(Tuple<string, bool> newInfo)

@@ -21,5 +21,11 @@ namespace Infrastructure.Repositories
 
             return projectUser;
         }
+
+        public void RemoveProjectUser(int sharedUserId, int projectId)
+        {
+            var projectuser = GetProjectUser(sharedUserId, projectId);
+            RealtimeDrawingApplicationContext.Remove(projectuser);
+        }
     }
 }

@@ -148,6 +148,21 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
+        public static async Task RemoveSharedUserAsync(string sharedUserEmailAddress, int projectId)
+        {
+            await Task.Run(() =>
+            {
+                using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+                {
+                    var sharedUserId = unitOfWork.Users.GetUserWithEmailAddress(sharedUserEmailAddress).UserId;
+
+                    unitOfWork.ProjectUsers.RemoveProjectUser(sharedUserId, projectId);
+
+                    unitOfWork.Complete();
+                }
+            });
+        }
+
         public static async Task EditSharedUserDetails(Tuple<string, bool> newInfo, int sharedProjectId)
         {
             await Task.Run(() =>

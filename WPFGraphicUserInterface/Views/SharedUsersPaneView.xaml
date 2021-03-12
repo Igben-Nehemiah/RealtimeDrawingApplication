@@ -63,7 +63,7 @@
             <Button DockPanel.Dock="Left"
                  HorizontalAlignment="Left"
               VerticalAlignment="Top"
-                 Command="{Binding}">
+                 Command="{Binding RemoveSharedUserCommand}">
                 Delete User
             </Button>
         </DockPanel> 
