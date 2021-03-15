@@ -53,7 +53,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         public DrawingCanvas()
         {
-            Background = Brushes.White;
+            Background = Brushes.LightGray;
             AllowDrop = true;
              
             EventAggregator = App.ShellContainer.Resolve<IEventAggregator>();

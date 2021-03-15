@@ -30,9 +30,9 @@
         </Style>
     </UserControl.Resources>
 
-    <Border BorderBrush="White" BorderThickness=".0" Padding="0,0"
+    <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" BorderThickness="1" Padding="0,0"
         Margin="0,40,0,30">
-        <DockPanel Margin="0,0" Background="#a7b5d1">
+        <DockPanel Margin="0,0" Background="{DynamicResource ApplicationPrimaryBackground}">
             <DockPanel DockPanel.Dock="Top"
                        Margin="2,10,3,0">
 
@@ -43,7 +43,8 @@
                 </Button>-->
 
                 <TextBlock Text="{Binding ProjectName}"
-                       Foreground= "Purple"
+                       Foreground= "Black"
+                           FontWeight="DemiBold"
                        HorizontalAlignment="Left"
                        DockPanel.Dock="Left"/>
             </DockPanel>
@@ -54,9 +55,9 @@
                        DockPanel.Dock="Top"/>
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="3,10,3,0">
+                    Margin="0,20,3,0">
                 <TextBlock Text="Create Project" Margin="17,0,0,0"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger
@@ -69,9 +70,9 @@
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="3,10,3,0">
+                    Margin="0,20,3,0">
                 <TextBlock Text="Share Project" Margin="17,0,0,0"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger
@@ -84,9 +85,9 @@
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="3,10,3,0">
+                    Margin="0,20,3,0">
                 <TextBlock Text="Open Project" Margin="17,0,0,0"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger
@@ -99,9 +100,9 @@
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="3,10,3,0">
+                    Margin="0,20,3,0">
                 <TextBlock Text="Save Project" Margin="17,0,0,0"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger
@@ -114,9 +115,9 @@
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="3,10,3,0">
+                    Margin="0,20,3,0">
                 <TextBlock Text="Delete Project" Margin="17,0,0,0"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger
@@ -129,9 +130,9 @@
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="3,20,3,0">
+                    Margin="0,20,3,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -165,9 +166,9 @@
 
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="3,20,3,0">
+                    Margin="0,20,3,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -199,7 +200,7 @@
             </Border>
 
             <Border Style="{StaticResource borderstyle1}"
-                Background="#a7b5d1"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Bottom"
                     Height="25"
                     Width="70"

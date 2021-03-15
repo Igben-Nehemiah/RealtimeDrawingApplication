@@ -7,11 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="160">
 
-    <StackPanel Background="#a7b5d1"
-                Margin="0,30,0,0">
+    <StackPanel Background="{DynamicResource ApplicationPrimaryBackground}"
+                Margin="0,0,0,0">
 
         <ListBox ItemsSource="{Binding Projects}"
-                 MinHeight="150" 
+                 Height="{Binding FallbackValue=410}"
                  Margin="2,0"
                  SelectedItem="{Binding SelectedProject}">
             <ListBox.ItemTemplate>

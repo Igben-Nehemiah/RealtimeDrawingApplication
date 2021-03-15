@@ -18,6 +18,8 @@ namespace Infrastructure.Repositories
 
         public bool ContainsUser(string emailAddress)
         {
+            if (emailAddress == null) return false;
+
             var user = RealtimeDrawingApplicationContext.Users.FirstOrDefault(u => u.UserEmailAddress == emailAddress.ToLower());
 
             if (user != null)

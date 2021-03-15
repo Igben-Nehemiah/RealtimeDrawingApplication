@@ -7,10 +7,10 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="Create Project" Opacity=".8" 
-        Height="250" 
-        Width="500" 
-        Background="#a7b5d1"
+        Title="Create Project"
+        Height="253" 
+        Width="514" 
+        Background="{DynamicResource ApplicationPrimaryBackground}"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0"
         WindowStyle= "ToolWindow"
@@ -33,13 +33,13 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="0,0,0,16">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="32*"/>
 
         </Grid.RowDefinitions>
 
@@ -53,23 +53,23 @@
         <TextBlock Text="Project Name"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="11" FontWeight="DemiBold"
-                   Margin="20,5,0,5"
+                   FontSize="14" FontWeight="DemiBold"
+                   Margin="20,0,0,0"
                    Grid.Row="1"
-                   Grid.Column="0"/>
+                   Grid.Column="0" Height="15"/>
 
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="0,5,30,5"
+                Margin="0,0,30,0"
                 Grid.Row="1"
                 Grid.Column="1"
-                Grid.ColumnSpan="3"
-                VerticalAlignment="Stretch">
+                Grid.ColumnSpan="3" Height="22">
 
-            <TextBox FontSize="12" 
+            <TextBox FontSize="14" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      Text="{Binding CurrentProject.ProjectName}"
-                     TextAlignment="Left"/>
+                     TextAlignment="Left"
+                     Focusable="True"/>
         </Border>
 
         <!--<TextBlock Text="Shared Users Emails"
@@ -101,15 +101,13 @@
                Grid.Column="0" Grid.ColumnSpan="4"/>-->
 
         <Button 
-            Grid.Column="0" 
             Grid.Row="3"
             Grid.ColumnSpan="4"
-            Margin="200,5,200,5"
+            Margin="21,5,32,9"
             Background="Gray"
             Padding="0,0,0,0"
             Content="Create Project"
             Style="{StaticResource RoundCorner}"
-            Command="{Binding CreateProjectCommand}">
-        </Button>
+            Command="{Binding CreateProjectCommand}"/>
     </Grid>
 </Window>

@@ -80,16 +80,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _activeProject, value);
             }
         }
-
-        public bool _isRightPaneOptionsPopUpOpen;
-        public bool IsRightPaneOptionsPopUpOpen
-        {
-            get { return _isRightPaneOptionsPopUpOpen; }
-            set
-            {
-                SetProperty(ref _isRightPaneOptionsPopUpOpen, value);
-            }
-        }
         public FrameworkElement RightPaneContentControl
         {
             get { return _rightPaneContentControl; }
@@ -156,8 +146,6 @@ namespace WPFGraphicUserInterface.ViewModels
             ActiveProject = DataAccessLayer.LoadProjectFromDatabase(UserProxy, projectName);
 
             var drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectWithProjectName(projectName);
-
-            //Set project name to projectName
 
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing Canvas!");
 
