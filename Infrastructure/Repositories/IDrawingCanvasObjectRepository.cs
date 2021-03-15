@@ -6,5 +6,8 @@ namespace Infrastructure.Repositories
     public interface IDrawingCanvasObjectRepository : IRepository<DrawingCanvasObject>
     {
         IEnumerable<DrawingCanvasObject> GetDrawingCanvasObjectsBelongingTo(int projectId);
+
+        //void DeleteAllCanvasObjectsOf(int projectId);
+
     }
 }

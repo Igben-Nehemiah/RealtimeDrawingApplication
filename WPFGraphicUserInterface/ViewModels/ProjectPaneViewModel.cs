@@ -10,8 +10,19 @@ namespace WPFGraphicUserInterface.ViewModels
 {
     public class ProjectPaneViewModel : BindableBase
     {
+        private string _selectedProject;
+
         private ObservableCollection<string> _projects = new ObservableCollection<string>();
 
+        public string SelectedProject
+        {
+            get { return _selectedProject; }
+            set
+            {
+                SetProperty(ref _selectedProject, value);
+                _eventAggregator.GetEvent<SelectedProjectChangedEvent>().Publish(_selectedProject);
+            }
+        }
         public ObservableCollection<string> Projects
         {
             get { return _projects; }

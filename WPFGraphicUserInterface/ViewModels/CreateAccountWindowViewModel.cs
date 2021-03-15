@@ -59,7 +59,7 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 //Perform check here
 
-                DAL.AddUserToDatabase(UserProxy);
+                DataAccessLayer.AddUserToDatabase(UserProxy);
 
                 var startUpWindowView = new StartUpWindowView();
                 var startUpWindowViewModel = new StartUpWindowViewModel(_eventAggregator);
@@ -67,7 +67,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 startUpWindowView.DataContext = startUpWindowViewModel;
                 startUpWindowView.Visibility = System.Windows.Visibility.Visible;
 
-                var user = await DAL.CheckIfIsApplicationUserAsync(UserProxy.UserEmailAddress);
+                var user = await DataAccessLayer.CheckIfIsApplicationUserAsync(UserProxy.UserEmailAddress);
                 _userProxy = user.Item2;
 
                 _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(UserProxy);

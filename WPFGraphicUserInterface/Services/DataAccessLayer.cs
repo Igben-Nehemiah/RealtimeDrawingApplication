@@ -14,7 +14,7 @@ using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.Services
 {
-    public static class DAL
+    public static class DataAccessLayer
     {
         static IEventAggregator eventAggregator { get; set; } = App.ShellContainer.Resolve<IEventAggregator>();
         public static async Task<Tuple<bool, UserProxy>> CheckIfIsApplicationUserAsync(string email)
@@ -148,6 +148,25 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
+        public static IEnumerable<DrawingCanvasObjectProxy> LoadProjectWithProjectName(string projectName)
+        {
+            var drawingCanvasObjectsProxies = new List<DrawingCanvasObjectProxy>();
+
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                var project = unitOfWork.Projects.GetProjectWithProjectName(projectName);
+
+                var projectDrawingCanvasObjects = unitOfWork.DrawingCanvasObjects.GetDrawingCanvasObjectsBelongingTo(project.ProjectId);
+
+                foreach (var drawingObject in projectDrawingCanvasObjects)
+                {
+                    drawingCanvasObjectsProxies.Add(ModelToProxyConverter.DrawingCanvasObjectToDrawingCanvasObjectProxy(drawingObject));
+                }
+            }
+
+            return drawingCanvasObjectsProxies;
+        }
+
         public static async Task RemoveSharedUserAsync(string sharedUserEmailAddress, int projectId)
         {
             await Task.Run(() =>
@@ -163,7 +182,7 @@ namespace WPFGraphicUserInterface.Services
             });
         }
 
-        public static async Task EditSharedUserDetails(Tuple<string, bool> newInfo, int sharedProjectId)
+        public static async Task EditSharedUserDetailsAsync(Tuple<string, bool> newInfo, int sharedProjectId)
         {
             await Task.Run(() =>
             {
@@ -228,7 +247,7 @@ namespace WPFGraphicUserInterface.Services
             return drawingCanvasObjectsProxies;
         }
 
-        public static async void SaveProjectDrawingCanvasObjectsToDB(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies, 
+        public static async void SaveProjectDrawingCanvasObjectsToDBAsync(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies, 
             ProjectProxy projectProxy)
         {
             await Task.Run(() => SaveProject());
@@ -239,6 +258,13 @@ namespace WPFGraphicUserInterface.Services
 
                 using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
                 {
+                    var previousDrawingComponents = unitOfWork.DrawingCanvasObjects.GetDrawingCanvasObjectsBelongingTo(projectProxy.ProjectId);
+
+                    foreach (var previousDrawingComponent in previousDrawingComponents)
+                    {
+                        unitOfWork.DrawingCanvasObjects.Remove(previousDrawingComponent);
+                    }
+
                     foreach (var drawingCanvasObjectProxy in drawingCanvasObjectProxies)
                     {
                         var drawingCanvasObjectModel = ProxyToModelConverter
@@ -247,9 +273,9 @@ namespace WPFGraphicUserInterface.Services
                         drawingCanvasObjectModel.Project = unitOfWork.Projects.Get(projectProxy.ProjectId);
 
                         unitOfWork.DrawingCanvasObjects.Add(drawingCanvasObjectModel);
+                        unitOfWork.Complete();
                     }
 
-                    unitOfWork.Complete();
 
                     eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Project saved to database!");
                     Thread.Sleep(2000);
@@ -262,6 +288,7 @@ namespace WPFGraphicUserInterface.Services
         {
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
             {
+                //Move to IProjectRepository later on
                 var projects = unitOfWork.Projects.Find(p => p.ProjectCreator.UserEmailAddress == userProxy.UserEmailAddress
                 && p.ProjectName == projectName)
                     .ToList();

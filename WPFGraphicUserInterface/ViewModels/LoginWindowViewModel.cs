@@ -74,7 +74,7 @@ namespace WPFGraphicUserInterface.ViewModels
         //Login
         private async void Login()
         {
-            var detail = await DAL.CheckIfUserDetailIsValidAsync(UserEmail, UserPassword);
+            var detail = await DataAccessLayer.CheckIfUserDetailIsValidAsync(UserEmail, UserPassword);
             _user = detail.Item2;
             isValidUser = detail.Item1;
             //Throw LoggedInEvent to StartUpWindowViewModel

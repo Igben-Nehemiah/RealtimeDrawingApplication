@@ -106,7 +106,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _menuContentControl, value);
             }
         }
-        public string StartUpWindowTitle { get; set; } = "Realtime Drawing Application";
+        public string StartUpWindowTitle { get; set; } = "Drawing Application";
 
         //Commands
         public DelegateCommand AddsharedUserFromTopPaneCommand { get; set; }
@@ -128,6 +128,7 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Subscribe(SetStatusbarMessage);
             _eventAggregator.GetEvent<SharedUserInfoChangedEvent>().Subscribe(RefreshSharedUserDetails);
             _eventAggregator.GetEvent<RemoveSharedUserBtnClickEvent>().Subscribe(RemoveSharedUser);
+            _eventAggregator.GetEvent<SelectedProjectChangedEvent>().Subscribe(LoadProjectFromProjectPane);
 
             //Initialize Right menu pane
             RightPaneContentControl = new RightPaneView();
@@ -148,14 +149,33 @@ namespace WPFGraphicUserInterface.ViewModels
             StatusBarMessage = "Ready";
         }
 
+        private void LoadProjectFromProjectPane(string projectName)
+        {
+            DrawingCanvas = new DrawingCanvas();
+
+            ActiveProject = DataAccessLayer.LoadProjectFromDatabase(UserProxy, projectName);
+
+            var drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectWithProjectName(projectName);
+
+            //Set project name to projectName
+
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing Canvas!");
+
+            UnpackProjectToCanvas(drawingCanvasObjectsProxies);
+
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Ready!");
+
+            _menuPaneViewModel.ProjectName = projectName;
+        }
+
         private async void RemoveSharedUser(string sharedUserEmailAddress)
         {
-            await DAL.RemoveSharedUserAsync(sharedUserEmailAddress, ActiveProject.ProjectId);
+            await DataAccessLayer.RemoveSharedUserAsync(sharedUserEmailAddress, ActiveProject.ProjectId);
         }
 
         private async void RefreshSharedUserDetails(Tuple<string, bool> newInfo)
         {
-            await DAL.EditSharedUserDetails(newInfo, ActiveProject.ProjectId);
+            await DataAccessLayer.EditSharedUserDetailsAsync(newInfo, ActiveProject.ProjectId);
         }
 
         private void SetStatusbarMessage(string newStatusbarMessage)
@@ -214,13 +234,17 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             if (ActiveProject != null)
             {
-                PackProject();
+                var canvasItems = PackProject();
 
-                ActiveProject.ProjectId = DAL.LoadProjectFromDatabase(UserProxy, ActiveProject.ProjectName).ProjectId;
+                if (ActiveProject.ProjectId == 0)//Project not in db yet
+                {
+                    ActiveProject.ProjectId = DataAccessLayer.LoadProjectFromDatabase(UserProxy, ActiveProject.ProjectName).ProjectId;
 
-                DAL.SaveProjectDrawingCanvasObjectsToDB(ActiveProject.ProjectDrawingCanvasObjects, ActiveProject);
+                    _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(UserProxy.UserCreatedProjects);
 
-                _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(UserProxy.UserCreatedProjects);
+                }
+
+                DataAccessLayer.SaveProjectDrawingCanvasObjectsToDBAsync(canvasItems, ActiveProject);
             }
             else
             {
@@ -228,9 +252,11 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        void PackProject()
+        List<DrawingCanvasObjectProxy> PackProject()
         {
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Packing project!");
+
+            var canvasItems = new List<DrawingCanvasObjectProxy>();
 
             foreach (var child in DrawingCanvas.Children)
             {
@@ -238,9 +264,11 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 var item = ConvertFrameworkElementToDrawingCanvasObjectProxy(ch);
 
-                ActiveProject.ProjectDrawingCanvasObjects.Add(item);
+                //ActiveProject.ProjectDrawingCanvasObjects.Add(item);
+                canvasItems.Add(item);
             }
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Packing Complete!");
+            return canvasItems;
         }
 
         //Helper function to unpack a child from a canvas to a drawing canvas object 
@@ -290,7 +318,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 projectSharedUser.SharedUser = sharedUserInfo.Item1;
                 projectSharedUser.CanEdit = sharedUserInfo.Item2;
 
-                await DAL.AddSharedUserToDatabaseAsync(projectSharedUser);
+                await DataAccessLayer.AddSharedUserToDatabaseAsync(projectSharedUser);
 
                 var sharedProjectFullname = ActiveProject.ProjectName + "_" + UserProxy.UserEmailAddress;
                 if (shared.ContainsKey(sharedProjectFullname))
@@ -343,7 +371,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
             createdProject.ProjectDrawingCanvasObjects = new List<DrawingCanvasObjectProxy>();
             //Project creator can edit project
-            createdProject.CanEdit = true;
+            //createdProject.CanEdit = true;
 
             //Add project to list of user created projects
             //Make project active project
@@ -352,11 +380,14 @@ namespace WPFGraphicUserInterface.ViewModels
             ActiveProject.ProjectCreationDate = DateTime.Now;
 
             //Add newly created project to the database
-            await DAL.AddProjectToDatabaseAsync(ActiveProject);
+            await DataAccessLayer.AddProjectToDatabaseAsync(ActiveProject);
 
             //Set the project name on the menu pane
             _menuPaneViewModel.ProjectName = createdProject.ProjectName;
             MenuContentControl.DataContext = _menuPaneViewModel;
+
+            //Refresh user
+            SetUser(UserProxy);
         }
 
         //Set User
@@ -365,7 +396,7 @@ namespace WPFGraphicUserInterface.ViewModels
             UserProxy = pUserProxy;
 
             //Load user projects
-            pUserProxy.UserCreatedProjects = DAL.LoadUserProjectsFromDatabase(pUserProxy).ToList();
+            pUserProxy.UserCreatedProjects = DataAccessLayer.LoadUserProjectsFromDatabase(pUserProxy).ToList();
 
             
             if (pUserProxy.UserCreatedProjects.Count != 0)

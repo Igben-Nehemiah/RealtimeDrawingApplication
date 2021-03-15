@@ -15,6 +15,12 @@ namespace Infrastructure.Repositories
             get { return Context as RealtimeDrawingApplicationContext; }
         }
 
+        public Project GetProjectWithProjectName(string projectName)
+        {
+            return RealtimeDrawingApplicationContext.Projects.FirstOrDefault(p => p.ProjectName.ToLower()
+             == projectName.ToLower());
+        }
+
         public IEnumerable<Project> GetUserCreatedProjects(int userId)
         {
             return RealtimeDrawingApplicationContext.Projects

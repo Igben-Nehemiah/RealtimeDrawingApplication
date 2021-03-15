@@ -14,6 +14,11 @@ namespace Infrastructure.Repositories
             get { return Context as RealtimeDrawingApplicationContext; }
         }
 
+        //public void DeleteAllCanvasObjectsOf(int projectId)
+        //{
+        //    RealtimeDrawingApplicationContext.DrawingCanvasObjects.RemoveRange(GetDrawingCanvasObjectsBelongingTo(projectId));
+        //}
+
         public IEnumerable<DrawingCanvasObject> GetDrawingCanvasObjectsBelongingTo(int projectId)
         {
             return RealtimeDrawingApplicationContext.DrawingCanvasObjects

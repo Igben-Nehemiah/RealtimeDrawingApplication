@@ -56,7 +56,7 @@ namespace WPFGraphicUserInterface.ViewModels
         private async void AddSharedUser()
         {
             //Perform validation
-            var isApplicationUser = await DAL.CheckIfIsApplicationUserAsync(SharedUser.UserEmailAddress);
+            var isApplicationUser = await DataAccessLayer.CheckIfIsApplicationUserAsync(SharedUser.UserEmailAddress);
 
             if (isApplicationUser.Item1)
             {

@@ -5,7 +5,7 @@ using System;
 
 namespace WPFGraphicUserInterface.ModelProxies
 {
-    public class DrawingCanvasObjectProxy : UIElement
+    public class DrawingCanvasObjectProxy// : UIElement
     {
         public int CanvasObjectId { get; set; }
         public string CanvasObjectGuid { get; set; }

@@ -74,8 +74,12 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void RemoveSharedUser()
         {
-            if (SelectedProjectUser != null) ProjectUsers.Remove(SelectedProjectUser);
-            _eventAggregator.GetEvent<RemoveSharedUserBtnClickEvent>().Publish(SelectedProjectUser.SharedUserEmailAddress);
+            if (SelectedProjectUser != null)
+            {
+                _eventAggregator.GetEvent<RemoveSharedUserBtnClickEvent>().Publish(SelectedProjectUser.SharedUserEmailAddress);
+
+                ProjectUsers.Remove(SelectedProjectUser);
+            }
         }
 
         private bool CanRemoveSharedUser()
