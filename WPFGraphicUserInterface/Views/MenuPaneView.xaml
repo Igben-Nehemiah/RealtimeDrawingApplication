@@ -8,6 +8,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
 
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Ctrl"
+                    Key="S"
+                    Command="{Binding SaveProjectCommand}"/>
+    </UserControl.InputBindings>
+
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
@@ -22,7 +28,7 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ApplicationSecondaryBackground}"/>
                     <Setter Property="BorderThickness" Value="1.5"/>
                     <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
@@ -30,11 +36,12 @@
         </Style>
     </UserControl.Resources>
 
-    <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" BorderThickness="1" Padding="0,0"
+    <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" BorderThickness="1.2" Padding="0,0"
         Margin="0,40,0,30">
         <DockPanel Margin="0,0" Background="{DynamicResource ApplicationPrimaryBackground}">
             <DockPanel DockPanel.Dock="Top"
-                       Margin="2,10,3,0">
+                       Margin="1,2,2,0"
+                       Background="{DynamicResource ApplicationSecondaryBackground}">
 
                 <!--<Button Command="{Binding}"
                         DockPanel.Dock="Left">
@@ -42,22 +49,29 @@
                   Width="24" Height="24"/>
                 </Button>-->
 
-                <TextBlock Text="{Binding ProjectName}"
-                       Foreground= "Black"
-                           FontWeight="DemiBold"
-                       HorizontalAlignment="Left"
-                       DockPanel.Dock="Left"/>
+                <TextBlock Foreground= "{DynamicResource ApplicationPrimaryBackground}"
+                           FontSize="18"
+                           FontWeight="Medium"
+                       HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Background="{DynamicResource ApplicationSecondaryBackground}"
+                    
+                           TextWrapping="Wrap"
+                       DockPanel.Dock="Left">
+                    <Run Text="   Project"/>
+                    <Run Text="{Binding ProjectName}"/>
+                </TextBlock>
             </DockPanel>
 
             
-            <Separator BorderThickness="5"
-                       BorderBrush="Black"
+            <Separator BorderThickness="1"
+                       BorderBrush="{DynamicResource ApplicationSecondaryBackground}"
                        DockPanel.Dock="Top"/>
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Top"
-                    Margin="0,20,3,0">
+                    Margin="0,1,3,0">
                 <TextBlock Text="Create Project" Margin="17,0,0,0"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger
@@ -201,20 +215,53 @@
 
             <Border Style="{StaticResource borderstyle1}"
                 Background="{DynamicResource ApplicationPrimaryBackground}"
+                    DockPanel.Dock="Top"
+                    Margin="0,20,3,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Sign Out"
+                               VerticalAlignment="Center"
+                               Grid.Row="1" 
+                               Margin="17,0,0,0"/>
+                </Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding SignOutCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Border>
+
+            <Border Style="{StaticResource borderstyle1}"
+                Background="{DynamicResource ApplicationPrimaryBackground}"
                     DockPanel.Dock="Bottom"
                     Height="25"
                     Width="70"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    MouseDown="MenuPaneViewClose_Click">
+                    VerticalAlignment="Bottom">
+
                 <TextBlock Text="Close"
                            Foreground="Red"
                            FontWeight="Bold"
                            VerticalAlignment="Stretch"
                            HorizontalAlignment="Center"/>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="MouseDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding CloseMenuCommand}"/>
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Border>
 
-            <Popup IsOpen="{Binding ImportExportPopUpIsOpen}"
+            <Popup x:Name="ImportExportPopup" IsOpen="{Binding ImportExportPopUpIsOpen}"
                 Placement="MousePoint"
                 PopupAnimation="Fade"
                 StaysOpen="False">

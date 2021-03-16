@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Events;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -11,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WPFGraphicUserInterface.Services;
 using WPFGraphicUserInterface.ViewModels;
+using Prism.Ioc;
+using WPFUserInterface.Core;
 
 namespace WPFGraphicUserInterface.Views
 {
@@ -21,10 +24,38 @@ namespace WPFGraphicUserInterface.Views
    
     public partial class StartUpWindowView : Window
     {
+        private IEventAggregator _eventAggregator;
         public StartUpWindowView()
         {
             InitializeComponent();
+            _eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
+
+            _eventAggregator.GetEvent<SigningOutEvent>().Subscribe(SignOut);
         }
+
+        private void SignOut()
+        {
+            //var logInView = new LoginWindowView();
+            //logInView.DataContext = new LoginWindowViewModel(_eventAggregator);
+
+            Close();
+        }
+
+        //private void SaveProjectShortCut(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+        //    {
+        //        _eventAggregator.GetEvent<SaveProjectEvent>().Publish();
+        //    }
+        //}
+
+        //private void DeleteProjectShortCut(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.D & Keyboard.Modifiers == ModifierKeys.Control)
+        //    {
+        //        _eventAggregator.GetEvent<DeleteProjectBtnClickEvent>().Publish();
+        //    }
+        //}
 
         private void DrawingObject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

@@ -167,6 +167,8 @@ namespace WPFGraphicUserInterface.ViewModels
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+            EventAggregator.GetEvent<CloseMenuBtnClickEvent>().Publish();
+
             FocusedDrawingElement = null;
            
             var item = e.OriginalSource;
@@ -205,6 +207,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
+            EventAggregator.GetEvent<CloseMenuBtnClickEvent>().Publish();
             
             FocusedDrawingElement = null;
 

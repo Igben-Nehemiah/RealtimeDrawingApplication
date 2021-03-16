@@ -8,8 +8,10 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
          mc:Ignorable="d"
         Title="Login"
-        Height="250" 
-        Width="500" 
+        MinHeight="250" 
+        MinWidth="500" 
+        MaxWidth="500"
+        MaxHeight="250"
         Background="{DynamicResource ApplicationPrimaryBackground}"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0"
@@ -18,7 +20,7 @@
 
     <Window.Resources>
         <Style TargetType="Border" x:Key="TextBoxBorder">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{DynamicResource ApplicationPrimaryBackground}"/>
             <Setter Property="BorderBrush" Value="Gray"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -91,13 +93,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="18*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="64*"/>
+            <RowDefinition Height="22*"/>
 
 
         </Grid.RowDefinitions>
@@ -113,16 +115,16 @@
                    TextAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="14" FontWeight="DemiBold"
-                   Margin="20,3,0,3"
+                   Margin="20,0,0,0"
                    Grid.Row="1"
-                   Grid.Column="0"/>
+                   Grid.Column="0" Height="19"/>
 
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="20,3,30,03"
+                Margin="20,0,30,0"
                 Grid.Row="1"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
-                VerticalAlignment="Stretch">
+                Height="30">
 
             <TextBox FontSize="14" 
                      FontWeight="DemiBold"
@@ -133,18 +135,18 @@
 
         <TextBlock Text="Password"
                    TextAlignment="Left"
-                   VerticalAlignment="Center"
                    FontSize="14" FontWeight="DemiBold"
-                   Margin="20,3,0,3"
+                   Margin="20,14,0,14"
                    Grid.Row="2"
+                   Grid.RowSpan="2"
                    Grid.Column="0"/>
 
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="20,3,30,3"
+                Margin="20,0,30,0"
                 Grid.Row="2"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
-                VerticalAlignment="Stretch">
+                Height="30" Grid.RowSpan="2">
 
             <TextBox FontSize="14" 
                      FontWeight="DemiBold"
@@ -155,27 +157,27 @@
 
 
         <Button Style="{StaticResource RoundCorner}"
-                BorderBrush="Gray" 
+                Foreground="White"
+                FontWeight="DemiBold"
                 Grid.Row="4"
                 Grid.ColumnSpan="4"
                 Padding="0,0,0,0"
-                Margin="17,3,30,51"
+                Margin="19,24,30,31"
                 Content="Sign In"
                 Click="SignInBtn_Click" Grid.RowSpan="2"/>
 
         <Label Content="Don't have an account?"
-               Grid.Row="5" 
-               Grid.Column="1"
+               Grid.Row="5"
                VerticalAlignment="Bottom"
-               HorizontalAlignment="Left" />
+               HorizontalAlignment="Left" Grid.ColumnSpan="2" Height="26" Margin="116,0,0,0" Width="134" />
         <Button Grid.Row="5" 
                Grid.Column="2"
-               VerticalAlignment="Bottom"
+               VerticalAlignment="Center"
                HorizontalAlignment="Center"
                 Click="SignUpBtn_Click"
-                Style="{StaticResource SignUpBtn}">
+                Style="{StaticResource SignUpBtn}" Height="20" Margin="0,37,0,0" Width="45">
             <TextBlock TextDecorations="Underline"
-                       Text="Sign Up" Style="{StaticResource ResourceKey=GlowText}">
+                       Text="Sign Up" Style="{StaticResource ResourceKey=GlowText}" Height="25" Width="48">
 
             </TextBlock>
         </Button>

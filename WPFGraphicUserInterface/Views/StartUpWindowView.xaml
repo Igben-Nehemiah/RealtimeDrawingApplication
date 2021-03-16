@@ -39,18 +39,24 @@
 
             <DockPanel DockPanel.Dock="Top" 
                    Background="{DynamicResource ApplicationPrimaryBackground}">
-                <TextBlock Text="{Binding UserProxy.UserEmailAddress}"
-                           VerticalAlignment="Bottom"
-                           FontSize="14"
-                           FontStyle="Italic"
+                <TextBlock VerticalAlignment="Center"
+                           FontSize="18"
                            FontWeight="DemiBold"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Margin="15,0,0,0"
+                           Foreground="{DynamicResource ApplicationSecondaryBackground}">
+                    <Run Text="{Binding UserProxy.UserFirstName}"/>
+                    <Run Text="{Binding UserProxy.UserLastName}"/>
+                    <Run Text="{Binding UserProxy.UserEmailAddress}" FontSize="12"/>
+                </TextBlock>
 
                 <Button DockPanel.Dock="Right"
                   HorizontalAlignment="Right"
                   Width="30" Height="30"
+                        Padding="1,1,7,1"
                   Margin="10,5,20,5"
-                        Style="{DynamicResource RoundedButton}">
+                        Style="{DynamicResource RoundedButton}"
+                        Command="{Binding }">
                     <Path Fill="Gray" Data="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z"
                   HorizontalAlignment="Center"
                           VerticalAlignment="Center"/>
@@ -75,6 +81,7 @@
                   HorizontalAlignment="Right"
                   Width="30" Height="30"
                   Margin="10,5,20,5"
+                        Padding="1,2,5,2"
                         Command="{Binding AddsharedUserFromTopPaneCommand}"
                         Style="{DynamicResource RoundedButton}">
                     <Path Fill="Gray" Data="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z"
@@ -90,7 +97,7 @@
                        Height="30"
                    Background="{DynamicResource ApplicationPrimaryBackground}">
                 <Label Content="{Binding StatusBarMessage}"
-                       FontSize="11"
+                       FontSize="12"
                        FontWeight="DemiBold"
                        />
             </DockPanel>
@@ -103,44 +110,44 @@
                     <Button Style="{DynamicResource RoundedButton}" Command="{Binding ShowMenuCommand}">
                         <Path Fill="Black" Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
                   Width="30" Height="30"
-                  Margin="10,5,10,5"/>
+                  Margin="12,10,10,5"/>
                     </Button>
 
                     <Rectangle
                   Fill="White"  
-                  Width="30" Height="30"
-                  Margin="10,10,10,5"
+                  Width="24" Height="24"
+                  Margin="12,10,10,5"
                     Stroke="Black"
                     StrokeThickness="1.5"
                    MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
                     </Rectangle>
 
                     <Ellipse Fill="White"
-                  Width="30" Height="30"
+                  Width="24" Height="24"
                          Stroke="Black"
                     StrokeThickness="1.5"
-                  Margin="10,10,10,5"
+                  Margin="12,10,10,5"
                          MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
                     </Ellipse>
 
                     <Path Fill="White"
                       Stroke="Black"
                     StrokeThickness="1.5"
-                  Data="M15,0 L30,30 L0,30Z"
-                  Margin="10"
+                  Data="M12,0 L24,24 L0,24Z"
+                  Margin="16,10,10,5"
                   MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown"/>
 
                     <Path Fill="Black"
-                  Data="M0,0 L30,30"
+                  Data="M0,0 L24,24"
                       Stroke="Black"
                       StrokeThickness="2"
-                       Margin="10,10,0,0"
+                       Margin="16,10,10,5"
                   MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown"/>
 
 
                     <TextBlock FontSize="20"
                        FontWeight="DemiBold"
-                               Margin="0,10,0,0"
+                               Margin="12,10,10,5"
                        HorizontalAlignment="Center"
                            MouseLeftButtonDown="DrawingObject_MouseLeftButtonDown">
                 <Run Text="T" FontSize="30"/>
@@ -166,13 +173,13 @@
             </Border>
             
             <!--Content control for canvas-->
+
             <ContentControl  Content="{Binding DrawingCanvas}"
                         Grid.Column="0"
                              Background="LightGray"
                         HorizontalAlignment="Stretch">
 
             </ContentControl>
-
         </DockPanel>
 
         <!--Content control for menu pane-->

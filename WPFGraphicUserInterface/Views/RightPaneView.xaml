@@ -85,10 +85,12 @@
                 </Button>
 
                 <Label Grid.Column="1"
+                       HorizontalAlignment="Center"
                 Content="{Binding CurrentPaneName}" 
                    MinWidth="100"
-                   DockPanel.Dock="Left"
-                   FontSize="14"/>
+                   FontSize="16"
+                       Foreground="Black"
+                       FontWeight="Medium"/>
 
                 <Button Grid.Column="2"
                     Height="20"

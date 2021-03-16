@@ -102,6 +102,7 @@ namespace WPFGraphicUserInterface.ViewModels
         public DelegateCommand AddsharedUserFromTopPaneCommand { get; set; }
         public DelegateCommand ShowMenuCommand { get; set; }
         public DelegateCommand ShowRightPaneCommand { get; set; }
+        public DelegateCommand ExportFromTopPaneCommand { get; set; }
 
         public IEventAggregator _eventAggregator;
 
@@ -119,6 +120,10 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<SharedUserInfoChangedEvent>().Subscribe(RefreshSharedUserDetails);
             _eventAggregator.GetEvent<RemoveSharedUserBtnClickEvent>().Subscribe(RemoveSharedUser);
             _eventAggregator.GetEvent<SelectedProjectChangedEvent>().Subscribe(LoadProjectFromProjectPane);
+            _eventAggregator.GetEvent<DeleteProjectBtnClickEvent>().Subscribe(DeleteActiveProject);
+            _eventAggregator.GetEvent<OpenProjectBtnClickEvent>().Subscribe(OpenUserProjects);
+            _eventAggregator.GetEvent<SignOutBtnClickEvent>().Subscribe(SignOut);
+            _eventAggregator.GetEvent<CloseMenuBtnClickEvent>().Subscribe(CloseMenu);
 
             //Initialize Right menu pane
             RightPaneContentControl = new RightPaneView();
@@ -132,11 +137,75 @@ namespace WPFGraphicUserInterface.ViewModels
             MenuContentControl.DataContext = _menuPaneViewModel;
             MenuContentControl.Visibility = Visibility.Collapsed;
 
+            DrawingCanvas = new DrawingCanvas();
+
             AddsharedUserFromTopPaneCommand = new DelegateCommand(AddSharedUserFromTopPane, () => true);
             ShowMenuCommand = new DelegateCommand(ShowMenu, () => true);
             ShowRightPaneCommand = new DelegateCommand(ShowRightPane, () => true);
+            ExportFromTopPaneCommand = new DelegateCommand(ExportFromTopPane, () => true);
 
             StatusBarMessage = "Ready";
+        }
+
+        private void CloseMenu()
+        {
+            MenuContentControl.Visibility = Visibility.Collapsed;
+        }
+
+        private void SignOut()
+        {
+            var result = MessageBox.Show("Do you want to sign out?", "Sign out", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                //Save active project before signing out
+                if (ActiveProject != null) SaveProject();
+
+                _eventAggregator.GetEvent<SigningOutEvent>().Publish();
+            }
+        }
+
+        private void OpenUserProjects()
+        {
+            _rightPaneViewModel.SelectedIndex = 2;
+            ShowRightPane();
+        }
+
+        private void DeleteActiveProject()
+        {
+            var result = MessageBox.Show("Do you want to delete project?", "Delete Project", MessageBoxButton.YesNo);
+            
+            if (ActiveProject == null)
+            {
+                return;
+            }
+            if (result == MessageBoxResult.Yes)
+            {
+                _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Deleting Project!");
+
+                DrawingCanvas = new DrawingCanvas();
+
+                DataAccessLayer.DeleteProject(ActiveProject);
+
+                //Remove project from project list
+                var projectToRemove = _rightPaneViewModel.ProjectPaneViewModel.Projects.FirstOrDefault(p => p.ToLower() == ActiveProject.ProjectName);
+
+                _rightPaneViewModel.ProjectPaneViewModel.Projects.Remove(projectToRemove);
+
+                _rightPaneViewModel.ProjectPaneViewModel.SelectedProject = null;
+
+                _rightPaneViewModel.ProjectPaneViewModel.Projects.Remove(projectToRemove);
+                //Reset project name to 
+                ActiveProject = null;
+
+            }
+
+            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Ready!");
+        }
+
+        private void ExportFromTopPane()
+        {
+            return;
         }
 
         private void LoadProjectFromProjectPane(string projectName)
@@ -146,6 +215,10 @@ namespace WPFGraphicUserInterface.ViewModels
             ActiveProject = DataAccessLayer.LoadProjectFromDatabase(UserProxy, projectName);
 
             var drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectWithProjectName(projectName);
+
+            ActiveProject.ProjectDrawingCanvasObjects = drawingCanvasObjectsProxies.ToList();
+
+            //Set shared users too
 
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing Canvas!");
 

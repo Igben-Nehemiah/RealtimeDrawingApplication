@@ -43,5 +43,7 @@ namespace WPFGraphicUserInterface.Views
             this.Close();
             logInWindow.ShowDialog();
         }
+
+       
     }
 }

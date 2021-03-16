@@ -20,7 +20,7 @@ namespace WPFGraphicUserInterface.ViewModels
         public ShareProjectWindowViewModel _shareProjectWindowViewModel;
 
         //Create Project view
-        private string _projectName = "Project Name";
+        private string _projectName = "No Name";
         public string ProjectName
         {
             get { return _projectName; }
@@ -78,6 +78,9 @@ namespace WPFGraphicUserInterface.ViewModels
         public DelegateCommand ImportProjectCommand { get; set; }
         public DelegateCommand ExportProjectCommand { get; set; }
         public DelegateCommand<string> ShowImportExportOptionsCommand { get; set; }
+        public DelegateCommand SignOutCommand { get; set; }
+        public DelegateCommand CloseMenuCommand { get; set; }
+
 
         IEventAggregator _eventAggregator;
 
@@ -91,6 +94,8 @@ namespace WPFGraphicUserInterface.ViewModels
             SaveProjectCommand = new DelegateCommand(ExecuteSaveProject, CanExecuteSaveProject);
             DeleteProjectCommand = new DelegateCommand(ExecuteDeleteProject, CanExecuteDeleteProject);
             ShowImportExportOptionsCommand = new DelegateCommand<string>(ShowImportExportOptions, CanShowImportExportOptions);
+            SignOutCommand = new DelegateCommand(SignOut, () => true);
+            CloseMenuCommand = new DelegateCommand(CloseMenu, () => true);
 
             //Initialize and add import and export pop up options
             ImportExportPopUpOptions = new ObservableCollection<ImportExportOption>
@@ -98,6 +103,16 @@ namespace WPFGraphicUserInterface.ViewModels
                 new ImportExportOption() { ImportExportOptionName = "JSON" },
                 new ImportExportOption() { ImportExportOptionName = "XML" }
             };
+        }
+
+        private void CloseMenu()
+        {
+            _eventAggregator.GetEvent<CloseMenuBtnClickEvent>().Publish();
+        }
+
+        private void SignOut()
+        {
+            _eventAggregator.GetEvent<SignOutBtnClickEvent>().Publish();
         }
 
         //Resposible for showing pop-up
@@ -121,7 +136,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteDeleteProject()
         {
-            MessageBox.Show("Deleting Project");
+            _eventAggregator.GetEvent<DeleteProjectBtnClickEvent>().Publish();
         }
 
         //Export Project
@@ -175,7 +190,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ExecuteOpenProject()
         {
-            MessageBox.Show("Opening Project");
+            _eventAggregator.GetEvent<OpenProjectBtnClickEvent>().Publish();
         }
 
         public void ShowShareProjectWindow()

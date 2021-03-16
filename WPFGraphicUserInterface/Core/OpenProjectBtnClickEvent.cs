@@ -2,7 +2,7 @@
 
 namespace WPFUserInterface.Core
 {
-    public class AccountCreationStatusEvent : PubSubEvent<bool>
+    public class OpenProjectBtnClickEvent : PubSubEvent
     {
     }
 }

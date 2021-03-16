@@ -86,9 +86,11 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(User);
 
-                startUpWindowView.Show();
+                _eventAggregator.GetEvent<SignInStatusEvent>().Publish(isValidUser);
+
+                startUpWindowView.ShowDialog();
+
             }
-            _eventAggregator.GetEvent<SignInStatusEvent>().Publish(isValidUser);
         }
     }
 }

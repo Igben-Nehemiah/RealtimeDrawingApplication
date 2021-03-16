@@ -47,6 +47,7 @@ namespace WPFGraphicUserInterface.Services
                 sh.Height = item.SelectedObjectHeight;
                 sh.Width = item.SelectedObjectWidth;
                 sh.Fill = item.SelectedObjectFill;
+                sh.Stroke = item.SelectedObjectBorder;
                 sh.StrokeThickness = 3;
 
                 return sh;

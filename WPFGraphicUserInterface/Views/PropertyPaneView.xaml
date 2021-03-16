@@ -27,7 +27,7 @@
 
             
             <Label Content="Item Type"
-                   FontSize="12"
+                   FontSize="14"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
                    Margin="5,5"
@@ -36,7 +36,7 @@
 
             <TextBox
                 Text="{Binding Title, FallbackValue=Type}"
-                FontSize="12"
+                FontSize="14"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
                 BorderBrush="gray"
@@ -48,7 +48,7 @@
                 Background="MintCream"/>
 
             <Label Content="X"
-                   FontSize="12"
+                   FontSize="14"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
                    Margin="5,10,5,10"
@@ -57,7 +57,7 @@
 
             <TextBox
                 Text="{Binding XPos}"
-                FontSize="12"
+                FontSize="14"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
                 BorderBrush="gray"
@@ -67,7 +67,7 @@
                 Grid.Row="1"/>
 
             <Label Content="Y"
-                   FontSize="12"
+                   FontSize="14"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
                    Margin="5,10,5,10"
@@ -76,7 +76,7 @@
 
             <TextBox
                 Text="{Binding YPos}"
-                FontSize="12"
+                FontSize="14"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
                 BorderBrush="gray"
@@ -86,7 +86,7 @@
                 Grid.Row="2"/>
 
             <Label Content="Width"
-                   FontSize="12"
+                   FontSize="14"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
                    Margin="5,10,5,10"
@@ -95,7 +95,7 @@
 
             <TextBox
                 Text="{Binding Width}"
-                FontSize="12"
+                FontSize="14"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
                 BorderBrush="gray"
@@ -105,7 +105,7 @@
                 Grid.Row="3"/>
 
             <Label Content="Height"
-                   FontSize="12"
+                   FontSize="14"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
                    Margin="5,10,5,10"
@@ -114,7 +114,7 @@
 
             <TextBox
                 Text="{Binding Height}"
-                FontSize="12"
+                FontSize="14"
                 FontWeight="DemiBold"
                 TextAlignment="Center"
                 BorderBrush="gray"
@@ -124,7 +124,7 @@
                 Grid.Row="4"/>
 
             <Label Content="Fill"
-                   FontSize="12"
+                   FontSize="14"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
                    Margin="5,10,5,10"
@@ -135,7 +135,8 @@
                           Grid.Column="1" Grid.ColumnSpan="2"
                 Grid.Row="5"
                       Margin="5,10,5,10" ItemsSource="{Binding ComboBoxColours}"
-                      SelectedItem="{Binding SelectedFill}">
+                      SelectedItem="{Binding SelectedFill}"
+                      FontSize="14">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel Margin="0,2">
@@ -149,7 +150,7 @@
 
 
             <Label Content="Border"
-                   FontSize="12"
+                   FontSize="14"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
                    Margin="5,10,5,10"
@@ -160,7 +161,8 @@
                           Grid.Column="1" Grid.ColumnSpan="2"
                 Grid.Row="6"
                       Margin="5,10,5,10" ItemsSource="{Binding ComboBoxColours}"
-                      SelectedItem="{Binding SelectedBorder}">
+                      SelectedItem="{Binding SelectedBorder}"
+                      FontSize="14">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel Margin="0,2">

@@ -36,10 +36,11 @@ namespace WPFGraphicUserInterface.Views
 
         private void SignUpBtn_Click(object sender, RoutedEventArgs e)
         {
+            Close();
+
             _createAccountWindowViewModel = new CreateAccountWindowViewModel();
             var _createAccountWindowView = new CreateAccountWindowView();
             _createAccountWindowView.DataContext = _createAccountWindowViewModel;
-            this.Close();
             _createAccountWindowView.ShowDialog();
         }
 
@@ -59,6 +60,7 @@ namespace WPFGraphicUserInterface.Views
         private void SetIsValidUser(bool pIsValidUser)
         {
             isValidUser = pIsValidUser;
+            Close();
         }
     }
 }

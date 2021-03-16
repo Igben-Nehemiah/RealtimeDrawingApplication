@@ -30,7 +30,7 @@ namespace WPFGraphicUserInterface.Services
                 case ControlEnum.Rectangle:
                     return Geometry.Parse("M0,0 L50,0 L50,50 L0,50Z");
                 case ControlEnum.Triangle:
-                    return Geometry.Parse("M25,0 L50,50 L0,50Z");
+                    return Geometry.Parse("M12,0 L24,24 L0,24Z");
                 case ControlEnum.Line:
                     return Geometry.Parse("M0,0 L50,50");
                 default:

@@ -27,7 +27,9 @@ namespace WPFGraphicUserInterface.Views
         {
             //_eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
             //_eventAggregator.GetEvent<ProjectCreationStatusEvent>().Subscribe(SetIsProjectCreated);
+            
             InitializeComponent();
+            ProjectNameTxtbox.Focus();
         }
 
         //private void CreateProjectBtn_Click(object sender, RoutedEventArgs e)

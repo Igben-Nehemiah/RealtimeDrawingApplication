@@ -18,7 +18,7 @@
         <Style TargetType="Border" x:Key="TextBoxBorder">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Gray"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Padding" Value="3,2,3,2"/>
@@ -130,7 +130,7 @@
                 Margin="20,0,30,0"
                 Grid.Row="1"
                 Grid.Column="1"
-                Grid.ColumnSpan="3" Height="24">
+                Grid.ColumnSpan="3" Height="30">
 
             <TextBox FontSize="14" 
                      FontWeight="DemiBold"
@@ -151,7 +151,7 @@
                 Margin="20,0,30,0"
                 Grid.Row="2"
                 Grid.Column="1"
-                Grid.ColumnSpan="3" Height="24">
+                Grid.ColumnSpan="3" Height="30">
 
             <TextBox FontSize="14" 
                      FontWeight="DemiBold"
@@ -172,7 +172,7 @@
                 Margin="20,0,30,0"
                 Grid.Row="3"
                 Grid.Column="1"
-                Grid.ColumnSpan="3" Height="24">
+                Grid.ColumnSpan="3" Height="30">
 
             <TextBox FontSize="14" 
                      FontWeight="DemiBold"
@@ -193,7 +193,7 @@
                 Margin="20,0,30,0"
                 Grid.Row="4"
                 Grid.Column="1"
-                Grid.ColumnSpan="3" Height="24">
+                Grid.ColumnSpan="3" Height="30">
 
             <TextBox FontSize="14" 
                      FontWeight="DemiBold"
@@ -212,10 +212,10 @@
 
         <Border Style="{StaticResource TextBoxBorder}"
                 Margin="20,0,30,0"
-                VerticalAlignment="st"
+                VerticalAlignment="Stretch"
                 Grid.Row="5"
                 Grid.Column="1"
-                Grid.ColumnSpan="3" Height="24">
+                Grid.ColumnSpan="3" Height="30">
 
             <TextBox FontSize="14" 
                      FontWeight="DemiBold"
@@ -226,12 +226,14 @@
 
 
         <Button Style="{StaticResource RoundCorner}"
-                BorderBrush="Gray"
+                Foreground="White"
+                FontWeight="DemiBold"
                 Grid.Column="0" 
                 Grid.Row="6"
                 Grid.ColumnSpan="4"
                 Padding="0,0,0,0"
-                Margin="20,44,30,0"
+                Margin="20,44,34,10"
+                FontSize="14"
                 Content="Create Account"
                 Command="{Binding CreateAccountCommand}" Grid.RowSpan="2">
 

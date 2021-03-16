@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using WPFGraphicUserInterface.ModelProxies;
 using WPFUserInterface.Core;
 
@@ -20,9 +21,12 @@ namespace WPFGraphicUserInterface.ViewModels
             set
             {
                 SetProperty(ref _selectedProject, value);
-                _eventAggregator.GetEvent<SelectedProjectChangedEvent>().Publish(_selectedProject);
+
+                if (_selectedProject != null) 
+                    _eventAggregator.GetEvent<SelectedProjectChangedEvent>().Publish(_selectedProject);
             }
         }
+
         public ObservableCollection<string> Projects
         {
             get { return _projects; }
@@ -38,8 +42,16 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<UserProjectChangedEvent>().Subscribe(ChangeProjectList);
+            //_eventAggregator.GetEvent<RemoveProjectFromProjectPaneEvent>().Subscribe(RemoveProjectFromList);
             Projects = new ObservableCollection<string>();
         }
+
+        //private void RemoveProjectFromList(string projectName)
+        //{
+
+        //    SelectedProject = null;
+        //    _projects.Remove(projectToRemove);
+        //}
 
         private void ChangeProjectList(ICollection<ProjectProxy> projects)
         {

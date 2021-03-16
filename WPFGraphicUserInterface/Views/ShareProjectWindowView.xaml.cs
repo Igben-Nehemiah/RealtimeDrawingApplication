@@ -20,6 +20,7 @@ namespace WPFGraphicUserInterface.Views
         public ShareProjectWindowView()
         {
             InitializeComponent();
+            sharedUserEmailTxtbox.Focus();
         }
     }
 }

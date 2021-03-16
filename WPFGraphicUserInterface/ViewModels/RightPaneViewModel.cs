@@ -15,9 +15,9 @@ namespace WPFGraphicUserInterface.ViewModels
         public SharedUsersPaneView SharedUsersPaneView = new SharedUsersPaneView();
         public ProjectPaneView ProjectPaneView = new ProjectPaneView();
         public PropertyPaneView PropertyPaneView = new PropertyPaneView();
-        private SharedUsersPaneViewModel _sharedUsersPaneViewModel;
-        private ProjectPaneViewModel _projectPaneViewModel;
-        private PropertyPaneViewModel _propertyPaneViewModel;
+        public SharedUsersPaneViewModel SharedUsersPaneViewModel;
+        public ProjectPaneViewModel ProjectPaneViewModel;
+        public PropertyPaneViewModel PropertyPaneViewModel;
         private string _currentPaneName;
         private FrameworkElement _currentPane;
         private int _selectedIndex;
@@ -73,16 +73,16 @@ namespace WPFGraphicUserInterface.ViewModels
             ShowRightPaneOptionsPopUpCommand = new DelegateCommand(ShowRightPaneOptionsPopUp, ()=>true);
 
             SharedUsersPaneView = new SharedUsersPaneView();
-            _sharedUsersPaneViewModel = new SharedUsersPaneViewModel(_eventAggregator);
-            SharedUsersPaneView.DataContext = _sharedUsersPaneViewModel;
+            SharedUsersPaneViewModel = new SharedUsersPaneViewModel(_eventAggregator);
+            SharedUsersPaneView.DataContext = SharedUsersPaneViewModel;
 
             PropertyPaneView = new PropertyPaneView();
-            _propertyPaneViewModel = new PropertyPaneViewModel(_eventAggregator);
-            PropertyPaneView.DataContext = _propertyPaneViewModel;
+            PropertyPaneViewModel = new PropertyPaneViewModel(_eventAggregator);
+            PropertyPaneView.DataContext = PropertyPaneViewModel;
 
             ProjectPaneView = new ProjectPaneView();
-            _projectPaneViewModel = new ProjectPaneViewModel(_eventAggregator);
-            ProjectPaneView.DataContext = _projectPaneViewModel;
+            ProjectPaneViewModel = new ProjectPaneViewModel(_eventAggregator);
+            ProjectPaneView.DataContext = ProjectPaneViewModel;
 
             RightPaneOptions = new ObservableCollection<RightPaneOption>();
             RightPaneOptions.Add(new RightPaneOption() { OptionName = "Shared Users Pane" });

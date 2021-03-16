@@ -20,14 +20,14 @@
         <Style TargetType="Border" x:Key="TextBoxBorder">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Gray"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Padding" Value="3,2,3,2"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="SkyBlue"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -62,14 +62,13 @@
                 Margin="0,0,30,0"
                 Grid.Row="1"
                 Grid.Column="1"
-                Grid.ColumnSpan="3" Height="22">
+                Grid.ColumnSpan="3" Height="30">
 
-            <TextBox FontSize="14" 
+            <TextBox x:Name="ProjectNameTxtbox" FontSize="14" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      Text="{Binding CurrentProject.ProjectName}"
-                     TextAlignment="Left"
-                     Focusable="True"/>
+                     TextAlignment="Left"/>
         </Border>
 
         <!--<TextBlock Text="Shared Users Emails"
@@ -103,9 +102,10 @@
         <Button 
             Grid.Row="3"
             Grid.ColumnSpan="4"
-            Margin="21,5,32,9"
-            Background="Gray"
+            Margin="21,5,32,5"
             Padding="0,0,0,0"
+            Foreground="White"
+            FontWeight="DemiBold"
             Content="Create Project"
             Style="{StaticResource RoundCorner}"
             Command="{Binding CreateProjectCommand}"/>

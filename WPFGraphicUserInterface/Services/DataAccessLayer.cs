@@ -148,6 +148,26 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
+        public static void DeleteProject(ProjectProxy actveProject)
+        {
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                var project = unitOfWork.Projects.GetProjectWithProjectName(actveProject.ProjectName);
+
+                var drawingCanvasObjects = unitOfWork.DrawingCanvasObjects.GetDrawingCanvasObjectsBelongingTo(project.ProjectId);
+
+                drawingCanvasObjects = null;
+
+                var projectUsers = unitOfWork.ProjectUsers.Find(pu => pu.ProjectId == project.ProjectId);
+
+                projectUsers = null;
+
+                unitOfWork.Projects.Remove(project);
+
+                unitOfWork.Complete();
+            }
+        }
+
         public static IEnumerable<DrawingCanvasObjectProxy> LoadProjectWithProjectName(string projectName)
         {
             var drawingCanvasObjectsProxies = new List<DrawingCanvasObjectProxy>();

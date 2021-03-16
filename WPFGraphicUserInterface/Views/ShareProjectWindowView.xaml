@@ -33,45 +33,54 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    
-    <Grid>
+
+    <Grid RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="0.067"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="20*"/>
 
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="147"/>
+            <ColumnDefinition Width="113*"/>
+            <ColumnDefinition Width="120*"/>
+            <ColumnDefinition Width="120*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Shared User Email"
                    TextAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="11" FontWeight="DemiBold"
-                   Margin="20,10,0,10"
+                   FontSize="14" FontWeight="DemiBold"
+                   Margin="20,0,0,0"
                    Grid.Row="1"
-                   Grid.Column="0"/>
+                   Grid.Column="0" Height="19"/>
         <Border Style="{StaticResource TextBoxBorder}"
-                Margin="0,10,30,10"
+                Margin="0,0,30,0"
                 Grid.Row="1"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
-                VerticalAlignment="Stretch">
+                Height="30">
 
-            <TextBox FontSize="12" 
+            <TextBox x:Name="sharedUserEmailTxtbox"
+                FontSize="14" 
                      FontWeight="DemiBold"
                      BorderThickness="0"
                      Text="{Binding SharedUser.UserEmailAddress}"
                      TextAlignment="Left"/>
         </Border>
-        
+
 
         <CheckBox Content="Can User Edit ?"
                FontSize="11"
@@ -79,19 +88,16 @@
                HorizontalAlignment="Left"
                VerticalAlignment="Center"
                Grid.Row="2"
-               Grid.Column="0" Grid.ColumnSpan="4"
+               Grid.Column="0"
                   Margin="20,0,0,0"
-                  IsChecked="{Binding CanEdit}"/>
+                  IsChecked="{Binding CanEdit}" Height="15" Width="94"/>
         <Button 
-            Grid.Column="0" 
             Grid.Row="3"
             Grid.ColumnSpan="4"
-            Margin="200,10,200,10"
+            Margin="19,10,32,10"
             Padding="0,0,0,0"
             Style="{StaticResource ResourceKey=RoundCorner}"
             Content="Share"
-            Command="{Binding AddSharedUserCommand}">
-            
-        </Button>
+            Command="{Binding AddSharedUserCommand}"/>
     </Grid>
 </Window>

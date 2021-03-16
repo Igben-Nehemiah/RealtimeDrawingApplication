@@ -22,10 +22,5 @@ namespace WPFGraphicUserInterface.Views
         {
             InitializeComponent();
         }
-
-        public void MenuPaneViewClose_Click(object sender, MouseButtonEventArgs e)
-        {
-            this.Visibility = Visibility.Collapsed;
-        }
     }
 }
