@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
@@ -42,12 +41,6 @@
             <DockPanel DockPanel.Dock="Top"
                        Margin="1,2,2,0"
                        Background="{DynamicResource ApplicationSecondaryBackground}">
-
-                <!--<Button Command="{Binding}"
-                        DockPanel.Dock="Left">
-                    <Path Fill="Black" Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-                  Width="24" Height="24"/>
-                </Button>-->
 
                 <TextBlock Foreground= "{DynamicResource ApplicationPrimaryBackground}"
                            FontSize="18"

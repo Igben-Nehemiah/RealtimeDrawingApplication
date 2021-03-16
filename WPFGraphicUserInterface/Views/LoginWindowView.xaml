@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
          mc:Ignorable="d"
@@ -175,9 +174,9 @@
                VerticalAlignment="Center"
                HorizontalAlignment="Center"
                 Click="SignUpBtn_Click"
-                Style="{StaticResource SignUpBtn}" Height="20" Margin="0,37,0,0" Width="45">
+                Style="{DynamicResource TransparentBtn}" Height="20" Margin="0,37,0,0" Width="45">
             <TextBlock TextDecorations="Underline"
-                       Text="Sign Up" Style="{StaticResource ResourceKey=GlowText}" Height="25" Width="48">
+                       Text="Sign Up" Height="25" Width="48">
 
             </TextBlock>
         </Button>

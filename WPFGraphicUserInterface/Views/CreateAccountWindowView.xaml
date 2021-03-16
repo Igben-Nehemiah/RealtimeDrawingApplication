@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
         mc:Ignorable="d"
         Title="Create New Account"
         Height="493" 
@@ -225,7 +224,7 @@
         </Border>
 
 
-        <Button Style="{StaticResource RoundCorner}"
+        <Button Style="{DynamicResource RoundCorner}"
                 Foreground="White"
                 FontWeight="DemiBold"
                 Grid.Column="0" 
@@ -244,13 +243,13 @@
                Grid.Column="1"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left" Height="26" Width="145" />
-        <Button Style="{DynamicResource SignInBtn}" Grid.Row="8" 
+        <Button Style="{DynamicResource TransparentBtn}" Grid.Row="8" 
                Grid.Column="1"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left"
                Click="SignInBtn_Click" Grid.ColumnSpan="2" Height="20" Margin="197,0,0,0" Width="41">
             <TextBlock TextDecorations="Underline"
-                       Text="Sign In" Style="{StaticResource ResourceKey=GlowText}">
+                       Text="Sign In">
 
             </TextBlock>
         </Button>

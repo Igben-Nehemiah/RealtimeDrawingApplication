@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
     <UserControl.Resources>
@@ -65,13 +64,13 @@
     </UserControl.Resources>
 
 
-    <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" BorderThickness="1" Padding="0,0"
-        Margin="0,39,0,30">
+    <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" BorderThickness=".1" Padding="0,0"
+        Margin="0,39.5,0,30">
 
         <StackPanel Background="{DynamicResource ApplicationPrimaryBackground}"
                 
                 VerticalAlignment="Stretch">
-            <Grid HorizontalAlignment="Stretch" Margin="0, 5, 0, 2">
+            <Grid HorizontalAlignment="Stretch" Margin="0">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -79,7 +78,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Style="{DynamicResource transparentBtn}" Grid.Column="0"
+                <Button Style="{DynamicResource TransparentBtn}" Grid.Column="0"
                     Click="CollapseBtn_Click">
                     <Path Fill="LightGray" Data="M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M6,13H14L10.5,16.5L11.92,17.92L17.84,12L11.92,6.08L10.5,7.5L14,11H6V13Z" />
                 </Button>
@@ -95,8 +94,12 @@
                 <Button Grid.Column="2"
                     Height="20"
                     Width="20"
-                    Command="{Binding ShowRightPaneOptionsPopUpCommand}"
-                >
+                      Style="{DynamicResource TransparentBtn}"
+                    Command="{Binding ShowRightPaneOptionsPopUpCommand}">
+                    ...
+                    <!--<Image>
+                        <Image.Source ="" />
+                    </Image>-->
                     <!--<Path Fill="Black"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center"
@@ -106,12 +109,23 @@
                 </Button>
             </Grid>
 
-            <Separator HorizontalAlignment="Stretch">
-            </Separator>
+            <Border CornerRadius="3"
+                Background="WhiteSmoke"
+                BorderThickness="2"
+                BorderBrush="WhiteSmoke"
+                Margin=".4"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
 
-            <ContentControl Content="{Binding CurrentPane}"
-                        VerticalAlignment="Stretch"
-                        Background="#a7b5d1"/>
+                <ContentControl Content="{Binding CurrentPane}"
+                        HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                        Background="{DynamicResource ApplicationPrimaryBackground}"/>
+
+            </Border>
+
+            
 
             <Popup IsOpen="{Binding IsRightPaneOptionsPopUpOpen}"
                 Placement="RelativePoint"

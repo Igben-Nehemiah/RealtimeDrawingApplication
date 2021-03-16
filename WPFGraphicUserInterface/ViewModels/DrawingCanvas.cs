@@ -75,9 +75,6 @@ namespace WPFGraphicUserInterface.ViewModels
                     if (_item != null && _item.SelectedObjectId == obj.SelectedObjectId)
                     {
                         _component = _item as FrameworkElement;
-                        //FocusedDrawingElement = _item as FrameworkElement;
-                        //FocusedDrawingElement.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        //FocusedDrawingElement.VerticalAlignment = VerticalAlignment.Stretch;
                         
                         xPos = obj.SelectedObjectXPos;
                         yPos = obj.SelectedObjectYPos;
@@ -92,22 +89,15 @@ namespace WPFGraphicUserInterface.ViewModels
                             sh.SelectedObjectXPos = _item.SelectedObjectXPos;
                             sh.SelectedObjectYPos = _item.SelectedObjectYPos;
 
-                            //sh.Stretch = Stretch.Fill;
-
                             FocusedCanvasItem = sh;
                         }
 
                         else if (_item is TextBoxComponent tx)
                         {
-                            //tx.Fill = _item.SelectedObjectFill;
                             tx.Height = _item.SelectedObjectHeight;
                             tx.Width = _item.SelectedObjectWidth;
-                            //tx.Stroke = _item.SelectedObjectBorder;
-                            //tx.StrokeThickness = 3;
                             tx.SelectedObjectXPos = _item.SelectedObjectXPos;
                             tx.SelectedObjectYPos = _item.SelectedObjectYPos;
-
-                            //tx.Stretch = Stretch.Fill;
 
                             FocusedCanvasItem = tx;
                         }
@@ -116,23 +106,11 @@ namespace WPFGraphicUserInterface.ViewModels
                         FocusedDrawingElement.Height = _item.SelectedObjectHeight;
                         FocusedDrawingElement.Width = _item.SelectedObjectWidth;
                         
-                        //FocusedDrawingElement.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        //FocusedDrawingElement.VerticalAlignment = VerticalAlignment.Stretch;
-
                         SetLeft(FocusedDrawingElement, xPos);
                         SetTop(FocusedDrawingElement, yPos);
 
-                        //return;
-
-                        //var index = Children.IndexOf(item);
-                        //Children[index] = FocusedDrawingElement;
-
                     }
                 }
-
-                //SetLeft(FocusedDrawingElement, xPos);
-                //SetRight(FocusedDrawingElement, yPos);
-                //Children.Add(FocusedDrawingElement);
             }
         }
 
@@ -192,12 +170,6 @@ namespace WPFGraphicUserInterface.ViewModels
             EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(FocusedCanvasItem);
             base.OnMouseLeftButtonDown(e);
         }
-
-        //private void SelectedComponent_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    FocusedCanvasItem = null;
-        //    FocusedDrawingElement = null;
-        //}
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {

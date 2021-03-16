@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WPFGraphicUserInterface.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
 
@@ -49,55 +48,61 @@
 
     <StackPanel Background="{DynamicResource ApplicationPrimaryBackground}"
                 Margin="0,0,0,0"
-                VerticalAlignment="Stretch">
+                Height="6700"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch">
 
-        <DockPanel>
+        <DockPanel Margin="0">
             <Button DockPanel.Dock="Left"
                 HorizontalAlignment="Left"
               VerticalAlignment="Top"
+                    Style="{DynamicResource TransparentBtn}"
                  Command="{Binding AddSharedUserCommand}"
-                    Margin="0,0,5,0">
-                
-                Add User
+                    >
+                <Path Fill="Green" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
             </Button>
 
             <Button DockPanel.Dock="Left"
                  HorizontalAlignment="Left"
               VerticalAlignment="Top"
-                 Command="{Binding RemoveSharedUserCommand}">
-                Delete User
+                    Margin="5,0"
+                    Style="{DynamicResource TransparentBtn}"
+                 Command="{Binding RemoveSharedUserCommand}" RenderTransformOrigin="0.618,0.564">
+                <Path Fill="Red" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
             </Button>
-        </DockPanel> 
+        </DockPanel>
 
-        <Border CornerRadius="20"
+
+        <ListBox ItemsSource="{Binding ProjectUsers}"
+                Margin="2,3"
                 Background="WhiteSmoke"
-                BorderThickness="2"
-                BorderBrush="WhiteSmoke"
-                Margin="3,3"
-                Padding="7,7">
-            <ListBox ItemsSource="{Binding ProjectUsers}"
-                 MinHeight="200"
-                 MaxHeight="200"
-                 Margin="0,0"
-                 Background="WhiteSmoke"
-                     BorderThickness="0"
-                     SelectedItem="{Binding SelectedProjectUser}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <CheckBox Grid.RowSpan="3" Grid.Column="2"
-                                      IsChecked="{Binding CanEdit}"/>
-                            <TextBlock Text="{Binding SharedUserEmailAddress}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Border>
-        
+                    BorderThickness="0"
+                    SelectedItem="{Binding SelectedProjectUser}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Path Fill="{DynamicResource ApplicationSecondaryBackground}" 
+                              Margin="0,0,5,5"
+                              Grid.Column="0"
+                              VerticalAlignment="Center"
+                              Data="M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z" />
+                        <TextBlock Text="{Binding SharedUserEmailAddress}" Grid.Column="2"
+                                   />
+                        <CheckBox  Grid.Column="1"
+                                    IsChecked="{Binding CanEdit}"
+                                   Margin="0,0,5,0"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
 
     </StackPanel>
 </UserControl>

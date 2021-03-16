@@ -36,12 +36,13 @@ namespace WPFGraphicUserInterface.Views
 
         private void SignUpBtn_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-
             _createAccountWindowViewModel = new CreateAccountWindowViewModel();
             var _createAccountWindowView = new CreateAccountWindowView();
             _createAccountWindowView.DataContext = _createAccountWindowViewModel;
+
+            Close();
             _createAccountWindowView.ShowDialog();
+
         }
 
         private void SignInBtn_Click(object sender, RoutedEventArgs e)

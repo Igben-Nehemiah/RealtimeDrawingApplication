@@ -31,7 +31,7 @@
 
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsPressed" Value="True">
+                        <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" TargetName="border">
                                     <Setter.Value>
                                         <RadialGradientBrush GradientOrigin="0.496,1.052">
@@ -48,7 +48,8 @@
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="border" Value="DarkGray"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="DarkGray"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
