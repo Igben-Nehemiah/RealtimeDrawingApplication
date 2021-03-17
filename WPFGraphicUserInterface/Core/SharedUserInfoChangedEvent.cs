@@ -3,7 +3,7 @@ using System;
 
 namespace WPFUserInterface.Core
 {
-    public class SharedUserInfoChangedEvent : PubSubEvent<Tuple<string, bool>>
+    public class SharedUserInfoChangedEvent : PubSubEvent<(string, bool)>
     {
 
     }

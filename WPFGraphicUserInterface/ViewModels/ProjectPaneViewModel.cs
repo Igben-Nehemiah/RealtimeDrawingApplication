@@ -42,16 +42,8 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<UserProjectChangedEvent>().Subscribe(ChangeProjectList);
-            //_eventAggregator.GetEvent<RemoveProjectFromProjectPaneEvent>().Subscribe(RemoveProjectFromList);
             Projects = new ObservableCollection<string>();
         }
-
-        //private void RemoveProjectFromList(string projectName)
-        //{
-
-        //    SelectedProject = null;
-        //    _projects.Remove(projectToRemove);
-        //}
 
         private void ChangeProjectList(ICollection<ProjectProxy> projects)
         {

@@ -63,12 +63,11 @@ namespace WPFGraphicUserInterface.ViewModels
                 _sharedUser = isApplicationUser.Item2;
 
                 var projectUserProxy = new ProjectUserProxy();
-                _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(new Tuple<UserProxy, bool>(_sharedUser, CanEdit));
+                _eventAggregator.GetEvent<AddSharedUserEvent>().Publish((_sharedUser, CanEdit));
                 return;
             }
             //Email Address not registered in db
-            _eventAggregator.GetEvent<AddSharedUserEvent>().Publish(null);
-            MessageBox.Show("Email Addres not registered!");
+            MessageBox.Show("Email Address not registered!");
         }
     }
 }

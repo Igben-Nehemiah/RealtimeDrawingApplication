@@ -1,12 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls.Primitives;
+using Prism.Ioc;
 using WPFGraphicUserInterface.Views;
 using WPFUserInterface.Core;
 
@@ -30,44 +25,6 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        private string _importOrExport = "";
-        public string ImportOrExport
-        {
-            get { return _importOrExport; }
-            set
-            {
-                SetProperty(ref _importOrExport, value);
-            }
-        }
-
-        private bool _importExportPopUpIsOpen = false;
-
-        public ObservableCollection<ImportExportOption> ImportExportPopUpOptions { get; set; }
-
-        public class ImportExportOption
-        {
-            public string ImportExportOptionName { get; set; }
-        }
-
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-            set
-            {
-                SetProperty(ref _selectedIndex, value);
-                SelectImportExportOption();
-            }
-        }
-
-        public bool ImportExportPopUpIsOpen
-        {
-            get { return _importExportPopUpIsOpen; }
-            set
-            {
-                SetProperty(ref _importExportPopUpIsOpen, value);
-            }
-        }
 
         //Commands
         public DelegateCommand ShowCreateProjectWindowCommand { get; set; }
@@ -84,12 +41,13 @@ namespace WPFGraphicUserInterface.ViewModels
 
         IEventAggregator _eventAggregator;
 
-        public MenuPaneViewModel(IEventAggregator eventAggregator)
+        public MenuPaneViewModel()
         {
-            _eventAggregator = eventAggregator;
+            _eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
+
             _eventAggregator.GetEvent<ShowAddSharedUserEvent>().Subscribe(ShowShareProjectWindow);
-            ShowCreateProjectWindowCommand = new DelegateCommand(ShowCreateProjectWindow, ()=>true);
-            ShowShareProjectWindowCommand = new DelegateCommand(ShowShareProjectWindow, ()=>true);
+            ShowCreateProjectWindowCommand = new DelegateCommand(ShowCreateProjectWindow, () => true);
+            ShowShareProjectWindowCommand = new DelegateCommand(ShowShareProjectWindow, () => true);
             OpenProjectCommand = new DelegateCommand(ExecuteOpenProject, CanExecuteOpenProject);
             SaveProjectCommand = new DelegateCommand(ExecuteSaveProject, CanExecuteSaveProject);
             DeleteProjectCommand = new DelegateCommand(ExecuteDeleteProject, CanExecuteDeleteProject);
@@ -97,12 +55,6 @@ namespace WPFGraphicUserInterface.ViewModels
             SignOutCommand = new DelegateCommand(SignOut, () => true);
             CloseMenuCommand = new DelegateCommand(CloseMenu, () => true);
 
-            //Initialize and add import and export pop up options
-            ImportExportPopUpOptions = new ObservableCollection<ImportExportOption>
-            {
-                new ImportExportOption() { ImportExportOptionName = "JSON" },
-                new ImportExportOption() { ImportExportOptionName = "XML" }
-            };
         }
 
         private void CloseMenu()
@@ -123,9 +75,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void ShowImportExportOptions(string option)
         {
-            ImportOrExport = option;
-            SelectedIndex = -1;
-            ImportExportPopUpIsOpen = !ImportExportPopUpIsOpen;
+            _eventAggregator.GetEvent<ShowPopupEvent>().Publish(option);
         }
 
         //Delete Project
@@ -139,37 +89,6 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<DeleteProjectBtnClickEvent>().Publish();
         }
 
-        //Export Project
-        private void ExportProject(string exportType)
-        {
-            switch (exportType.ToLower())
-            {
-                case "json":
-                    _eventAggregator.GetEvent<ExportProjectEvent>().Publish("json");
-                    break;
-                case "xml":
-                    _eventAggregator.GetEvent<ExportProjectEvent>().Publish("xml");
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //Import Project
-        private void ImportProject(string importType)
-        {
-            switch (importType.ToLower())
-            {
-                case "json":
-                    _eventAggregator.GetEvent<ImportProjectEvent>().Publish("json");
-                    break;
-                case "xml":
-                    _eventAggregator.GetEvent<ImportProjectEvent>().Publish("xml");
-                    break;
-                default:
-                    break;
-            }
-        }
 
         //Save Project
         private bool CanExecuteSaveProject()
@@ -212,38 +131,5 @@ namespace WPFGraphicUserInterface.ViewModels
             createProjectWindowView.ShowDialog();
         }
 
-        //Pop up options selection
-        private void SelectImportExportOption()
-        {
-            if (ImportOrExport.ToLower() == "import")
-            {
-                switch (_selectedIndex)
-                {
-                    case 0:
-                        ImportProject("json");
-                        break;
-                    case 1:
-                        ImportProject("xml");
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                switch (_selectedIndex)
-                {
-                    case 0:
-                        ExportProject("json");
-                        break;
-                    case 1:
-                        ExportProject("xml");
-                        break;
-                    default:
-                        break;
-                }
-            }
-            
-        }
     }
 }

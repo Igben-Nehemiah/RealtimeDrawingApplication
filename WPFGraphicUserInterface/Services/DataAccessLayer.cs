@@ -17,6 +17,7 @@ namespace WPFGraphicUserInterface.Services
     public static class DataAccessLayer
     {
         static IEventAggregator eventAggregator { get; set; } = App.ShellContainer.Resolve<IEventAggregator>();
+
         public static async Task<Tuple<bool, UserProxy>> CheckIfIsApplicationUserAsync(string email)
         {
             eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Checking if user is in the database");
@@ -152,7 +153,7 @@ namespace WPFGraphicUserInterface.Services
         {
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
             {
-                var project = unitOfWork.Projects.GetProjectWithProjectName(actveProject.ProjectName);
+                var project = unitOfWork.Projects.Get(actveProject.ProjectId);
 
                 var drawingCanvasObjects = unitOfWork.DrawingCanvasObjects.GetDrawingCanvasObjectsBelongingTo(project.ProjectId);
 
@@ -168,13 +169,13 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
-        public static IEnumerable<DrawingCanvasObjectProxy> LoadProjectWithProjectName(string projectName)
+        public static IEnumerable<DrawingCanvasObjectProxy> LoadProjectWithProjectName(string projectName, int userId)
         {
             var drawingCanvasObjectsProxies = new List<DrawingCanvasObjectProxy>();
 
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
             {
-                var project = unitOfWork.Projects.GetProjectWithProjectName(projectName);
+                var project = unitOfWork.Projects.GetProjectWithProjectName(projectName, userId);
 
                 var projectDrawingCanvasObjects = unitOfWork.DrawingCanvasObjects.GetDrawingCanvasObjectsBelongingTo(project.ProjectId);
 
@@ -202,7 +203,7 @@ namespace WPFGraphicUserInterface.Services
             });
         }
 
-        public static async Task EditSharedUserDetailsAsync(Tuple<string, bool> newInfo, int sharedProjectId)
+        public static async Task EditSharedUserDetailsAsync((string, bool) newInfo, int sharedProjectId)
         {
             await Task.Run(() =>
             {
@@ -267,7 +268,16 @@ namespace WPFGraphicUserInterface.Services
             return drawingCanvasObjectsProxies;
         }
 
-        public static async void SaveProjectDrawingCanvasObjectsToDBAsync(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies, 
+        public static UserProxy GetProjectCreatorWithProjectName(string projectName)
+        {
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                var userProxy = ModelToProxyConverter.UserModelToUserProxyConverter(unitOfWork.Projects.GetCreator(projectName));
+                return userProxy;
+            }
+        }
+
+        public static async Task SaveProjectDrawingCanvasObjectsToDBAsync(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies, 
             ProjectProxy projectProxy)
         {
             await Task.Run(() => SaveProject());
@@ -337,6 +347,61 @@ namespace WPFGraphicUserInterface.Services
                 }
             });
             
+        }
+
+        public static ProjectProxy GetProjectWithProjectName(string projectName, int projectCreatorId)
+        {
+            ProjectProxy projectProxy;
+
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                projectProxy = ModelToProxyConverter.ProjectModelToProjectProxyConverter(unitOfWork.Projects.GetProjectWithProjectName(projectName, projectCreatorId));
+                unitOfWork.Complete();
+            }
+
+            return projectProxy;
+        }
+
+        public static IEnumerable<ProjectUserProxy> LoadUserSharedProjectsFromDatabase(UserProxy pUserProxy)
+        {
+            var userSharedProjects = new List<ProjectUserProxy>();
+
+            var userModel = ProxyToModelConverter.UserProxyToUserModelConverter(pUserProxy);
+
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                var sharedProjects = unitOfWork.ProjectUsers.Find(pu => pu.UserId == pUserProxy.UserId);
+
+                foreach (var sharedProject in sharedProjects)
+                {
+                    var projectProxy = ModelToProxyConverter.ProjectUserModelToProjectUserProxy(sharedProject);
+                    userSharedProjects.Add(projectProxy);
+                }
+                unitOfWork.Complete();
+            }
+
+            return userSharedProjects;
+        }
+
+        public static ProjectProxy GetProjectWithId(int projectId)
+        {
+            ProjectProxy projectProxy;
+
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                projectProxy = ModelToProxyConverter.ProjectModelToProjectProxyConverter(unitOfWork.Projects.Get(projectId));
+                unitOfWork.Complete();
+            }
+
+            return projectProxy;
+        }
+
+        public static bool CanUserEditProject(int userId, int projectId)
+        {
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                return unitOfWork.ProjectUsers.GetProjectUser(userId, projectId).CanEdit;
+            }
         }
     }
 }

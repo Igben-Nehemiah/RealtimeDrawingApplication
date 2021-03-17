@@ -62,7 +62,7 @@ namespace WPFGraphicUserInterface.ViewModels
                 DataAccessLayer.AddUserToDatabase(UserProxy);
 
                 var startUpWindowView = new StartUpWindowView();
-                var startUpWindowViewModel = new StartUpWindowViewModel(_eventAggregator);
+                var startUpWindowViewModel = new StartUpWindowViewModel();
 
                 startUpWindowView.DataContext = startUpWindowViewModel;
                 startUpWindowView.Visibility = System.Windows.Visibility.Visible;

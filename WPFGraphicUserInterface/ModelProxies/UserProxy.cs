@@ -14,6 +14,6 @@ namespace WPFGraphicUserInterface.ModelProxies
 
         //Navigation properties
         public virtual List<ProjectProxy> UserCreatedProjects { get; set; }
-        public virtual List<SharedProxy> UserSharedProjects { get; set; }
+        public virtual List<ProjectUserProxy> UserSharedProjects { get; set; }
     }
 }

@@ -254,25 +254,7 @@
                 </i:Interaction.Triggers>
             </Border>
 
-            <Popup x:Name="ImportExportPopup" IsOpen="{Binding ImportExportPopUpIsOpen}"
-                Placement="MousePoint"
-                PopupAnimation="Fade"
-                StaysOpen="False">
-                <ListBox ItemsSource="{Binding ImportExportPopUpOptions}"
-                     SelectedIndex="{Binding SelectedIndex }">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding ImportExportOptionName}"
-                                           FontWeight="DemiBold"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Popup>
+            
 
         </DockPanel>
     </Border>

@@ -1,12 +1,10 @@
 ﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows;
 using WPFGraphicUserInterface.Views;
+using Prism.Ioc;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
@@ -67,9 +65,10 @@ namespace WPFGraphicUserInterface.ViewModels
 
         IEventAggregator _eventAggregator;
 
-        public RightPaneViewModel(IEventAggregator eventAggregator)
+        public RightPaneViewModel()
         {
-            _eventAggregator = eventAggregator;
+            _eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
+
             ShowRightPaneOptionsPopUpCommand = new DelegateCommand(ShowRightPaneOptionsPopUp, ()=>true);
 
             SharedUsersPaneView = new SharedUsersPaneView();

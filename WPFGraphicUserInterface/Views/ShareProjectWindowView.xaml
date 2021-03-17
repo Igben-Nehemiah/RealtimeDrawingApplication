@@ -28,7 +28,8 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="SkyBlue"/>
+                    <Setter Property="BorderThickness" Value="1.5"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ApplicationSecondaryBackground}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -96,8 +97,9 @@
             Grid.ColumnSpan="4"
             Margin="19,10,32,10"
             Padding="0,0,0,0"
-            Style="{StaticResource ResourceKey=RoundCorner}"
+            Style="{DynamicResource RoundCorner}"
             Content="Share"
+            Foreground="{DynamicResource ApplicationPrimaryBackground}"
             Command="{Binding AddSharedUserCommand}"/>
     </Grid>
 </Window>

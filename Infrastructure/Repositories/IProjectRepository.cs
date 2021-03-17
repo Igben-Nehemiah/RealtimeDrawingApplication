@@ -7,6 +7,8 @@ namespace Infrastructure.Repositories
     {
         IEnumerable<Project> GetUserCreatedProjects(int userId);
 
-        Project GetProjectWithProjectName(string projectName);
+        User GetCreator(string projectName);
+
+        Project GetProjectWithProjectName(string projectName, int projectCreatorId);
     }
 }

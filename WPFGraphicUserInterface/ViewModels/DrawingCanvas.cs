@@ -1,18 +1,11 @@
 ﻿using Prism.Events;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using WPFGraphicUserInterface.ModelProxies;
 using Prism.Ioc;
 using WPFUserInterface.Core;
-using System.Windows.Shapes;
-using WPFGraphicUserInterface.Views;
-using System;
 using WPFGraphicUserInterface.Services;
 using System.Windows.Controls.Primitives;
 
@@ -225,6 +218,38 @@ namespace WPFGraphicUserInterface.ViewModels
             EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(FocusedCanvasItem);
             base.OnMouseRightButtonDown(e);
         }
+
+        //private void LeftButtonClick( KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Left)
+        //    {
+        //        if (FocusedDrawingElement != null)
+        //        {
+        //            var selectedItem = FocusedDrawingElement as ISelectedObject;
+
+        //            var x = selectedItem.SelectedObjectXPos;
+        //            var y = selectedItem.SelectedObjectYPos;
+
+        //            if (x < ActualWidth - FocusedDrawingElement.ActualWidth &&
+        //                y < ActualHeight - FocusedDrawingElement.ActualHeight)
+        //            {
+        //                var model = FocusedDrawingElement as ISelectedObject;
+        //                if (model != null)
+        //                {
+        //                    model.SelectedObjectXPos = x;
+        //                    model.SelectedObjectYPos = y;
+        //                    xPos = x;
+        //                    yPos = y;
+
+        //                    FocusedDrawingElement = model as FrameworkElement;
+        //                    SetLeft(FocusedDrawingElement, x);
+        //                    SetTop(FocusedDrawingElement, y);
+        //                    EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(model);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         protected override void OnDrop(DragEventArgs e)
         {

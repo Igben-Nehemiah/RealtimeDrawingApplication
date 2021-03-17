@@ -5,19 +5,14 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using WPFGraphicUserInterface.ModelProxies;
 using WPFGraphicUserInterface.Services;
 using WPFGraphicUserInterface.Views;
 using WPFUserInterface.Core;
+using Prism.Ioc;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
@@ -36,40 +31,35 @@ namespace WPFGraphicUserInterface.ViewModels
 
     public class StartUpWindowViewModel : BindableBase
     {
-        private RightPaneViewModel _rightPaneViewModel;
-        private FrameworkElement _rightPaneContentControl;
+        public string StartUpWindowTitle { get; set; } = "Simple Drawing Application";
+
+        //There should be an active user on start up
         private UserProxy _userProxy;
         private ProjectProxy _activeProject;
-        private string _statusBarMessage;
+
+        //The main window is made up of three parts,
+        //the right pane, the menu pane and the drawing canvas
+        private RightPaneViewModel _rightPaneViewModel;
         private MenuPaneViewModel _menuPaneViewModel;
+        private DrawingCanvas _drawingCanvas; //This is both a view and a view model because it extends the default Canvas class
+
+        private FrameworkElement _rightPaneContentControl;
         private FrameworkElement _menuContentControl;
-        private DrawingCanvas _drawingCanvas;
+
+        private string _statusBarMessage;
+        private string _importOrExport = "";
+        private bool _canEdit;
+        private bool _isSharedProject;
 
         //A store for the shared projects
         Dictionary<string, List<string>> shared = new Dictionary<string, List<string>>();
 
-        public DrawingCanvas DrawingCanvas
-        {
-            get { return _drawingCanvas; }
-            set
-            {
-                SetProperty(ref _drawingCanvas, value);
-            }
-        }
         public UserProxy UserProxy
         {
             get { return _userProxy; }
             set
             {
                 SetProperty(ref _userProxy, value);
-            }
-        }
-        public string StatusBarMessage
-        {
-            get { return _statusBarMessage; }
-            set
-            {
-                SetProperty(ref _statusBarMessage, value);
             }
         }
         public ProjectProxy ActiveProject
@@ -88,7 +78,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _rightPaneContentControl, value);
             }
         }
-        //Start up window property
         public FrameworkElement MenuContentControl
         { get => _menuContentControl;
             set
@@ -96,7 +85,60 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetProperty(ref _menuContentControl, value);
             }
         }
-        public string StartUpWindowTitle { get; set; } = "Drawing Application";
+        public DrawingCanvas DrawingCanvas
+        {
+            get { return _drawingCanvas; }
+            set
+            {
+                SetProperty(ref _drawingCanvas, value);
+            }
+        }
+        
+        public string StatusBarMessage
+        {
+            get { return _statusBarMessage; }
+            set
+            {
+                SetProperty(ref _statusBarMessage, value);
+            }
+        }
+
+        #region Import and export
+        public string ImportOrExport
+        {
+            get { return _importOrExport; }
+            set
+            {
+                SetProperty(ref _importOrExport, value);
+            }
+        }
+        private bool _importExportPopUpIsOpen = false;
+        public ObservableCollection<ImportExportOption> ImportExportPopUpOptions { get; set; }
+        public class ImportExportOption
+        {
+            public string ImportExportOptionName { get; set; }
+        }
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                SetProperty(ref _selectedIndex, value);
+                SelectImportExportOption();
+            }
+        }
+
+        public bool ImportExportPopUpIsOpen
+        {
+            get { return _importExportPopUpIsOpen; }
+            set
+            {
+                SetProperty(ref _importExportPopUpIsOpen, value);
+            }
+        }
+        #endregion
 
         //Commands
         public DelegateCommand AddsharedUserFromTopPaneCommand { get; set; }
@@ -104,12 +146,18 @@ namespace WPFGraphicUserInterface.ViewModels
         public DelegateCommand ShowRightPaneCommand { get; set; }
         public DelegateCommand ExportFromTopPaneCommand { get; set; }
 
-        public IEventAggregator _eventAggregator;
+        private IEventAggregator _eventAggregator;
 
-        public StartUpWindowViewModel(IEventAggregator eventAggregator)
+        public StartUpWindowViewModel()
         {
-            //Set user here
-            _eventAggregator = eventAggregator;
+            InitializeClass();
+        }
+
+        private void InitializeClass()
+        {
+            _eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
+
+            //Events registered to this class
             _eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(SetUser);
             _eventAggregator.GetEvent<CreateProjectEvent>().Subscribe(SetActiveProject);
             _eventAggregator.GetEvent<AddSharedUserEvent>().Subscribe(AddUserToShareProjectWith);
@@ -124,25 +172,36 @@ namespace WPFGraphicUserInterface.ViewModels
             _eventAggregator.GetEvent<OpenProjectBtnClickEvent>().Subscribe(OpenUserProjects);
             _eventAggregator.GetEvent<SignOutBtnClickEvent>().Subscribe(SignOut);
             _eventAggregator.GetEvent<CloseMenuBtnClickEvent>().Subscribe(CloseMenu);
+            _eventAggregator.GetEvent<ShowPopupEvent>().Subscribe(ShowImportExportOptions);
 
             //Initialize Right menu pane
             RightPaneContentControl = new RightPaneView();
-            _rightPaneViewModel = new RightPaneViewModel(_eventAggregator);
+            _rightPaneViewModel = new RightPaneViewModel();
             RightPaneContentControl.DataContext = _rightPaneViewModel;
             RightPaneContentControl.Visibility = Visibility.Collapsed;
 
             //Initialize menu pane
             MenuContentControl = new MenuPaneView();
-            _menuPaneViewModel = new MenuPaneViewModel(_eventAggregator);
+            _menuPaneViewModel = new MenuPaneViewModel();
             MenuContentControl.DataContext = _menuPaneViewModel;
             MenuContentControl.Visibility = Visibility.Collapsed;
 
+            //Initialize Drawing canvas
             DrawingCanvas = new DrawingCanvas();
+            DrawingCanvas.AllowDrop = false;
 
             AddsharedUserFromTopPaneCommand = new DelegateCommand(AddSharedUserFromTopPane, () => true);
             ShowMenuCommand = new DelegateCommand(ShowMenu, () => true);
             ShowRightPaneCommand = new DelegateCommand(ShowRightPane, () => true);
             ExportFromTopPaneCommand = new DelegateCommand(ExportFromTopPane, () => true);
+
+            //Import and export 
+            //Initialize and add import and export pop up options
+            ImportExportPopUpOptions = new ObservableCollection<ImportExportOption>
+            {
+                new ImportExportOption() { ImportExportOptionName = "JSON" },
+                new ImportExportOption() { ImportExportOptionName = "XML" }
+            };
 
             StatusBarMessage = "Ready";
         }
@@ -173,19 +232,28 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private void DeleteActiveProject()
         {
-            var result = MessageBox.Show("Do you want to delete project?", "Delete Project", MessageBoxButton.YesNo);
-            
             if (ActiveProject == null)
             {
+                MessageBox.Show("Select a project to delete!");
                 return;
             }
+
+            if (_isSharedProject)
+            {
+                MessageBox.Show("Cannot delete a shared project!");
+                return;
+            }
+
+            var result = MessageBox.Show("Do you want to delete project?", "Delete Project", MessageBoxButton.YesNo);
+
             if (result == MessageBoxResult.Yes)
             {
                 _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Deleting Project!");
 
                 DrawingCanvas = new DrawingCanvas();
 
-                DataAccessLayer.DeleteProject(ActiveProject);
+                //if project not yet saved do something
+                DataAccessLayer.DeleteProject(ActiveProject);//This is responsible for removing the project from the db and clearing related items
 
                 //Remove project from project list
                 var projectToRemove = _rightPaneViewModel.ProjectPaneViewModel.Projects.FirstOrDefault(p => p.ToLower() == ActiveProject.ProjectName);
@@ -196,45 +264,120 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 _rightPaneViewModel.ProjectPaneViewModel.Projects.Remove(projectToRemove);
                 //Reset project name to 
+                _menuPaneViewModel.ProjectName = "";
+
                 ActiveProject = null;
 
+                SetUser(UserProxy);
             }
-
-            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Ready!");
+            StatusBarMessage = "Ready!";
         }
 
         private void ExportFromTopPane()
         {
-            return;
+            _eventAggregator.GetEvent<ShowPopupEvent>().Publish("export");
         }
 
+        bool IsProjectNameInProjects(string projectName, IEnumerable<ProjectProxy> projectProxies)
+        {
+            foreach (var projectproxy in projectProxies)
+            {
+                if (projectproxy.ProjectName.ToLower() == projectName.ToLower())
+                    return true;
+            }
+
+            return false;
+        }
         private void LoadProjectFromProjectPane(string projectName)
         {
-            DrawingCanvas = new DrawingCanvas();
+            //Check if project is user created project
+            var inUserCreatedProjects = IsProjectNameInProjects(projectName, UserProxy.UserCreatedProjects);
 
-            ActiveProject = DataAccessLayer.LoadProjectFromDatabase(UserProxy, projectName);
 
-            var drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectWithProjectName(projectName);
+            IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectsProxies;
+
+            if (inUserCreatedProjects)
+            {
+                DrawingCanvas = new DrawingCanvas();
+
+                ActiveProject = DataAccessLayer.LoadProjectFromDatabase(UserProxy, projectName);
+
+                _canEdit = true;
+                _isSharedProject = false;
+
+                drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectWithProjectName(projectName, UserProxy.UserId);
+
+            }
+            else
+            {
+                var result = MessageBox.Show("Is Shared project. Do you want to load project?",
+                    "Load shared project", MessageBoxButton.YesNo);
+                var sharedProject = new ProjectProxy();
+
+                if (result == MessageBoxResult.No) return;
+
+                DrawingCanvas = new DrawingCanvas();
+
+
+                foreach (var projectUserProxy in UserProxy.UserSharedProjects)
+                {
+                    var projectProxy = DataAccessLayer.GetProjectWithId(projectUserProxy.ProjectId);
+
+                    if(projectName.ToLower() == projectProxy.ProjectName.ToLower())
+                    {
+                        sharedProject = projectProxy;
+
+                        ActiveProject = sharedProject;
+                        _canEdit = projectUserProxy.CanEdit;
+                        DrawingCanvas.AllowDrop = _canEdit;
+                        break;
+                    }
+                }
+
+                _isSharedProject = true;
+
+                drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectDrawingCanvasObjects(sharedProject);
+            }
+
+
+
+            //var projectProxy = DataAccessLayer.GetProjectWithProjectName(projectName);
+
+            //Set can edit here
+            //if (!UserProxy.UserCreatedProjects.Contains(projectProxy))
+            //{
+            //    ///DrawingCanvas.AllowDrop = DataAccessLayer.CanUserEditProject(DataAccessLayer.GetProjectCreatorWithProjectName(projectName).UserId, projectProxy.ProjectId);
+            //    ActiveProject = projectProxy;
+            //}
+
+            //ActiveProject = projectProxy;
+
+            //var canEdit  = DataAccessLayer.CanUserEditProject(DataAccessLayer.GetProjectCreatorWithProjectName(projectName).UserId, projectProxy.ProjectId);
+
+            //else
+            //{
+            //    ActiveProject = DataAccessLayer.LoadProjectFromDatabase(UserProxy, projectName);
+            //}
+
 
             ActiveProject.ProjectDrawingCanvasObjects = drawingCanvasObjectsProxies.ToList();
 
-            //Set shared users too
-
-            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing Canvas!");
+            StatusBarMessage = "Setting up drawing Canvas!";
 
             UnpackProjectToCanvas(drawingCanvasObjectsProxies);
 
-            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Ready!");
-
             _menuPaneViewModel.ProjectName = projectName;
+
+            StatusBarMessage = "Ready!";
         }
 
         private async void RemoveSharedUser(string sharedUserEmailAddress)
         {
-            await DataAccessLayer.RemoveSharedUserAsync(sharedUserEmailAddress, ActiveProject.ProjectId);
+            var id = DataAccessLayer.GetProjectWithProjectName(ActiveProject.ProjectName, UserProxy.UserId).ProjectId;
+            await DataAccessLayer.RemoveSharedUserAsync(sharedUserEmailAddress, id);
         }
 
-        private async void RefreshSharedUserDetails(Tuple<string, bool> newInfo)
+        private async void RefreshSharedUserDetails((string, bool) newInfo)
         {
             await DataAccessLayer.EditSharedUserDetailsAsync(newInfo, ActiveProject.ProjectId);
         }
@@ -246,7 +389,10 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private async void ExportProject(string exportType)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = $"{exportType.ToLower()} document(*.{exportType.ToLower()}|*.{exportType.ToLower()}"
+            };
 
             if (saveFileDialog.ShowDialog() == true)
             {
@@ -257,24 +403,44 @@ namespace WPFGraphicUserInterface.ViewModels
 
         private async void ImportProject(string importType)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            //Create a project first
+            if (ActiveProject == null)
+            {
+                MessageBox.Show("Create a project first!","No Active project",MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = $"{importType.ToLower()} document(*.{importType.ToLower()}|*.{importType.ToLower()}"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
                 var filePath = openFileDialog.FileName;
 
-                var drawingCanvasObjectsProxies = await ExporterImporter.ImportAsync(filePath, importType);
+                IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectsProxies;
 
-                //Set up drawing canvas
-                DrawingCanvas = new DrawingCanvas();
+                try
+                {
+                    drawingCanvasObjectsProxies = await ExporterImporter.ImportAsync(filePath, importType);
+                    //Set up drawing canvas
+                    DrawingCanvas = new DrawingCanvas();
 
-                _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing Canvas!");
+                    StatusBarMessage = "Setting up drawing Canvas!";
 
-                UnpackProjectToCanvas(drawingCanvasObjectsProxies);
+                    UnpackProjectToCanvas(drawingCanvasObjectsProxies);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Failed to import file. Make sure file type matches import type.","Import Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    StatusBarMessage = "Ready!";
+                }
             }
-            //Check later if import is successful
-            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Ready!");
-
         }
 
         void UnpackProjectToCanvas(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies)
@@ -291,29 +457,23 @@ namespace WPFGraphicUserInterface.ViewModels
             }
         }
 
-        private void SaveProject()
+        private async void SaveProject()
         {
             if (ActiveProject != null)
             {
                 var canvasItems = PackProject();
 
-                if (ActiveProject.ProjectId == 0)//Project not in db yet
-                {
-                    ActiveProject.ProjectId = DataAccessLayer.LoadProjectFromDatabase(UserProxy, ActiveProject.ProjectName).ProjectId;
-
-                    _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(UserProxy.UserCreatedProjects);
-
-                }
-
-                DataAccessLayer.SaveProjectDrawingCanvasObjectsToDBAsync(canvasItems, ActiveProject);
+                //Save or Update project
+                await DataAccessLayer.SaveProjectDrawingCanvasObjectsToDBAsync(canvasItems, 
+                    DataAccessLayer.GetProjectWithProjectName(ActiveProject.ProjectName, UserProxy.UserId));
             }
             else
             {
-                _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Create a project first!");
+                MessageBox.Show("Create or select a project first!", "Saving unsuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
-        List<DrawingCanvasObjectProxy> PackProject()
+        private List<DrawingCanvasObjectProxy> PackProject()
         {
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Packing project!");
 
@@ -325,7 +485,6 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 var item = ConvertFrameworkElementToDrawingCanvasObjectProxy(ch);
 
-                //ActiveProject.ProjectDrawingCanvasObjects.Add(item);
                 canvasItems.Add(item);
             }
             _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Packing Complete!");
@@ -351,28 +510,25 @@ namespace WPFGraphicUserInterface.ViewModels
             return item;
         }
 
-        private async void AddUserToShareProjectWith(Tuple<UserProxy, bool> sharedUserInfo)
+        private async void AddUserToShareProjectWith((UserProxy, bool) sharedUserInfo)
         {
-            if (sharedUserInfo == null)
-            {
-                _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
-                return;
-            }
-            //Should not be able to add self to shared users
-            if (sharedUserInfo.Item1.UserEmailAddress == UserProxy.UserEmailAddress)
-            {
-                MessageBox.Show("Cannot add self to shared users!");
-                return;
-            }
             //should be able to shared if project has been created
             if (_activeProject != null)
             {
+                //Should not be able to add self to shared users
+                if (sharedUserInfo.Item1.UserEmailAddress == UserProxy.UserEmailAddress)
+                {
+                    MessageBox.Show("Silly, cannot add one's self to shared users :)!");
+                    return;
+                }
+
                 StatusBarMessage = $"Adding {sharedUserInfo.Item1.UserEmailAddress} to list of shared users!";
                 _menuPaneViewModel.shareProjectWindowView.Visibility = Visibility.Collapsed;
 
                 var projectSharedUser = new ProjectUserProxy();
 
-                projectSharedUser.ProjectId = ActiveProject.ProjectId;
+                var id = DataAccessLayer.GetProjectWithProjectName(ActiveProject.ProjectName, UserProxy.UserId).ProjectId;
+                projectSharedUser.ProjectId = id;
                 projectSharedUser.UserId = sharedUserInfo.Item1.UserId;
 
                 projectSharedUser.SharedProject = ActiveProject;
@@ -381,23 +537,12 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 await DataAccessLayer.AddSharedUserToDatabaseAsync(projectSharedUser);
 
-                var sharedProjectFullname = ActiveProject.ProjectName + "_" + UserProxy.UserEmailAddress;
-                if (shared.ContainsKey(sharedProjectFullname))
-                {
-                    shared[sharedProjectFullname].Add(sharedUserInfo.Item1.UserEmailAddress);
-                }
-                else
-                {
-                    shared.Add(sharedProjectFullname, new List<string>());
-                    shared[sharedProjectFullname].Add(sharedUserInfo.Item1.UserEmailAddress);
-                }
-                //Send notification to SharedProjectWindow
                 _eventAggregator.GetEvent<ProjectSharedToAnotherUserEvent>().Publish(projectSharedUser);
-                StatusBarMessage = "Done!";
+                StatusBarMessage = "Ready!";
                 return;
             }
 
-            StatusBarMessage = "Create Project First";
+            MessageBox.Show("Create a project to share first!", "Create project", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private async void SetActiveProject(ProjectProxy createdProject)
@@ -409,8 +554,18 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 //Setting up local variable for easy access
                 var userCreatedProjects = UserProxy.UserCreatedProjects;
+                var userTotalProjects = new List<ProjectProxy>();
 
-                foreach(var existingProject in userCreatedProjects)
+                userTotalProjects.AddRange(userCreatedProjects);
+
+                foreach (var sharedProject in UserProxy.UserSharedProjects)
+                {
+                    var projectProxy = DataAccessLayer.GetProjectWithId(sharedProject.ProjectId);
+                    userTotalProjects.Add(projectProxy);
+                }
+
+
+                foreach(var existingProject in userTotalProjects)
                 {
                     if(createdProject.ProjectName == existingProject.ProjectName)
                     {
@@ -423,7 +578,7 @@ namespace WPFGraphicUserInterface.ViewModels
             }
 
             //Set up drawing canvas
-            _eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Setting up drawing canvas!");
+            StatusBarMessage = "Setting up drawing canvas!";
 
             DrawingCanvas = new DrawingCanvas();
             //Make user project creatorId
@@ -456,13 +611,26 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             UserProxy = pUserProxy;
 
-            //Load user projects
+            //Load user Created projects
             pUserProxy.UserCreatedProjects = DataAccessLayer.LoadUserProjectsFromDatabase(pUserProxy).ToList();
+            pUserProxy.UserSharedProjects = DataAccessLayer.LoadUserSharedProjectsFromDatabase(pUserProxy).ToList();
+            List<ProjectProxy> projectProxies = new List<ProjectProxy>();
 
-            
+
+
             if (pUserProxy.UserCreatedProjects.Count != 0)
             {
-                _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(pUserProxy.UserCreatedProjects);
+                var createdProjects = pUserProxy.UserCreatedProjects;
+                var sharedProjects = pUserProxy.UserSharedProjects;
+
+                projectProxies.AddRange(createdProjects);
+                
+                foreach(var sharedProject in sharedProjects)
+                {
+                    var projectProxy = DataAccessLayer.GetProjectWithId(sharedProject.ProjectId);
+                    projectProxies.Add(projectProxy);
+                }
+                _eventAggregator.GetEvent<UserProjectChangedEvent>().Publish(projectProxies);
             }
         }
 
@@ -481,6 +649,80 @@ namespace WPFGraphicUserInterface.ViewModels
         private void ShowRightPane()
         {
             RightPaneContentControl.Visibility = Visibility.Visible;
+        }
+
+        //Importing and exporting pop up
+        private void ShowImportExportOptions(string option)
+        {
+            ImportOrExport = option;
+            SelectedIndex = -1;
+            ImportExportPopUpIsOpen = !ImportExportPopUpIsOpen;
+        }
+
+        //Export Project
+        private void ExportProjectAsExportType(string exportType)
+        {
+            switch (exportType.ToLower())
+            {
+                case "json":
+                    _eventAggregator.GetEvent<ExportProjectEvent>().Publish("json");
+                    break;
+                case "xml":
+                    _eventAggregator.GetEvent<ExportProjectEvent>().Publish("xml");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //Import Project
+        private void ImportProjectAsImportType(string importType)
+        {
+            switch (importType.ToLower())
+            {
+                case "json":
+                    _eventAggregator.GetEvent<ImportProjectEvent>().Publish("json");
+                    break;
+                case "xml":
+                    _eventAggregator.GetEvent<ImportProjectEvent>().Publish("xml");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //Pop up options selection
+        private void SelectImportExportOption()
+        {
+            if (ImportOrExport.ToLower() == "import")
+            {
+                switch (_selectedIndex)
+                {
+                    case 0:
+                        ImportProjectAsImportType("json");
+                        break;
+                    case 1:
+                        ImportProjectAsImportType("xml");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (_selectedIndex)
+                {
+                    case 0:
+                        ExportProjectAsExportType("json");
+                        break;
+                    case 1:
+                        ExportProjectAsExportType("xml");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
     }
 }

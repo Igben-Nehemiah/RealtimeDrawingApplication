@@ -6,13 +6,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="160">
 
-    <StackPanel Background="{DynamicResource ApplicationPrimaryBackground}"
-                Margin="0,0,0,0">
+    <Grid Background="{DynamicResource ApplicationPrimaryBackground}"
+                Margin="0,0,0,0"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
 
         <ListBox ItemsSource="{Binding Projects}"
                  Margin="0"
-                 SelectedItem="{Binding SelectedProject}"
-                 VerticalAlignment="Stretch">
+                 SelectedItem="{Binding SelectedProject}">
+            
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -33,5 +35,5 @@
             </ListBox.ItemTemplate>
         </ListBox>
         
-    </StackPanel>
+    </Grid>
 </UserControl>

@@ -8,6 +8,7 @@ namespace Infrastructure.Repositories
 
         User GetUser(string emailAddress, string password);
 
+
         bool ContainsUser(string emailAddress);
     }
 }

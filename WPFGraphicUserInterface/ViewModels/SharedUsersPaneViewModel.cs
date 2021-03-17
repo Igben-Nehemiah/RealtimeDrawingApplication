@@ -49,7 +49,7 @@ namespace WPFGraphicUserInterface.ViewModels
                     SetProperty(ref _canEdit, value);
                     if (!string.IsNullOrEmpty(SharedUserEmailAddress))
                     {
-                        _eventAggregator.GetEvent<SharedUserInfoChangedEvent>().Publish(new Tuple<string, bool>(SharedUserEmailAddress, _canEdit));
+                        _eventAggregator.GetEvent<SharedUserInfoChangedEvent>().Publish((SharedUserEmailAddress, _canEdit));
                     }
                 }
             }

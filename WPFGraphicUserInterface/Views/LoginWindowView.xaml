@@ -21,14 +21,15 @@
         <Style TargetType="Border" x:Key="TextBoxBorder">
             <Setter Property="Background" Value="{DynamicResource ApplicationPrimaryBackground}"/>
             <Setter Property="BorderBrush" Value="Gray"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Padding" Value="3,2,3,2"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="SkyBlue"/>
+                    <Setter Property="BorderThickness" Value="1.5"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ApplicationSecondaryBackground}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
