@@ -41,9 +41,8 @@ namespace WPFGraphicUserInterface.Views
         {
             var logInWindow = new LoginWindowView();
             this.Close();
-            logInWindow.ShowDialog();
+            Close();
+            logInWindow.Show();
         }
-
-       
     }
 }

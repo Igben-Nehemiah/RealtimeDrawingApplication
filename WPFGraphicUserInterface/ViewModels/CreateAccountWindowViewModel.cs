@@ -41,18 +41,18 @@ namespace WPFGraphicUserInterface.ViewModels
         IEventAggregator _eventAggregator;
         public CreateAccountWindowViewModel()
         {
-            CreateAccountCommand = new DelegateCommand(ExecuteCreateAccount, CanExecuteCreateAccount);
+            CreateAccountCommand = new DelegateCommand(CreateAccount, CanCreateAccount);
 
             //Listen for account creation report
             _eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
         }
 
-        private bool CanExecuteCreateAccount()
+        private bool CanCreateAccount()
         {
             return true;
         }
 
-        private async void ExecuteCreateAccount()
+        private async void CreateAccount()
         {
             //If entries pass validation
             if (VerifiedPassword == UserProxy.UserPassword)

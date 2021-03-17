@@ -7,38 +7,15 @@ using System.Windows.Media;
 using Prism.Ioc;
 using WPFUserInterface.Core;
 using WPFGraphicUserInterface.Services;
-using System.Windows.Controls.Primitives;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
-    public class DrawingCanvas : Canvas, INotifyPropertyChanged
+    public class DrawingCanvas : Canvas
     {
-        private bool _isOpen = false;
-        
-        public bool IsOpen
-        {
-            get { return _isOpen; }
-            set
-            {
-                if (_isOpen == value) return;
-                _isOpen = value;
-                OnPropertyChanged(nameof(IsOpen));
-            }
-        }
-
-        private Popup _mouseRightBtnDownPopup;
-
-        public Popup MouseRightBtnDownPopup
-        {
-            get { return _mouseRightBtnDownPopup; }
-
-        }
-
         public FrameworkElement FocusedDrawingElement { get; set; }
         //This is the element that is published to the property pane...
         public ISelectedObject FocusedCanvasItem { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         private double xPos;
         private double yPos;
 
@@ -170,87 +147,6 @@ namespace WPFGraphicUserInterface.ViewModels
             base.OnMouseLeftButtonUp(e);
         }
 
-        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
-        {
-            EventAggregator.GetEvent<CloseMenuBtnClickEvent>().Publish();
-            
-            FocusedDrawingElement = null;
-
-            var item = e.OriginalSource;
-
-            if (item is ShapeComponent sh)
-            {
-                FocusedCanvasItem = sh;
-            }
-            else if (item is TextBoxComponent tx)
-            {
-                FocusedCanvasItem = tx;
-            }
-
-            FocusedDrawingElement = FocusedCanvasItem as FrameworkElement;
-
-            if (FocusedDrawingElement == null)
-            {
-                return;
-            }
-
-            Popup rightMouseBtnDownPopup = new Popup();
-            rightMouseBtnDownPopup.Width = 150;
-
-            //ListBox rightMouseBtnDownPopupOptions = new ListBox();
-            TextBlock deleteItemText = new TextBlock();
-            deleteItemText.Text = "Delete Item";
-            deleteItemText.Background = Brushes.White;
-            deleteItemText.Foreground = Brushes.Black;
-
-            rightMouseBtnDownPopup.PlacementTarget = FocusedDrawingElement;
-            rightMouseBtnDownPopup.Child = deleteItemText;
-            rightMouseBtnDownPopup.Placement = PlacementMode.Right;
-            rightMouseBtnDownPopup.IsOpen = !IsOpen;
-            if (!IsOpen)
-            {
-                rightMouseBtnDownPopup = null;
-            }
-            
-            //rightMouseBtnDownPopup.StaysOpen = true;
-
-
-            EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(FocusedCanvasItem);
-            base.OnMouseRightButtonDown(e);
-        }
-
-        //private void LeftButtonClick( KeyEventArgs e)
-        //{
-        //    if (e.Key == Key.Left)
-        //    {
-        //        if (FocusedDrawingElement != null)
-        //        {
-        //            var selectedItem = FocusedDrawingElement as ISelectedObject;
-
-        //            var x = selectedItem.SelectedObjectXPos;
-        //            var y = selectedItem.SelectedObjectYPos;
-
-        //            if (x < ActualWidth - FocusedDrawingElement.ActualWidth &&
-        //                y < ActualHeight - FocusedDrawingElement.ActualHeight)
-        //            {
-        //                var model = FocusedDrawingElement as ISelectedObject;
-        //                if (model != null)
-        //                {
-        //                    model.SelectedObjectXPos = x;
-        //                    model.SelectedObjectYPos = y;
-        //                    xPos = x;
-        //                    yPos = y;
-
-        //                    FocusedDrawingElement = model as FrameworkElement;
-        //                    SetLeft(FocusedDrawingElement, x);
-        //                    SetTop(FocusedDrawingElement, y);
-        //                    EventAggregator.GetEvent<FocusedDrawingCanvasObjectChangedEvent>().Publish(model);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
         protected override void OnDrop(DragEventArgs e)
         {
             FocusedDrawingElement = null;
@@ -292,11 +188,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 SetLeft(element, xPos);
                 SetTop(element, yPos);
             }
-        }
-
-        protected void OnPropertyChanged(string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

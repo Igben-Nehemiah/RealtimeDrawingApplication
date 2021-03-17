@@ -308,6 +308,24 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectWithProjectName(projectName, UserProxy.UserId);
 
+                //Load shared users
+                var id = DataAccessLayer.GetProjectWithProjectName(ActiveProject.ProjectName, UserProxy.UserId).ProjectId;
+
+                _eventAggregator.GetEvent<ClearSharedUsersListEvent>().Publish();
+
+                foreach (var item in UserProxy.UserSharedProjects)
+                {
+                    var projectSharedUser = new ProjectUserProxy();
+
+                    projectSharedUser.ProjectId = id;
+                    projectSharedUser.UserId = item.UserId;
+
+                    projectSharedUser.SharedProject = ActiveProject;
+                    projectSharedUser.SharedUser = DataAccessLayer.GetUserWithUserId(item.UserId);
+                    projectSharedUser.CanEdit = item.CanEdit;
+
+                    _eventAggregator.GetEvent<ProjectSharedToAnotherUserEvent>().Publish(projectSharedUser);
+                }
             }
             else
             {
@@ -540,6 +558,8 @@ namespace WPFGraphicUserInterface.ViewModels
                 projectSharedUser.CanEdit = sharedUserInfo.Item2;
 
                 await DataAccessLayer.AddSharedUserToDatabaseAsync(projectSharedUser);
+
+                UserProxy.UserSharedProjects.Add(projectSharedUser);
 
                 _eventAggregator.GetEvent<ProjectSharedToAnotherUserEvent>().Publish(projectSharedUser);
                 StatusBarMessage = "Ready!";

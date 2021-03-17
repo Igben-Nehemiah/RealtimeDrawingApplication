@@ -20,35 +20,10 @@ namespace WPFGraphicUserInterface.Views
     /// </summary>
     public partial class CreateProjectWindowView : Window
     {
-        //private bool _isProjectCreated;
-        //IEventAggregator _eventAggregator;
-
         public CreateProjectWindowView()
         {
-            //_eventAggregator = App.ShellContainer.Resolve<IEventAggregator>();
-            //_eventAggregator.GetEvent<ProjectCreationStatusEvent>().Subscribe(SetIsProjectCreated);
-            
             InitializeComponent();
             ProjectNameTxtbox.Focus();
         }
-
-        //private void CreateProjectBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //Raise TriedToCreateProjectEvent
-        //    _eventAggregator.GetEvent<TriedToCreateProjectEvent>().Publish();
-        //    //Subscribe to ProjectCreationStatusEvent
-        //    this.Close();
-
-        //    //if (_isProjectCreated)
-        //    //{
-        //    //    this.Close();
-        //    //}
-        //    ////Do something
-        //}
-
-        //private void SetIsProjectCreated(bool pIsProjectCreated)
-        //{
-        //    _isProjectCreated = pIsProjectCreated;
-        //}
     }
 }

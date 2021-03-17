@@ -66,6 +66,7 @@ namespace WPFGraphicUserInterface.ViewModels
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ProjectSharedToAnotherUserEvent>().Subscribe(RefreshSharedProjectPane);
+            _eventAggregator.GetEvent<ClearSharedUsersListEvent>().Subscribe(() => ProjectUsers.Clear());
 
             //Commands
             AddSharedUserCommand = new DelegateCommand(AddSharedUser, CanAddSharedUser);

@@ -53,12 +53,12 @@ namespace WPFGraphicUserInterface.Services
                     return new Tuple<bool, UserProxy>(false, null);
                 }
             }
-            
+
         }
         public static async Task<Tuple<bool, UserProxy>> CheckIfUserDetailIsValidAsync(string email, string password)
         {
             return await Task.Run(() => ValidateUser());
-            
+
             Tuple<bool, UserProxy> ValidateUser()
             {
                 using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
@@ -121,7 +121,7 @@ namespace WPFGraphicUserInterface.Services
                     eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Ready!");
                 }
             });
-            
+
         }
 
         public static void SaveProjectToDatabase(ProjectProxy projectToSave)
@@ -138,7 +138,7 @@ namespace WPFGraphicUserInterface.Services
                     {
                         //Modify project
                         var projectToOverride = unitOfWork.Projects.Get(savedProject.ProjectId);
-                        projectToOverride= project;
+                        projectToOverride = project;
                         unitOfWork.Complete();
                         return;
                     }
@@ -233,7 +233,7 @@ namespace WPFGraphicUserInterface.Services
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
             {
                 var userCreatedProjects = unitOfWork.Projects.GetUserCreatedProjects(userModel.UserId);
-                
+
                 foreach (var projectModel in userCreatedProjects)
                 {
                     var projectProxy = ModelToProxyConverter.ProjectModelToProjectProxyConverter(projectModel);
@@ -256,7 +256,7 @@ namespace WPFGraphicUserInterface.Services
                 var drawingCanvasObjectModels = unitOfWork.DrawingCanvasObjects
                     .GetDrawingCanvasObjectsBelongingTo(projectModel.ProjectId);
 
-                foreach(var drawingObj in drawingCanvasObjectModels)
+                foreach (var drawingObj in drawingCanvasObjectModels)
                 {
                     var drawingObjProxy = ModelToProxyConverter.DrawingCanvasObjectToDrawingCanvasObjectProxy(drawingObj);
                     drawingCanvasObjectsProxies.Add(drawingObjProxy);
@@ -277,11 +277,11 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
-        public static async Task SaveProjectDrawingCanvasObjectsToDBAsync(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies, 
+        public static async Task SaveProjectDrawingCanvasObjectsToDBAsync(IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectProxies,
             ProjectProxy projectProxy)
         {
             await Task.Run(() => SaveProject());
-            
+
             void SaveProject()
             {
                 eventAggregator.GetEvent<ChangeStatusbarMessageEvent>().Publish("Saving project to database!");
@@ -346,7 +346,7 @@ namespace WPFGraphicUserInterface.Services
                     unitOfWork.Complete();
                 }
             });
-            
+
         }
 
         public static ProjectProxy GetProjectWithProjectName(string projectName, int projectCreatorId)
@@ -401,6 +401,16 @@ namespace WPFGraphicUserInterface.Services
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
             {
                 return unitOfWork.Users.GetProjectCreator(projectId).UserId;
+            }
+        }
+
+        public static UserProxy GetUserWithUserId(int userId)
+        {
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                var userProxy = unitOfWork.Users.Get(userId);
+
+                return ModelToProxyConverter.UserModelToUserProxyConverter(userProxy);
             }
         }
     }
