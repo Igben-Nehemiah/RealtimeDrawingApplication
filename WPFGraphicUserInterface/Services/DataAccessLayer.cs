@@ -396,11 +396,11 @@ namespace WPFGraphicUserInterface.Services
             return projectProxy;
         }
 
-        public static bool CanUserEditProject(int userId, int projectId)
+        public static int GetProjectCreatorIdWithProjectId(int projectId)
         {
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
             {
-                return unitOfWork.ProjectUsers.GetProjectUser(userId, projectId).CanEdit;
+                return unitOfWork.Users.GetProjectCreator(projectId).UserId;
             }
         }
     }

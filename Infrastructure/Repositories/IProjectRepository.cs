@@ -9,6 +9,8 @@ namespace Infrastructure.Repositories
 
         User GetCreator(string projectName);
 
+        User GetCreatorWithId(int projectId);
+
         Project GetProjectWithProjectName(string projectName, int projectCreatorId);
     }
 }

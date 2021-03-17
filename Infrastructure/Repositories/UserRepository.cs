@@ -16,6 +16,13 @@ namespace Infrastructure.Repositories
             get { return Context as RealtimeDrawingApplicationContext; }
         }
 
+        public User GetProjectCreator(int projectId)
+        {
+            var project = RealtimeDrawingApplicationContext.Projects.First(p => p.ProjectId == projectId);
+            return RealtimeDrawingApplicationContext.Users.FirstOrDefault
+                (u => u.UserCreatedProjects.Contains(project));
+        }
+
         public bool ContainsUser(string emailAddress)
         {
             if (emailAddress == null) return false;

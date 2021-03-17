@@ -65,7 +65,7 @@
 
 
     <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" BorderThickness=".1" Padding="0,0"
-        Margin="0,39.5,0,30">
+        Margin="0,39.5,0,0">
 
         <StackPanel Background="{DynamicResource ApplicationPrimaryBackground}"
                 
@@ -94,17 +94,13 @@
                 <Button Grid.Column="2"
                     Height="20"
                     Width="20"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        VerticalAlignment="Center"
+                        Margin="0,0,0,10"
                       Style="{DynamicResource TransparentBtn}"
                     Command="{Binding ShowRightPaneOptionsPopUpCommand}">
                     ...
-                    <!--<Image>
-                        <Image.Source ="" />
-                    </Image>-->
-                    <!--<Path Fill="Black"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"
-                      Data="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" 
-                      
                       Margin="0,0,10,10"/>-->
                 </Button>
             </Grid>
@@ -140,7 +136,7 @@
                                     <ColumnDefinition Width="110"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Path Width="24" Height="24" Fill="Black" Data= "M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z"
+                                <Path Width="24" Height="24" Fill="LightGreen" Data= "M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z"
                                   Grid.RowSpan="3" Grid.Column="2"/>
                                 <TextBlock Text="{Binding OptionName}" />
                             </Grid>

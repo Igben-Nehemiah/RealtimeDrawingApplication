@@ -288,6 +288,7 @@ namespace WPFGraphicUserInterface.ViewModels
 
             return false;
         }
+
         private void LoadProjectFromProjectPane(string projectName)
         {
             //Check if project is user created project
@@ -339,25 +340,6 @@ namespace WPFGraphicUserInterface.ViewModels
                 drawingCanvasObjectsProxies = DataAccessLayer.LoadProjectDrawingCanvasObjects(sharedProject);
             }
 
-
-
-            //var projectProxy = DataAccessLayer.GetProjectWithProjectName(projectName);
-
-            //Set can edit here
-            //if (!UserProxy.UserCreatedProjects.Contains(projectProxy))
-            //{
-            //    ///DrawingCanvas.AllowDrop = DataAccessLayer.CanUserEditProject(DataAccessLayer.GetProjectCreatorWithProjectName(projectName).UserId, projectProxy.ProjectId);
-            //    ActiveProject = projectProxy;
-            //}
-
-            //ActiveProject = projectProxy;
-
-            //var canEdit  = DataAccessLayer.CanUserEditProject(DataAccessLayer.GetProjectCreatorWithProjectName(projectName).UserId, projectProxy.ProjectId);
-
-            //else
-            //{
-            //    ActiveProject = DataAccessLayer.LoadProjectFromDatabase(UserProxy, projectName);
-            //}
 
 
             ActiveProject.ProjectDrawingCanvasObjects = drawingCanvasObjectsProxies.ToList();
@@ -463,9 +445,26 @@ namespace WPFGraphicUserInterface.ViewModels
             {
                 var canvasItems = PackProject();
 
+                int userId;
+
+                if (!_canEdit)
+                {
+                    MessageBox.Show("Cannot Save this project because it has been locked by it's creator!");
+                    return;
+                }
+
+                if (_isSharedProject)
+                {
+                    
+                    userId = DataAccessLayer.GetProjectCreatorIdWithProjectId(ActiveProject.ProjectId);
+                }
+                else
+                {
+                    userId = UserProxy.UserId;
+                }
                 //Save or Update project
                 await DataAccessLayer.SaveProjectDrawingCanvasObjectsToDBAsync(canvasItems, 
-                    DataAccessLayer.GetProjectWithProjectName(ActiveProject.ProjectName, UserProxy.UserId));
+                    DataAccessLayer.GetProjectWithProjectName(ActiveProject.ProjectName, userId));
             }
             else
             {
@@ -515,6 +514,11 @@ namespace WPFGraphicUserInterface.ViewModels
             //should be able to shared if project has been created
             if (_activeProject != null)
             {
+                if (_isSharedProject)
+                {
+                    MessageBox.Show("Cannot shared shared project!");
+                    return;
+                }
                 //Should not be able to add self to shared users
                 if (sharedUserInfo.Item1.UserEmailAddress == UserProxy.UserEmailAddress)
                 {
@@ -602,6 +606,8 @@ namespace WPFGraphicUserInterface.ViewModels
             _menuPaneViewModel.ProjectName = createdProject.ProjectName;
             MenuContentControl.DataContext = _menuPaneViewModel;
 
+            _isSharedProject = false;
+            _canEdit = true;
             //Refresh user
             SetUser(UserProxy);
         }

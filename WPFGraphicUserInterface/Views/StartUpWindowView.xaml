@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:WPFGraphicUserInterface.ViewModels"
         mc:Ignorable="d" Topmost="False"
         Title="{Binding StartUpWindowTitle}" Height="450" Width="800">
 
@@ -35,7 +34,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel Background="White"  Grid.ColumnSpan="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Background="White"  Grid.ColumnSpan="3" Grid.Row="0">
 
             <DockPanel DockPanel.Dock="Top" 
                    Background="{DynamicResource ApplicationPrimaryBackground}">
@@ -79,14 +83,7 @@
 
             </DockPanel>
 
-            <DockPanel DockPanel.Dock="Bottom" 
-                       Height="30"
-                   Background="WhiteSmoke">
-                <Label Content="{Binding StatusBarMessage}"
-                       FontSize="12"
-                       FontWeight="DemiBold"
-                       />
-            </DockPanel>
+            
 
             <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" 
                     DockPanel.Dock="Left"
@@ -171,12 +168,14 @@
         <!--Content control for menu pane-->
         <ContentControl Content="{Binding MenuContentControl}"
                         Grid.Column="0"
+                        Grid.Row="0"
                         HorizontalAlignment="Stretch">
 
         </ContentControl>
 
         <!--Content control for right pane-->
         <ContentControl Grid.Column="2"
+                        Grid.Row="0"
                         Content="{Binding RightPaneContentControl}"
                         Background="#a7b5d1"
                         HorizontalAlignment = "Stretch" 
@@ -184,6 +183,17 @@
                         Margin="0,0.5,0,0">
             
         </ContentControl>
+
+
+        <Label Content="{Binding StatusBarMessage}"
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="3"
+                   Grid.Row="1"
+                   Background="WhiteSmoke"
+                   VerticalAlignment="Stretch"
+                   HorizontalAlignment="Stretch"
+                   FontSize="12"
+                       FontWeight="DemiBold"/>
 
         <Popup IsOpen="{Binding ImportExportPopUpIsOpen}"
                 Placement="MousePoint"

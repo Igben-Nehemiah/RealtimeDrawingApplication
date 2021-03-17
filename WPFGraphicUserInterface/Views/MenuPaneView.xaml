@@ -7,12 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
 
-    <UserControl.InputBindings>
-        <KeyBinding Modifiers="Ctrl"
-                    Key="S"
-                    Command="{Binding SaveProjectCommand}"/>
-    </UserControl.InputBindings>
-
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
@@ -36,7 +30,7 @@
     </UserControl.Resources>
 
     <Border BorderBrush="{DynamicResource ApplicationSecondaryBackground}" BorderThickness="1.2" Padding="0,0"
-        Margin="0,40,0,30">
+        Margin="0,40,0,0">
         <DockPanel Margin="0,0" Background="{DynamicResource ApplicationPrimaryBackground}">
             <DockPanel DockPanel.Dock="Top"
                        Margin="1,2,2,0"

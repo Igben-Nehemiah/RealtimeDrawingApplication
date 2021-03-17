@@ -15,6 +15,16 @@ namespace Infrastructure.Repositories
             get { return Context as RealtimeDrawingApplicationContext; }
         }
 
+        public User GetCreatorWithId(int creatorId)
+        {
+            
+            var project = RealtimeDrawingApplicationContext.Projects
+                .FirstOrDefault(p => p.ProjectCreator.UserId == creatorId);
+
+            return RealtimeDrawingApplicationContext.Users.FirstOrDefault(u => u.UserCreatedProjects.Contains(project));
+
+        }
+
         public User GetCreator(string projectName)
         {
             var project = RealtimeDrawingApplicationContext.Projects
