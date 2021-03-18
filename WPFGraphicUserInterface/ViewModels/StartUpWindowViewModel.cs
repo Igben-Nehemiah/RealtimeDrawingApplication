@@ -297,6 +297,9 @@ namespace WPFGraphicUserInterface.ViewModels
 
             IEnumerable<DrawingCanvasObjectProxy> drawingCanvasObjectsProxies;
 
+            _eventAggregator.GetEvent<ClearSharedUsersListEvent>().Publish();
+
+
             if (inUserCreatedProjects)
             {
                 DrawingCanvas = new DrawingCanvas();
@@ -311,9 +314,11 @@ namespace WPFGraphicUserInterface.ViewModels
                 //Load shared users
                 var id = DataAccessLayer.GetProjectWithProjectName(ActiveProject.ProjectName, UserProxy.UserId).ProjectId;
 
-                _eventAggregator.GetEvent<ClearSharedUsersListEvent>().Publish();
+                var projectUsers = DataAccessLayer.GetProjectUsersOfProject(id);
 
-                foreach (var item in UserProxy.UserSharedProjects)
+                //UserProxy.UserSharedProjects = projectUsers.ToList();
+
+                foreach (var item in projectUsers)
                 {
                     var projectSharedUser = new ProjectUserProxy();
 

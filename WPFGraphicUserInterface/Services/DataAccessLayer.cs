@@ -314,6 +314,21 @@ namespace WPFGraphicUserInterface.Services
             }
         }
 
+        public static IEnumerable<ProjectUserProxy> GetProjectUsersOfProject(int id)
+        {
+            using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
+            {
+                var projectUsers = new List<ProjectUserProxy>();
+                var projectUsersModel = unitOfWork.ProjectUsers.Find(pu => pu.ProjectId == id);
+                foreach (var projectUser in projectUsersModel)
+                {
+                    projectUsers.Add(ModelToProxyConverter.ProjectUserModelToProjectUserProxy(projectUser));
+                }
+
+                return projectUsers;
+            }
+        }
+
         public static ProjectProxy LoadProjectFromDatabase(UserProxy userProxy, string projectName)
         {
             using (var unitOfWork = new UnitOfWork(new RealtimeDrawingApplicationContext()))
