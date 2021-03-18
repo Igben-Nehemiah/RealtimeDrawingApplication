@@ -10,6 +10,7 @@ using WPFGraphicUserInterface.Services;
 using WPFUserInterface.Core;
 using WPFGraphicUserInterface.Views;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WPFGraphicUserInterface.ViewModels
 {
@@ -90,6 +91,10 @@ namespace WPFGraphicUserInterface.ViewModels
 
                 startUpWindowView.ShowDialog();
 
+            }
+            else
+            {
+                MessageBox.Show("Wrong user details!");
             }
         }
     }

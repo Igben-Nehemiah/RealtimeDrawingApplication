@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDrawingCanvasObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DrawingCanvasObject CanvasObjectGuid="251579fd-837f-4b8f-bfbf-8b6098325a7a" CanvasObjectName="Triangle" XPosition="340.2322311401367" YPosition="130" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="a56af490-bc3b-43d6-937a-536408bc18ff" CanvasObjectName="Rectangle" XPosition="129.23223114013672" YPosition="123" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="bfea2cbe-e15e-4ed9-b3df-f1927957f424" CanvasObjectName="Triangle" XPosition="110.23223114013672" YPosition="387" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="3408b748-3831-4f0c-a58c-a872c3d40638" CanvasObjectName="TextBox" XPosition="279.2322311401367" YPosition="235" ShapeFill="White" BorderFill="Black" Width="60" Height="20" />
+  <DrawingCanvasObject CanvasObjectGuid="3c32c06a-4008-4276-a81c-43f056d62536" CanvasObjectName="Triangle" XPosition="248.23223114013672" YPosition="134" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="63bf6cdf-df1d-4b45-ad91-4bea018a8af2" CanvasObjectName="Line" XPosition="212.23223114013672" YPosition="56" ShapeFill="Bisque" BorderFill="BlueViolet" Width="50" Height="50" />
+</ArrayOfDrawingCanvasObject>

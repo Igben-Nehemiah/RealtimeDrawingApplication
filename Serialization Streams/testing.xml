@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDrawingCanvasObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DrawingCanvasObject CanvasObjectGuid="794030c8-f482-48f6-a1ba-4d92881eb732" CanvasObjectName="Rectangle" XPosition="140" YPosition="79" ShapeFill="Brown" BorderFill="Black" Width="230" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="f5e361ae-c56e-4498-926e-0f2ff1dcf207" CanvasObjectName="Ellipse" XPosition="75" YPosition="206" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="985d0234-d97c-4fee-8412-8690cdc8b068" CanvasObjectName="Triangle" XPosition="281" YPosition="230" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="15b6b19f-73d7-4552-be51-1c5a281e1a03" CanvasObjectName="TextBox" XPosition="99" YPosition="293" ShapeFill="White" BorderFill="Black" Width="60" Height="20" />
+</ArrayOfDrawingCanvasObject>

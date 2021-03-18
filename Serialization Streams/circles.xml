@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDrawingCanvasObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DrawingCanvasObject CanvasObjectGuid="0a4511eb-dacb-4df3-abc5-b4d0d3915257" CanvasObjectName="Ellipse" XPosition="2.913333333333334" YPosition="86" ShapeFill="Chartreuse" BorderFill="Black" Width="500" Height="500" />
+  <DrawingCanvasObject CanvasObjectGuid="5acbac54-78dc-4702-b2d1-238840666955" CanvasObjectName="Ellipse" XPosition="505.91333333333336" YPosition="79" ShapeFill="Blue" BorderFill="Black" Width="500" Height="500" />
+</ArrayOfDrawingCanvasObject>

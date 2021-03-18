@@ -218,7 +218,7 @@ namespace WPFGraphicUserInterface.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 //Save active project before signing out
-                if (ActiveProject != null) SaveProject();
+                if (ActiveProject != null && _canEdit) SaveProject();
 
                 _eventAggregator.GetEvent<SigningOutEvent>().Publish();
             }

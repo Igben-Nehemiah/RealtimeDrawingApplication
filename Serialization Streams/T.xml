@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDrawingCanvasObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DrawingCanvasObject CanvasObjectGuid="10878f41-7bc2-4237-8f64-b8a2bdac3876" CanvasObjectName="Rectangle" XPosition="162.23223114013672" YPosition="118" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="176e3118-1599-4b2e-a22b-bf938ec7819c" CanvasObjectName="Rectangle" XPosition="162.23223114013672" YPosition="68" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="2268ee02-01c7-43a1-a46c-64011f15cb54" CanvasObjectName="Rectangle" XPosition="162.23223114013672" YPosition="166" ShapeFill="Black" BorderFill="Black" Width="50" Height="50" />
+  <DrawingCanvasObject CanvasObjectGuid="b2ae3a29-b64c-40b0-aa1b-c765c90660e6" CanvasObjectName="Rectangle" XPosition="110.23223114013672" YPosition="20" ShapeFill="Blue" BorderFill="Coral" Width="150" Height="50" />
+</ArrayOfDrawingCanvasObject>
