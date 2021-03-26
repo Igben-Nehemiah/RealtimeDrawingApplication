@@ -1,4 +1,5 @@
 ﻿using Models;
+using System;
 using System.Linq;
 
 namespace Infrastructure.Repositories
@@ -25,6 +26,8 @@ namespace Infrastructure.Repositories
 
         public bool ContainsUser(string emailAddress)
         {
+            throw new Exception();
+
             if (emailAddress == null) return false;
 
             var user = RealtimeDrawingApplicationContext.Users.FirstOrDefault(u => u.UserEmailAddress == emailAddress.ToLower());

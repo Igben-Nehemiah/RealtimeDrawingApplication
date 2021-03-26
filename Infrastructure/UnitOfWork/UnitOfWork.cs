@@ -19,7 +19,7 @@ namespace Infrastructure.UnitOfWork
 
         public IProjectRepository Projects { get; private set; }
 
-        public IProjectUserRepository ProjectUsers { get; private set; }
+        public IProjectUserRepository ProjectUsers { get; set; }
 
         public IDrawingCanvasObjectRepository DrawingCanvasObjects { get; private set; }
 

@@ -9,7 +9,6 @@ namespace Infrastructure.Repositories
         TEntity Get(int Id);
         IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> Predicate);
-
         void Add(TEntity entity);
         void Remove(TEntity entity);
     }
