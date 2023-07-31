@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
 
         public bool ContainsUser(string emailAddress)
         {
-            throw new Exception();
+            //throw new Exception();
 
             if (emailAddress == null) return false;
 

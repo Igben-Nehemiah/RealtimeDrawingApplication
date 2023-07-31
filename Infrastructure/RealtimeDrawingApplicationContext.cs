@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
-using System.Linq;
 
 namespace Infrastructure
 {
     public class RealtimeDrawingApplicationContext : DbContext
     {
         //private readonly string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RealtimeDrawingApplication";
-        private readonly string _connectionString = "Data Source=C:\\Users\\user\\Desktop\\RealtimeDrawingApplication.db";
+        private readonly string _connectionString = "Data Source=RealtimeDrawingApplication.db";
 
         public RealtimeDrawingApplicationContext()
         {
